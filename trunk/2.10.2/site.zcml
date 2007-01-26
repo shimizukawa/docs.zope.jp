@@ -7,20 +7,19 @@
 
 
   <!-- Load the meta -->
-
   <include files="package-includes/*-meta.zcml" />
   <five:loadProducts file="meta.zcml"/>
 
-
   <!-- Load the configuration -->
-
   <include files="package-includes/*-configure.zcml" />
   <five:loadProducts />
 
-
   <!-- Load the configuration overrides-->
-
   <includeOverrides files="package-includes/*-overrides.zcml" />
   <five:loadProductsOverrides />
+
+
+  <securityPolicy
+      component="Products.Five.security.FiveSecurityPolicy" />
 
 </configure>
