@@ -1,90 +1,95 @@
 Zope 2.12 の新機能
 ====================
 
-The article explains the new high-level features and changes found in this
-version of Zope 2.
+このページでは、このバージョンのZope 2の新しい高度な機能と変更点について
+説明します。
 
-You can have a look at the `detailed change log <CHANGES.html>`_ to learn
-about all minor new features and bugs being solved in this release.
+新機能やバグ修正の細目については、 `変更の詳細 <CHANGES.html>`_
+を参照してください。
 
 
 新しいPythonバージョンのサポート
 ---------------------------------
 
-Zope 2 has supported and required Python 2.4 since its 2.9 release in summer
-2006. Later versions of Python have so far been unsupported by Zope 2.
+Zope 2 は2006年の夏頃のバージョン2.9から Python 2.4 をサポートし、また
+必須としてきました。Pythonのそれ以降のバージョンは長い間Zope2では
+サポート外でした。
 
-This version of Zope 2 adds support for both Python 2.5 and 2.6 at the same
-time. As Python 2.4 is no longer maintained itself, it is no longer officially
-supported by this Zope 2 version. There is however no code in Zope 2 yet which
-requires Python 2.5, so applications built on top of Zope 2 should still
-continue to run with Python 2.4.
+このバージョンのZope 2はPython 2.5と2.6を同時にサポートに加えました。
+Python 2.4 はすでにメンテナンスされておらず、Zope 2の公式サポート
+からも外すことになりました。とはいえ、Zope 2はまだPython 2.5を必須
+とするようなコードを持っていないので、Python 2.4でもまだビルドして
+動かすことが出来ます。
 
-Python 3 is a backwards incompatible release of Python and not supported. At
-this point there is no concrete roadmap for adoption of Python 3. It is
-expected to be a question of multiple major Zope 2 releases or years, though.
+Python 3 は後方互換性を持たないリリースです。Python 3を採用するための
+明確なロードマップはまだありません。
+Zope 2 が複数のメジャーバージョンをリリースするか、あるいは何年もかかる
+問題だと予想しています。
 
 
 完全なegg化
 --------------
 
-Zope 2 itself is now fully eggified and compatible with `setuptools
-<http://pypi.python.org/pypi/setuptools>`_. You can use popular tools like
-`easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_ or
-`zc.buildout <http://pypi.python.org/pypi/zc.buildout>`_ to install Zope 2.
+Zope 2 は完全なegg化が完了し、 `setuptools
+<http://pypi.python.org/pypi/setuptools>`_ との互換性を手に入れました。
+今後は `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_
+や `zc.buildout <http://pypi.python.org/pypi/zc.buildout>`_ といった
+一般的なツールを使用してZope 2をインストールすることが出来ます。
 
-Releases of Zope 2 can be found at and will be installable from the Python
-package index at http://pypi.python.org/pypi/Zope2.
+Zope 2のリリース版やインストールファイルは Python package index 
+http://pypi.python.org/pypi/Zope2 にあります。
 
-The repackaging of Zope 2 into an eggified form and accompanying changes to the
-file system layout have caused a number of changes. The environment variables
-`SOFTWARE_HOME` and `ZOPE_HOME` are no longer available nor set in the control
-scripts. If you need to access data files inside the Zope 2 package, you can
-for example use `import os, OFS; os.path.dirname(OFS.__file__)` to locate the
-files inside the OFS package.
+Zope 2のegg化やファイルシステム上でのレイアウト変更に合わせてパッケージング
+にいくつかの変更を行いました。環境変数 `SOFTWARE_HOME` と `ZOPE_HOME` は
+コントロールスクリプト内で使用されなくなりました。Zope 2パッケージ内で
+データにアクセスする必要がある場合、例えば
+`import os, OFS; os.path.dirname(OFS.__file__)` といった方法でOFS
+パッケージ内のファイルにアクセスしてください。
 
-In general it is discouraged to rely on the `lib/python` and `Products`
-directories to make code available to the running Zope process. While these
-mechanisms continue to work, you are encouraged to use normal distutils or
-setuptools managed packages and add these to your `sys.path` using any of the
-standard Python mechanisms. To create isolated Python environments both
-`zc.buildout <http://pypi.python.org/pypi/zc.buildout>`_ and `virtualenv
-<http://pypi.python.org/pypi/virtualenv>`_ are in wide-spread use.
+一般的には、これまでのように `lib/python` や `Products` ディレクトリに
+コードがあることを期待してはいけません。これらの仕組み自体はこれからも
+機能しますが、distutilsやsetuptoolsを使用してパッケージを管理し、それら
+の仕組みで `sys.path` にパスが追加され、Pythonの標準の仕組みで動作する
+ようにすることを勧めます。独立したPython環境を作成するために
+`zc.buildout <http://pypi.python.org/pypi/zc.buildout>`_ と `virtualenv
+<http://pypi.python.org/pypi/virtualenv>`_ が広く使われています。
 
 
 Zope Toolkit
 ------------
 
-This version of Zope 2 is based on the Zope Toolkit. The Zope Toolkit is an
-extraction of the reusable and wildly used packages of the former Zope 3
-project. The Zope Toolkit is focused on supporting frameworks and applications,
-rather than trying to be one itself. Parts of the Zope Toolkit are used by
-Zope 2, Plone, Grok, Repoze.bfg, and by many other different applications and
-frameworks.
+このバージョンのZope 2は Zope Toolkit 上で動作しています。Zope Toolkit は
+再利用可能でよく使われているZope 3のパッケージから抽出したものです。
+Zope Toolkit はそれ自体で完結するのではなく、フレームワークと
+アプリケーションにフォーカスしています。
+Zope Toolkit の一部は、Zope 2, Plone, Grok, Repoze.bfg, その他多くの
+アプリケーションやフレームワークで使用されています。
 
-A major focus of the Zope Toolkit was to refactor package dependencies to
-generate more maintainable and better structured code. Based on this effort
-the number of packages included by Zope 2 could be dramatically reduced from
-about 120 additional packages to just over 60. The total code size of Zope 2
-and its dependencies has decreased by over 200,000 lines of code as a result.
+Zope Toolkit は、パッケージの依存関係をもっと保守しやすくし、良い構造の
+コードにすることに、最もフォーカスしています。この努力により、Zope 2に
+含まれていたパッケージ数は120以上から60程度まで劇的に改善されました。
+Zope 2の総コードサイズは、依存も含めて 200,000 行以上が削減されました。
 
-You can find more information about the changes in the Zope Toolkit at
-http://docs.zope.org/zopetoolkit/. Upgrade information from Zope 3 to the Zope
-Toolkit can be found at http://docs.zope.org/zopetoolkit/migration/index.html.
+Zope Toolkit の変更についての詳しい情報は、
+http://docs.zope.org/zopetoolkit/ にあります。
+Zope 3からZope Toolkitへのアップグレード情報は
+http://docs.zope.org/zopetoolkit/migration/index.html.
+にあります。
 
 
 ZODB 3.9
 --------
 
-This version of Zope 2 includes the latest version of the `ZODB (3.9)
-<http://pypi.python.org/pypi/ZODB3>`_. It has a multitude of new configuration
-options and bug fixes. File storages have gotten native support for blob
-storages and demo storages have been expanded extensively. There is a large
-number of options to tune ZEO servers and clients in large scale environments
-and control cache invalidation and packaging to a much wider degree.
+このバージョンのZope 2は最新の `ZODB (3.9)
+<http://pypi.python.org/pypi/ZODB3>`_ が含まれています。
+これには多くの新しい設定オプションと、不具合修正が含まれています。
+ファイルストレージにはblobサポートが追加され、demo ストレージは
+大きく拡張されました。 大規模環境におけるZEOサーバーとクライアントを
+チューニングしたり、キャッシュの無効化のコントロール、広範囲での
+パッケージングの度合いなど、数多くのオプションが追加されました。
 
-You can read more about the detailed changes in the `ZODB3 change log
-<http://pypi.python.org/pypi/ZODB3>`_ for version 3.9.
+バージョン3.9の変更の詳細については `ZODB3 change log
+<http://pypi.python.org/pypi/ZODB3>`_ を参照してください。
 
 
 モジュールのクリーンナップ
