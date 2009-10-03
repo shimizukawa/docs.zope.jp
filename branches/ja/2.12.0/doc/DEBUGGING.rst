@@ -1,27 +1,18 @@
 Zopeのデバッグモード
 =====================
 
-If you wish to run Zope in debug mode, set the 'debug-mode'
-configuration file parameter to 'on' (this is the default).  This
-will have the following effects:
+Zope をデバッグモードで起動するには、設定ファイルの 'debug-mode' を 'on' に設定します(これがデフォルトです)。これによって以下の効果があります:
 
-- On UNIX, Zope will not detach from the controlling terminal.
+- UNIX では、 Zope がコンソールから切り離されなくなります。
 
-- The Z_DEBUG_MODE environment variable gets set, which causes
-  behavioral changes to Zope appropriate for software development.
-  See the configuration file description of 'debug-mode' for more
-  information.
+- Z_DEBUG_MODE 環境変数がセットされ、これにより、 Zope の挙動が開発
+  向きになります。
+  設定ファイルの 'debug-mode' の説明に詳しい情報を記載しています。
 
 'zopectl debug' を使う
 -----------------------
 
-A utility known as 'zopectl' is installed into generated instance homes.
-You can use it to inspect a Zope instance's running state via an
-interactive Python interpreter by passing zopectl the 'debug' parameter
-on the command line.  The 'top-level' Zope object (the root folder) will
-be bound to the name 'app' within the interpreter.  You can then use
-normal Python method calls against app and use the Python interpreter
-normally to inspect results::
+インスタンスホームに 'zopectl' ユーティリティーが用意されています。このスクリプトに 'debug' という引数を渡すことによって、 Python の対話モードを起動し、 Zope インスタンスの実行時の状態を分析する事が出来ます。 '最上位' の Zope オブジェクト (ルートフォルダ) は 'app' という名前でインタプリタで提供されます。 Python の標準的な関数などを使って app を操作したり、返値を分析することが出来ます::
 
     [chrism@james Trunk]$ bin/zopectl debug
     Starting debugger (the name "app" is bound to the top-level Zope object)
