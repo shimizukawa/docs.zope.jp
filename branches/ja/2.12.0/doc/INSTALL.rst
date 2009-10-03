@@ -10,135 +10,135 @@ Windows については ``doc/WINDOWS.rst`` を参照してください。
 前提
 -----
 
-System requirements when building from source
+ソースからビルドするために必要な条件
 
-- A supported version of Python, including the development support if
-  installed from system-level packages.  Supported versions include:
+- ZopeがサポートしているバージョンのPython、システムレベルのパッケージ
+  からインストールしている場合は開発サポートも含みます。サポートバージョン
+  は以下の通り:
 
   * 2.5.x, (x >= 4)
 
   * 2.6.x
 
-- Zope needs the Python ``zlib`` module to be importable.  If you are
-  building your own Python from source, please be sure that you have the
-  headers installed which correspond to your system's ``zlib``.
+- ZopeはPythonの ``zlib`` モジュールがインポート出来る必要があります。
+  Pythonをソースからビルドするのであれば、先にシステムの ``zlib`` 
+  ヘッダーをインストールしておいてください。
 
-- A C compiler capable of building extension modules for your Python
-  (gcc recommended).
+- Pythonの拡張モジュールをビルドできる C コンパイラー。
+  (gcc を推奨).
 
 
 zc.buildout を使ったZopeのビルド
 ---------------------------------
 
-Zope is built using the ``zc.buildout`` library, which needs to be
-"bootstrapped" with your Python version.  E.g.::
+Zope は ``zc.buildout`` ライブラリを使用してビルドされています。
+これを使う場合、あなたが使用するPythonのバージョンで
+"ブートストラップ済み"の必要があります。例えば::
 
   $ cd /path/to/zope
   $ /path/to/your/python bootstrap/bootstrap.py
 
-The bootstrap script creates a ``buildout`` script in ``bin``;  run this
-script to finish building Zope::
+bootstrapスクリプトは ``bin`` ディレクトリに ``buildout`` スクリプトを
+作成します。このスクリプトを実行してZopeのビルドを行ってください::
 
   $ bin/buildout
 
 easy_install によるZopeのインストール
 --------------------------------------
 
-Zope can be installed using ``easy_install`` either using a global
-easy_install installation or within a virtualized Python environment
-(using ``virtualenv``)::
+``easy_install`` を使用してZopeをインストールすることが出来ます。
+システムでグローバルなeasy_installを使っても良いし、 ``virtualenv``
+を用いて仮想Python環境のeasy_installを使用することも出来ます::
 
   $ virtualenv --no-site-packages my_zope
   $ cd my_zope
   $ source bin/activate
   $ bin/easy_install -i http://download.zope.org/Zope2/index/<Zope version> Zope2
 
-This will create the related scripts like ``mkzopeinstance`` within the
-``bin`` folder of your global or virtualized Python environment.
+これで ``mkzopeinstance`` などの関連スクリプトが、グローバル、
+あるいは仮想Python環境の ``bin`` ディレクトリに作成されます。
 
-Using ``virtualenv`` is **highly recommended**. Otherwise you may encounter
-unexpected conflicts with already installed packages.
+``virtualenv`` の使用を **強く推奨します** 。そうしないと拶既に
+インストールしているパッケージとの想定しない競合が発生するでしょう。
 
 
 Zope インスタンスの作成
 ------------------------
 
-Once you've performed the install step, to begin actually using
-Zope, you will need to create an "instance home", which is a
-directory that contains configuration and data for a Zope server
-process.  The instance home is created using the ``mkzopeinstance``
-script::
+インストールが完了したら、実際にZopeを使い始めるために
+"インスタンスホーム" を作成する必要があります。 インスタンスホーム
+ディレクトリには設定ファイルとZopeサーバーのデータが含まれています。
+インスタンスホームを作成するには ``mkzopeinstance`` スクリプトを
+使用します::
 
   $ bin/mkzopeinstance
 
-If you use Zope from SVN, you will need to specify the Python interpreter
-to use for the instance explicitly::
+もしSVNから取得したZopeを使用するのであれば、インスタンスが使用する
+Pythonインタプリタを明示的に指定する必要があります::
 
   $ bin/mkzopeinstance --python=$PWD/bin/zopepy
 
-You will be asked to provide a user name and password for an
-administrator's account during ``mkzopeinstance``.  To see the available
-command-line options, run the script with the ``--help`` option::
+``mkzopeinstance`` の実行中に管理者アカウントのユーザー名とパスワード
+の入力を求められるでしょう。コマンドラインオプションの詳細を見るため
+には、スクリプトを ``--help`` オプション付きで実行します::
 
   $ bin/mkzopeinstance --help
 
 .. note::
-  The traditional ``inplace`` build is no longer supported. You should
-  not use your buildout or virtualenv environment for creating a Zope
-  instance. So create your Zope instance using ``mkzopeinstance`` always
-  outside the buildout/virtualenv environment.
+  従来型の ``inplace`` ビルドはサポート外になりました。
+  Zopeインスタンスの作成にbuildoutやvirtualenv環境を使用しないでください。
+  Zopeインスタンスの作成には ``mkzopeinstance`` を使い、buildoutや
+  virtualenv環境の外に作成してください。
 
 
 Zope をデーモン起動する
 -------------------------
 
-Once an instance home has been created, the Zope server can now be
-started using this command::
+インスタンスホームを作成したら、以下のコマンドでZopeサーバーを起動する
+ことが出来ます::
 
   $ /path/to/zope/instance/bin/zopectl start
 
-During start, zope emits log messages into ./log/event.log
-You can examine it with the usual tools (cat, more, tail)
-and see if there are any errors preventing zope from starting.
+Zope起動中に、./log/event.logにログメッセージを出力します。
+もし、Zope起動中に何らかのエラーが発生した場合には、任意のツール
+(cat, more, tail)を用いて内容を確認することができます。
 
 
 Zope をフォアグラウンドで実行する
 ----------------------------------
 
-By default, ``zopectl start`` will start a background process (a
-"daemon) that manages Zope.  ``zopectl stop`` will stop the background
-process.  To run Zope without detaching from the console, use the ``fg``
-command (short for ``foreground``)::
+デフォルトでは、 ``zopectl start`` でバックグラウンドプロセス(daemon)
+としてZopeを起動します。 ``zopectl stop`` でバックグラウンドプロセス
+を終了させます。Zopeをコンソールから切り離さずに起動するには ``fg``
+コマンド(``foreground`` の省略形)を使用します::
 
   $ /path/to/zope/instance/bin/zopectl fg
 
-In this mode, Zope emits its log messages to the console, and does not
-detach from terminal.
+このモードでは、Zopeはログメッセージをコンソールに出力し、ターミナル
+から切り離されません。
 
 
 Zope の設定
 ------------
 
-Your Zope instance is configured through a file, either found by
-default::
+Zopeインスタンスの設定に用いるファイルは以下の方法で見つけられます::
 
   $ /path/to/zope/instance/bin/zopectl show
   ...
   Config file:  /path/to/zope/instance/etc/zope.conf
 
-or passed explicitly on the commandline::
+あるいはコマンドラインから設定ファイルを明示的に指定できます::
 
   $ /path/to/zope/instance/bin/zopectl -c /tmp/other.conf show
   ...
   Config file:  /tmp/other.conf
 
-When starting Zope, if you see errors indicating that an address is in
-use, then you will have to supply arguments to runzope to change the ports
-used for HTTP or FTP. The default HTTP and FTP ports used by Zope are
-8080 and 8021 respectively. You can change the ports used by
-editing ./etc/zope.conf appropriately.
+Zopeの起動中にアドレスが既に使用中であるというエラーが表示されたら、
+HTTPやFTPで使用するポートを変更する必要があります。
+デフォルトでは、HTTPとFTPのポートは8080と8021にそれぞれ設定されています。
+このポート番号は ./etc/zope.confを編集して変更する事が出来ます。
 
-The section in the configuration file looks like this::
+設定ファイル内に以下のセクションがあります::
 
   <http-server>
     # valid keys are "address" and "force-connection-close"
@@ -146,65 +146,64 @@ The section in the configuration file looks like this::
     # force-connection-close on
   </http-server>
 
-The address can just be a port number as shown, or a  host:port
-pair to bind only to a specific interface.
+アドレスとして上記のようにポート番号を記載することもできるし、
+host:port のペアを指定することにより特定のインターフェースでのみ
+起動する事も出来ます。
 
 
 システムの起動に組み込む
 --------------------------
 
-zopectl can be linked as rc-script in the usual start directories
-on linux or other System V unix variants.
+zopectl をlinuxや他のSystem V unixのrc-scriptとしてリンクして使用する
+こともできます。
 
-You can use ``zopectl`` interactively as a command shell by just
-calling it without any arguments. Try ``help`` there and ``help <command>``
-to find out about additionally commands of zopectl. These commands
-also work at the command line.
+``zopectl`` は引数無しで起動する事で対話モードで使用することができます。
+``help`` や ``help <command>`` と入力すれば、各種コマンドを調べる
+ことができます。これらのコマンドはコマンドラインからも使用できます。
 
 
 Zope のログ記録
 ------------------
 
-Once you've started Zope, you can then connect to the Zope webserver
-by directing your browser to::
+Zopeを起動したら、Zopeウェブサーバーに接続することが出来ます。
+ブラウザで以下のURLにアクセスしてください::
 
   http://yourhost:8080/manage
 
-where 'yourhost' is the DNS name or IP address of the machine
-running Zope.  If you changed the HTTP port as described, use the port
-you configured.
+'yourhost' はZopeが動作しているサーバーのDNS名かIPアドレスで置き換えて
+ください。もしHTTPポートを変更しているのであれば設定したポートでアクセス
+してください。
 
-You will be prompted for a user name and password. Use the user name
-and password you provided in response to the prompts issued during
-the "make instance" process.
+ユーザー名とパスワードの入力を求められます。インスタンスの作成時に
+指定したユーザー名とパスワードを入力してください。
 
-Now you're off and running! You should be looking at the Zope
-management screen which is divided into two frames. On the left you
-can navigate between Zope objects and on the right you can edit them
-by selecting different management functions with the tabs at the top
-of the frame.
+うまくいけば、フレームで２つに分割されたZopeの管理画面が表示されます。
+左のフレームはZopeのオブジェクトのナビゲーション用で、右のフレームは
+は上部にタブがあり、各タブでそれぞれ異なる管理機能を提供します。
 
-If you haven't used Zope before, you should head to the Zope web
-site and read some documentation. The Zope Documentation section is
-a good place to start. You can access it at:
+もしまだZopeを使ったことがないのであれば、ZopeのWebサイトで色々な
+ドキュメントを読むことを勧めます。Zopeドキュメントセクションは
+始めに読むのに適しています。以下のURLでアクセスしてください:
 
 http://docs.zope.org/
 
 トラブルシューティング
 -----------------------
 
-- This version of Zope requires Python 2.5.4 or better, including
-  2.6.x.  It will *not* run with Python 3.x.
+- このバージョンのZopeはPython 2.5.4以降(2.6.xを含む)が必要です。
+  Python 3.x では動作しません。
 
-- The Python you run Zope with *must* have threads compiled in,
-  which is the case for a vanilla build.  Warning: Zope will not run
-  with a Python version that uses ``libpth``.  You *must* use
-  ``libpthread``.
+- Zopeで使用するPythonは *必ず* thread対応でコンパイルしてください。
+  (which is the case for a vanilla build).
+  注意: Zopeは ``libpth`` を使用しているPythonでは動作しません。
+  *かならず* ``libpthread`` を使用してください。
 
-- To build Python extensions you need to have Python configuration
-  information available. If your Python comes from an RPM you may
-  need the python-devel (or python-dev) package installed too. If
-  you built Python from source all the configuration information
-  should already be available.
+- Python拡張モジュールをビルドする場合に注意するべき情報があります。
+  もしPythonをRPMでインストールしている場合、python-devel (あるいは
+  python-dev)パッケージもインストールしてください。
+  Pythonをソースからビルドしている場合についてはこのページの説明を
+  参照してください。
 
-- See ``doc/CHANGES.rst`` for important notes on this version of Zope.
+- このバージョンのZopeについての重要な情報が ``doc/CHANGES.rst``
+  にあります。参照してください。
+
