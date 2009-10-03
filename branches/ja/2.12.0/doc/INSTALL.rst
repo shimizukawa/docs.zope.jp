@@ -5,7 +5,7 @@ Zopeのソースからのビルドとインストール
 Zopeへようこそ！ このドキュメントはZopeをUnixとLinuxでビルドし
 インストールする方法について記載しています。
 
-Windows については ``doc/WINDOWS.rst`` を参照してください。
+Windows については `<WINDOWS.html>`_ を参照してください。
 
 前提
 -----
@@ -204,6 +204,6 @@ http://docs.zope.org/
   Pythonをソースからビルドしている場合についてはこのページの説明を
   参照してください。
 
-- このバージョンのZopeについての重要な情報が ``doc/CHANGES.rst``
+- このバージョンのZopeについての重要な情報が `<CHANGES.html>`_
   にあります。参照してください。
 
