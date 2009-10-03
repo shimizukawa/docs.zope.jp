@@ -1,4 +1,4 @@
-Changelog
+変更ログ
 =========
 
 This file contains change information for the current Zope release.
@@ -8,7 +8,7 @@ file HISTORY.txt.
 Zope 2.12.0 final  (2009/10/01)
 -------------------------------
 
-Features Added
+機能追加
 ++++++++++++++
 
 - Updated packages:
@@ -18,7 +18,7 @@ Features Added
 - Backported clone of ``ZopeVocabularyRegistry`` from ``zope.app.schema``, and
   sane registration of it during initialization of Five product.
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - Backported removal of experimental support for configuring the Twisted HTTP
@@ -32,7 +32,7 @@ Bugs Fixed
 Zope 2.12.0 c1 (2009/09/04)
 ---------------------------
 
-Features Added
+機能追加
 ++++++++++++++
 
 - Updated packages:
@@ -49,7 +49,7 @@ Features Added
   - zope.i18n = 3.7.1
   - zope.security = 3.7.1
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - Made the version information show up again, based on pkg_resources
@@ -59,7 +59,7 @@ Bugs Fixed
 Zope 2.12.0 b4 (2008/08/06)
 ---------------------------------
 
-Features Added
+機能追加
 ++++++++++++++
 
 - The send method of MailHost now supports unicode messages and
@@ -74,7 +74,7 @@ Features Added
 
 - scripts: Added 'runzope' and 'zopectl' as entry points for instance scripts.
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - LP #418454: FTP server did not work with Python 2.6.X
@@ -95,7 +95,7 @@ Bugs Fixed
 Zope 2.12.0 b3 (2009/07/15)
 ---------------------------
 
-Features Added
+機能追加
 ++++++++++++++
 
 - Updated packages:
@@ -117,7 +117,7 @@ Features Added
 - Added support to indexing datetime values to the PluginIndexes
   DateRangeIndex. The DateIndex already had this feature.
 
-Restructuring
+再構築
 +++++++++++++
 
 - PluginIndexes: Removed deprecated TextIndex.
@@ -126,7 +126,7 @@ Restructuring
   update your Zope databases by deleting the Product registrations in the
   Control Panel and restarting Zope.
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - LP #397861: exporting $PYTHON in generated 'zopectl' for fixing import issue
@@ -145,7 +145,7 @@ Bugs Fixed
 Zope 2.12.0 b2 (2009/05/27)
 ---------------------------
 
-Restructuring
+再構築
 +++++++++++++
 
 - Removed all use of ``zope.app.pagetemplate`` by cloning / simplifying
@@ -164,7 +164,7 @@ Restructuring
 - No longer depend on ``zope.app.appsetup``;  use the event implementations
   from ``zope.processlifetime`` instead.
 
-Features Added
+機能追加
 ++++++++++++++
 
 - zExceptions.convertExceptionType:  new API, breaking out conversion of
@@ -203,7 +203,7 @@ Features Added
   * zope.testing 3.7.4
   * zope.traversing 3.7.0
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - Launchpad #374729: Encoding cookie values to avoid issues with
@@ -241,7 +241,7 @@ Bugs Fixed
 Zope 2.12.0b1 (2009/05/06)
 --------------------------
 
-Restructuring
+再構築
 +++++++++++++
 
 - No longer depend on ``zope.app.locales``. Zope2 uses almost none of the
@@ -253,7 +253,7 @@ Restructuring
 
 - updated to ZODB 3.9.0b1
 
-Features Added
+機能追加
 ++++++++++++++
 - zExceptions.convertExceptionType:  new API, breaking out conversion of
   exception names to exception types from ``upgradeException``.
@@ -265,7 +265,7 @@ Features Added
   http://www.owasp.org/index.php/HTTPOnly).  Patch from Stephan Hofmockel,
   via https://bugs.launchpad.net/zope2/+bug/367393 .
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - ZPublisher response.setBody: don't append Accept-Encoding to Vary header if
@@ -274,7 +274,7 @@ Bugs Fixed
 2.12.0a4 (2009-04-24)
 ---------------------
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - fixed versions.cfg in order to support zope.z2release for
@@ -286,7 +286,7 @@ Bugs Fixed
 The generated tarball for the 2.12.0a2 source release was incomplete, due to
 a setuptools and Subversion 1.6 incompatibility.
 
-Restructuring
+再構築
 +++++++++++++
 
 - Added automatic inline migration for databases created with older Zope
@@ -299,7 +299,7 @@ Restructuring
 2.12.0a2 (2009-04-19)
 ---------------------
 
-Restructuring
+再構築
 +++++++++++++
 
 - If the <permission /> ZCML directive is used to declare a permission that
@@ -327,7 +327,7 @@ Restructuring
 - removed ``extras_require`` section from setup.py (this might possibly
   break legacy code).
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - Launchpad #348223: optimize catalog query by breaking out early from loop
@@ -351,7 +351,7 @@ Bugs Fixed
 2.12.0a1 (2009-02-26)
 ---------------------
 
-Restructuring
+再構築
 +++++++++++++
 
 - Switched Products.PageTemplates to directly use zope.i18n.translate and
@@ -442,7 +442,7 @@ Restructuring
 - Removed deprecated ZCML directives from Five including the whole
   Five.site subpackage.
 
-Features added
+機能追加
 ++++++++++++++
 
 - OFS.ObjectManager now fully implements the zope.container.IContainer
@@ -483,7 +483,7 @@ Features added
   information in the SiteErrorLog when looking at a traceback in the
   event log.
 
-Bugs Fixed
+バグ修正
 ++++++++++
 
 - Launchpad #332168: Connection.py: do not expose DB connection strings
@@ -596,7 +596,7 @@ Bugs Fixed
   question mark. It broke even when the second question mark was
   correctly quoted.
 
-Other Changes
+その他の変更
 +++++++++++++
 
 - Added lib/python/webdav/litmus-results.txt explaining current

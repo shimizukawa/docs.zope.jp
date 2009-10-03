@@ -1,5 +1,5 @@
-Zope effective user support
-===========================
+Zopeが動作する際のユーザー権限を設定
+======================================
 
 .. note:: 
   It is best practice running Zope behind a reverse proxy like

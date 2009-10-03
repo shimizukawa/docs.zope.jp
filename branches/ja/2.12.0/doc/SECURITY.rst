@@ -1,5 +1,5 @@
-Setting the initial user name and password
-==========================================
+初期ユーザー名とパスワードの設定
+=================================
 
 Because Zope is managed through the web, user names and passwords must be
 used to assure that only authorized people can make changes to a Zope
@@ -48,8 +48,8 @@ encryption or the standard UNIX crypt facility if it has been compiled
 into Python.  Unless you have some special requirements (see below), 
 you should use the SHA-1 facility, which is the default.
 
-Format of 'inituser' and 'access'
----------------------------------
+'inituser' と 'access' のフォーマット
+---------------------------------------
 
 A password file should consist of a single line of the form::
 
@@ -68,7 +68,7 @@ and password are used.
 Please note that if you use the ZServer monitor capability, you will
 need to run with a clear text password.
 
-Setting permissions on the var directory
+varディレクトリのパーミッション設定
 ----------------------------------------
 
 You need to set permissions on the Zope var directory.

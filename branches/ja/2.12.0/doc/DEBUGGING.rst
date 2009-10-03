@@ -1,5 +1,5 @@
-Running Zope in Debug Mode
-==========================
+Zopeのデバッグモード
+=====================
 
 If you wish to run Zope in debug mode, set the 'debug-mode'
 configuration file parameter to 'on' (this is the default).  This
@@ -12,8 +12,8 @@ will have the following effects:
   See the configuration file description of 'debug-mode' for more
   information.
 
-Using 'zopectl debug'
----------------------
+'zopectl debug' を使う
+-----------------------
 
 A utility known as 'zopectl' is installed into generated instance homes.
 You can use it to inspect a Zope instance's running state via an

@@ -1,8 +1,8 @@
-Using Zope Components in Zope 2 Applications
-============================================
+Zope 2 アプリケーション内でのZopeコンポーネント利用
+====================================================
 
-Background
-----------
+背景
+-----
 
 Zope 3 is a separate project from the Zope community aimed at web
 development. It is designed to be more 'programmer-centric' and easier
@@ -16,8 +16,8 @@ Zope 2 core. The "Five" project implements a compatibility layer
 that allows many Zope 3 components and patterns to be used in 
 new and existing Zope 2 applications.
 
-Features
---------
+特徴
+-----
 
 The Five integration layer provides support for Zope 3 interfaces, 
 Zope Configuration Markup Language (ZCML), adapters, views, 

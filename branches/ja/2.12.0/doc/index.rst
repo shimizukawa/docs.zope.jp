@@ -1,8 +1,8 @@
 
-Zope 2.12 specific documentation
-================================
+Zope 2.12 ドキュメント
+=======================
 
-Contents:
+コンテンツ:
 
 .. toctree::
    :maxdepth: 2

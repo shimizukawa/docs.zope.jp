@@ -1,5 +1,5 @@
-What's new in Zope 2.12
-=======================
+Zope 2.12 の新機能
+====================
 
 The article explains the new high-level features and changes found in this
 version of Zope 2.
@@ -8,7 +8,7 @@ You can have a look at the `detailed change log <CHANGES.html>`_ to learn
 about all minor new features and bugs being solved in this release.
 
 
-Support for newer Python versions
+新しいPythonバージョンのサポート
 ---------------------------------
 
 Zope 2 has supported and required Python 2.4 since its 2.9 release in summer
@@ -25,7 +25,7 @@ this point there is no concrete roadmap for adoption of Python 3. It is
 expected to be a question of multiple major Zope 2 releases or years, though.
 
 
-Fully eggified
+完全なegg化
 --------------
 
 Zope 2 itself is now fully eggified and compatible with `setuptools
@@ -87,8 +87,8 @@ You can read more about the detailed changes in the `ZODB3 change log
 <http://pypi.python.org/pypi/ZODB3>`_ for version 3.9.
 
 
-Module cleanup
---------------
+モジュールのクリーンナップ
+---------------------------
 
 As with every release of Zope 2 this version has removed various modules
 which have been deprecated in prior versions.
@@ -109,7 +109,7 @@ result. The low level API to load objects from the database has lost its
 version argument as a result of this.
 
 
-Documentation updates
+ドキュメントの更新
 ---------------------
 
 Zope 2 now uses `Sphinx <http://sphinx.pocoo.org/>`_ to create pleasant HTML
@@ -262,7 +262,7 @@ understand this. The next time you want to use a package or make your own code
 more reusable outside of Zope 2, this should be of tremendous help.
 
 
-Object managers and IContainer
+ObjectマネージャとIContainer
 ------------------------------
 
 One of the fundamental parts of Zope 2 is the object file system as implemented

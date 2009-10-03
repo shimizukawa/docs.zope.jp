@@ -1,5 +1,5 @@
-How to build and install Zope from source code on Windows.
-----------------------------------------------------------
+WindowsでZopeをソースからビルドしインストールする方法
+--------------------------------------------------------
 
 * Ensure you have the correct MSVC version installed for the
   version of Python you will be using.

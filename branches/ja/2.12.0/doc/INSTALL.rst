@@ -1,14 +1,14 @@
 ========================================
-Building and installing Zope from source
+Zopeのソースからのビルドとインストール
 ========================================
 
-Welcome to Zope!  This document describes building and installing
-Zope on UNIX and Linux.
+Zopeへようこそ！ このドキュメントはZopeをUnixとLinuxでビルドし
+インストールする方法について記載しています。
 
-See ``doc/WINDOWS.rst`` for information about Windows.
+Windows については ``doc/WINDOWS.rst`` を参照してください。
 
-Prerequisites
--------------
+前提
+-----
 
 System requirements when building from source
 
@@ -27,8 +27,8 @@ System requirements when building from source
   (gcc recommended).
 
 
-Building Zope using zc.buildout
--------------------------------
+zc.buildout を使ったZopeのビルド
+---------------------------------
 
 Zope is built using the ``zc.buildout`` library, which needs to be
 "bootstrapped" with your Python version.  E.g.::
@@ -41,8 +41,8 @@ script to finish building Zope::
 
   $ bin/buildout
 
-Installing Zope using easy_install
-----------------------------------
+easy_install によるZopeのインストール
+--------------------------------------
 
 Zope can be installed using ``easy_install`` either using a global
 easy_install installation or within a virtualized Python environment
@@ -60,7 +60,7 @@ Using ``virtualenv`` is **highly recommended**. Otherwise you may encounter
 unexpected conflicts with already installed packages.
 
 
-Creating a Zope Instance
+Zope インスタンスの作成
 ------------------------
 
 Once you've performed the install step, to begin actually using
@@ -89,7 +89,7 @@ command-line options, run the script with the ``--help`` option::
   outside the buildout/virtualenv environment.
 
 
-Starting Zope as a Daemon
+Zope をデーモン起動する
 -------------------------
 
 Once an instance home has been created, the Zope server can now be
@@ -102,8 +102,8 @@ You can examine it with the usual tools (cat, more, tail)
 and see if there are any errors preventing zope from starting.
 
 
-Running Zope in the Foreground
-------------------------------
+Zope をフォアグラウンドで実行する
+----------------------------------
 
 By default, ``zopectl start`` will start a background process (a
 "daemon) that manages Zope.  ``zopectl stop`` will stop the background
@@ -116,8 +116,8 @@ In this mode, Zope emits its log messages to the console, and does not
 detach from terminal.
 
 
-Configuring Zope
-----------------
+Zope の設定
+------------
 
 Your Zope instance is configured through a file, either found by
 default::
@@ -150,8 +150,8 @@ The address can just be a port number as shown, or a  host:port
 pair to bind only to a specific interface.
 
 
-Integrating with System Startup
--------------------------------
+システムの起動に組み込む
+--------------------------
 
 zopectl can be linked as rc-script in the usual start directories
 on linux or other System V unix variants.
@@ -162,7 +162,7 @@ to find out about additionally commands of zopectl. These commands
 also work at the command line.
 
 
-Logging In To Zope
+Zope のログ記録
 ------------------
 
 Once you've started Zope, you can then connect to the Zope webserver
@@ -190,8 +190,8 @@ a good place to start. You can access it at:
 
 http://docs.zope.org/
 
-Troubleshooting
----------------
+トラブルシューティング
+-----------------------
 
 - This version of Zope requires Python 2.5.4 or better, including
   2.6.x.  It will *not* run with Python 3.x.
