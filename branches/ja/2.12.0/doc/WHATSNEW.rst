@@ -130,70 +130,55 @@ Zope 2 は `Sphinx <http://sphinx.pocoo.org/>`_ を使用して HTML による
 Acquisition redux
 -----------------
 
-The short technical version of this change is: "Acquisition has been made aware
-of __parent__ pointers". What sounds like a small change is actually a major
-step in the integration story for Zope components based technology into Zope 2.
+この変更を技術的に一言で説明すると、 "獲得 (Acquisition) の機能として
+__parent__ ポインタを導入した" です。小さな変更のように聞こえますが、
+これは Zope コンポーネント技術を Zope 2 に統合するための主要な１ステップです。
 
-While integrating the Zope component architecture and its many concepts into
-Zope 2 an integration layer called Five (Zope 2 + 3) has been created. One of
-the major reasons for the necessity of an integration layer has been in the way
-Zope 2 was tightly coupled to the concept of Acquisition. The entire security
-machinery, object traversal and publication has been relying on this.
+Zope コンポーネントアーキテクチャと、付随する多くのコンセプトを
+Zope 2 の Five (Zope 2 + 3) と呼ばれる統合レイヤに組み込んでいます。
+このような統合レイヤが必要である主な理由の一つが、 Zope 2 が獲得
+(Acquisition) のコンセプトと密接に関係していることです。
+全てのセキュリティーの仕組みや、 object traversal (訳注:URL階層に合わせて
+オブジェクトを辿る仕組み)、 publication などがこの技術に依存しています。
 
-All classes, which wanted to interact with Zope 2 in any non-trivial way, had
-to inherit from the Acquisition base classes. As a result almost no external
-package could directly work inside Zope 2 but required an integration layer.
+Zope 2 の中で動作する全てのクラスは Acquisition クラスまたはその派生クラス
+を継承する必要がありました。その結果、ほとんどどんな外部パッケージも
+統合レイヤなしでは Zope 2 の中で直接動かすことが出来ませんでした。
 
-With this version of Zope 2, objects have a new option of providing location
-awareness to Zope APIs. This new option is to provide an explicit parent
-pointer in the ``__parent__`` attribute, much like specified by the ILocation
-API from `zope.location <http://pypi.python.org/pypi/zope.location>`_. Browser
-views and other location-dependent components implement ILocation already.
+このバージョンの Zope 2 では、オブジェクトは Zope の API にロケーション
+を示すための新しいオプションを持つようになりました。このオプションは
+``__parent__`` 属性で明示的に親オブジェクトを指し示し、 
+`zope.location <http://pypi.python.org/pypi/zope.location>`_ の ILocation
+API とほぼ同じ仕様です。 Browser views (訳注: Zope コンポーネント
+アーキテクチャの一つ) や、他のロケーションに依存したコンポーネント
+は既に ILocation を実装しています。
 
-Classes adhering to this convention need to get `__parent__` pointers set to
-their container object, when being put into the container. Code that operates
-on such objects can then walk up the containment hierarchy by following the
-pointers. In Acquisition based classes no information would be stored on the
-objects, but Acquisition wrappers are constructed around the objects instead.
-Only those wrappers would hold the container references. The Acquisition
-wrapping relies on the objects to provide an `__of__` method as done by the
-Acquisition base classes.
+この規約を守っているクラスがコンテナの中に格納されると、 `__parent__` にそのコンテナオブジェクトへのポインタが設定されるようになります。そしてそのように実装されたオブジェクトは、 __parent__ を使ってオブジェクト階層を親方向に辿っていくことができます。 Acquisition クラスをベースとしているクラスの場合、これに関する情報をオブジェクトに格納していなくても、 Acquisition ラッパーがオブジェクトの代わりにやってくれるため、コンテナへの参照はラッパーに保持されることになります。 Acquisition ラッパーが `__of__` メソッドを提供し、 Acquisition を基底とするクラスはこれで行います。
 
-The most common way of getting the container of an instance is to call::
+インスタンスの親コンテナを取得する最も一般的な方法は以下の呼び出しです::
 
   from Acquisition import aq_parent
   
   container = aq_parent(instance)
 
-For instances providing the ILocation interface the common way is::
+ILocation インターフェースを実装しているインスタンスの場合は以下の方法です::
 
   container = instance.__parent__
 
-There are various `aq_*` methods available for various other tasks related to
-locating objects in the containment hierarchy. So far virtually all objects in
-Zope 2 would participate in Acquisition. As a side-effect many people relied on
-Acquisition wrappers to be found around their objects. This caused code to rely
-on accessing the `aq_*` methods as attributes of the wrapper::
+コンテナ階層の位置を表すための、様々な目的に合わせた、様々な `aq_*` メソッドがあります。今のところ、 Zope 2 の全てのオブジェクトは仮想的に Acquisition クラスに属しています。副作用として、多くの人たちが彼らのオブジェクトに Acquisition ラッパーがあることを期待しています。このため、コードが `aq_*` メソッドに属性としてアクセスできることに依存しています::
 
   container = instance.aq_parent
 
-While all the existing API's still work as before, Acquisition now respects
-`__parent__` pointers to find the container for an object. It will also not
-unconditionally try to call the `__of__` method of objects anymore, but protect
-it with a proper interface check::
+既存の全ての API はこれで動作していましたが、 Acquisition は `__parent__` ポインタを使ってオブジェクトが格納されているコンテナにアクセスするようになります。そしてオブジェクトの `__of__` メソッド呼び出しを無条件に呼び出す処理は、今後行われなくなり、まずインターフェースの実装があるかを確認します::
 
   from Acquisition.interfaces import IAcquirer
 
   if IAcquirer.providedBy(instance):
       instance = instance.__of__(container)
 
-In addition to this check you should no longer rely on the `aq_*` methods to be
-available as attributes. While all code inside Zope 2 itself still supports
-this, it does no longer rely on those but makes proper use of the functions
-provided by the Acquisition package.
+これは、今後は `aq_*` メソッドがあることを前提としてはいけない、と言うことでもあります。 Zope 2 内の全てのコードはまだこれをサポートしていますが、今後はこれに依存せず、 Acquisition パッケージが提供している機能を使うことになります。
 
-To understand the interaction between the new and old approach here is a
-little example::
+以下は、新旧両方のアプローチの相互作用を理解するための小さな例です::
 
   >>> class Location(object):
   ...     def __init__(self, name):
@@ -201,29 +186,29 @@ little example::
   ...     def __repr__(self):
   ...         return self.__name__
 
-  # Create an Acquisition variant of the class:
+  # Acquisition 型のクラスを作成:
 
   >>> import Acquisition
   >>> class Implicit(Location, Acquisition.Implicit):
   ...     pass
 
-  # Create two implicit instances:
+  # ２つの Implicit のインスタンスを作成:
 
   >>> root = Implicit('root')
   >>> folder = Implicit('folder')
 
-  # And two new Acquisition-free instances:
+  # そして２つの Acquisition と関連しないインスタンスを作成:
 
   >>> container = Location('container')
   >>> item = Location('item')
 
-  # Provide the containment hints:
+  # 包含状態を各インスタンスに設定:
 
   >>> folder = folder.__of__(root)
   >>> container.__parent__ = folder
   >>> item.__parent__ = container
 
-  # Test the containtment chain:
+  # 包含状態の連鎖を確認:
 
   >>> from Acquisition import aq_parent
   >>> aq_parent(container)
@@ -233,7 +218,7 @@ little example::
   >>> aq_chain(item)
   [item, container, folder, root]
 
-  # Explicit pointers take precedence over Acquisition wrappers:
+  # 明示的なポインタが Acquisition ラッパーよりも優先される:
 
   >>> item2 = Implicit('item2')
   >>> item2 = item2.__of__(folder)
@@ -242,7 +227,7 @@ little example::
   >>> aq_chain(item2)
   [item2, container, folder, root]
 
-For a less abstract example, you so far had to do::
+もう少し具体的な例として、今までは以下のように実装していました::
 
   >>> from Acquisition import aq_inner
   >>> from Acquisition import aq_parent
@@ -253,7 +238,7 @@ For a less abstract example, you so far had to do::
   ...     def do_something(self):
   ...         container = aq_parent(aq_inner(self.context))
 
-Instead you can now do::
+今後は以下のように出来ます::
 
   >>> import zope.publisher.browser
 
@@ -262,11 +247,7 @@ Instead you can now do::
   ...     def do_something(self):
   ...         container = aq_parent(self.context)
 
-As the zope.publisher BrowserView supports the ILocation interface, all of this
-works automatically. A view considers its context as its parent as before, but
-no longer needs Acquisition wrapping for the Acquisition machinery to
-understand this. The next time you want to use a package or make your own code
-more reusable outside of Zope 2, this should be of tremendous help.
+このように zope.publisher の BrowserView は ILocation インターフェースをサポートしており、自動的に動作します。このように親の取得はこれまで同様に動作していますが、今後は Acquisition の仕組みを使うために Acquisition ラッパーを使う必要はなくなりました。このことは、パッケージを再利用したり、自分のコード Zope 2 の外でも再利用できるようにするのに非常に効果があります。
 
 
 ObjectマネージャとIContainer
