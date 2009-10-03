@@ -1,7 +1,7 @@
 Zope 2.12 の新機能
 ====================
 
-このページでは、このバージョンのZope 2の新しい高度な機能と変更点について
+このページでは、このバージョンの Zope 2 の新しい高度な機能と変更点について
 説明します。
 
 新機能やバグ修正の細目については、 `変更の詳細 <CHANGES.html>`_
@@ -12,16 +12,16 @@ Zope 2.12 の新機能
 ---------------------------------
 
 Zope 2 は2006年の夏頃のバージョン2.9から Python 2.4 をサポートし、また
-必須としてきました。Pythonのそれ以降のバージョンは長い間Zope2では
+必須としてきました。Pythonのそれ以降のバージョンは長い間 Zope 2 では
 サポート外でした。
 
-このバージョンのZope 2はPython 2.5と2.6を同時にサポートに加えました。
-Python 2.4 はすでにメンテナンスされておらず、Zope 2の公式サポート
-からも外すことになりました。とはいえ、Zope 2はまだPython 2.5を必須
-とするようなコードを持っていないので、Python 2.4でもまだビルドして
+このバージョンの Zope 2 は Python 2.5 と 2.6 を同時にサポートに加えました。
+Python 2.4 はすでにメンテナンスされておらず、 Zope 2 の公式サポート
+からも外すことになりました。とはいえ、 Zope 2 はまだ Python 2.5 を必須
+とするようなコードを持っていないので、 Python 2.4 でもまだビルドして
 動かすことが出来ます。
 
-Python 3 は後方互換性を持たないリリースです。Python 3を採用するための
+Python 3 は後方互換性を持たないリリースです。 Python 3 を採用するための
 明確なロードマップはまだありません。
 Zope 2 が複数のメジャーバージョンをリリースするか、あるいは何年もかかる
 問題だと予想しています。
@@ -34,23 +34,23 @@ Zope 2 は完全なegg化が完了し、 `setuptools
 <http://pypi.python.org/pypi/setuptools>`_ との互換性を手に入れました。
 今後は `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_
 や `zc.buildout <http://pypi.python.org/pypi/zc.buildout>`_ といった
-一般的なツールを使用してZope 2をインストールすることが出来ます。
+一般的なツールを使用して Zope 2 をインストールすることが出来ます。
 
-Zope 2のリリース版やインストールファイルは Python package index 
+Zope 2 のリリース版やインストールファイルは Python package index 
 http://pypi.python.org/pypi/Zope2 にあります。
 
-Zope 2のegg化やファイルシステム上でのレイアウト変更に合わせてパッケージング
+Zope 2 のegg化やファイルシステム上でのレイアウト変更に合わせてパッケージング
 にいくつかの変更を行いました。環境変数 `SOFTWARE_HOME` と `ZOPE_HOME` は
-コントロールスクリプト内で使用されなくなりました。Zope 2パッケージ内で
+コントロールスクリプト内で使用されなくなりました。 Zope 2 パッケージ内で
 データにアクセスする必要がある場合、例えば
-`import os, OFS; os.path.dirname(OFS.__file__)` といった方法でOFS
+`import os, OFS; os.path.dirname(OFS.__file__)` といった方法で OFS
 パッケージ内のファイルにアクセスしてください。
 
 一般的には、これまでのように `lib/python` や `Products` ディレクトリに
 コードがあることを期待してはいけません。これらの仕組み自体はこれからも
-機能しますが、distutilsやsetuptoolsを使用してパッケージを管理し、それら
-の仕組みで `sys.path` にパスが追加され、Pythonの標準の仕組みで動作する
-ようにすることを勧めます。独立したPython環境を作成するために
+機能しますが、 distutils や setuptools を使用してパッケージを管理し、それら
+の仕組みで `sys.path` にパスが追加され、 Python の標準の仕組みで動作する
+ようにすることを勧めます。独立した Python 環境を作成するために
 `zc.buildout <http://pypi.python.org/pypi/zc.buildout>`_ と `virtualenv
 <http://pypi.python.org/pypi/virtualenv>`_ が広く使われています。
 
@@ -58,21 +58,21 @@ Zope 2のegg化やファイルシステム上でのレイアウト変更に合�
 Zope Toolkit
 ------------
 
-このバージョンのZope 2は Zope Toolkit 上で動作しています。Zope Toolkit は
-再利用可能でよく使われているZope 3のパッケージから抽出したものです。
+このバージョンの Zope 2 は Zope Toolkit 上で動作しています。 Zope Toolkit
+は再利用可能でよく使われているZope 3のパッケージから抽出したものです。
 Zope Toolkit はそれ自体で完結するのではなく、フレームワークと
 アプリケーションにフォーカスしています。
-Zope Toolkit の一部は、Zope 2, Plone, Grok, Repoze.bfg, その他多くの
+Zope Toolkit の一部は、 Zope 2, Plone, Grok, Repoze.bfg, その他多くの
 アプリケーションやフレームワークで使用されています。
 
 Zope Toolkit は、パッケージの依存関係をもっと保守しやすくし、良い構造の
-コードにすることに、最もフォーカスしています。この努力により、Zope 2に
-含まれていたパッケージ数は120以上から60程度まで劇的に改善されました。
-Zope 2の総コードサイズは、依存も含めて 200,000 行以上が削減されました。
+コードにすることに、最もフォーカスしています。この取り組みにより、 
+Zope 2 に含まれていたパッケージ数は120以上から60程度まで劇的に改善されました。
+Zope 2 の総コードサイズは、依存も含めて 200,000 行以上が削減されました。
 
 Zope Toolkit の変更についての詳しい情報は、
 http://docs.zope.org/zopetoolkit/ にあります。
-Zope 3からZope Toolkitへのアップグレード情報は
+Zope 3 から Zope Toolkit へのアップグレード情報は
 http://docs.zope.org/zopetoolkit/migration/index.html.
 にあります。
 
@@ -80,7 +80,7 @@ http://docs.zope.org/zopetoolkit/migration/index.html.
 ZODB 3.9
 --------
 
-このバージョンのZope 2は最新の `ZODB (3.9)
+このバージョンの Zope 2 は最新の `ZODB (3.9)
 <http://pypi.python.org/pypi/ZODB3>`_ が含まれています。
 これには多くの新しい設定オプションと、不具合修正が含まれています。
 ファイルストレージにはblobサポートが追加され、demo ストレージは
@@ -88,41 +88,43 @@ ZODB 3.9
 チューニングしたり、キャッシュの無効化のコントロール、広範囲での
 パッケージングの度合いなど、数多くのオプションが追加されました。
 
-バージョン3.9の変更の詳細については `ZODB3 change log
+バージョン 3.9 の変更の詳細については `ZODB3 change log
 <http://pypi.python.org/pypi/ZODB3>`_ を参照してください。
 
 
 モジュールのクリーンナップ
 ---------------------------
 
-As with every release of Zope 2 this version has removed various modules
-which have been deprecated in prior versions.
+Zope 2 のこれまでのリリースと同様に、このバージョンでも、前のバージョンで
+Deprecation 扱いとなった様々なモジュールを削除しています。
 
-Most notably ZClasses and supporting modules have been removed entirely from
-Zope 2. As a result the persistent product registry has been made optional, but
-is still enabled by default. If your application does not rely on the registry,
-you can now disable it by specifying::
+特に ZClasses とそれに関連するモジュールが Zope 2 から完全に削除されました。
+これによって、永続プロダクト登録(persistent product registry)はオプション
+扱いとなりましたが、デフォルトではまだ有効です。
+もしアプリケーションがこの機能に依存していないのであれば、 `zope.conf` で
+以下のようにして設定を無効化できます::
 
   enable-product-installation off
 
-inside your `zope.conf` file. With the option turned off Zope will no longer
-write any new transactions to your database during startup in most cases.
+このオプションをオフにすることで、 Zope は今後多くの場合において、起動中に
+データベースへの書き込みを行わないようになります。
 
-With the upgrade to ZODB 3.9 database-level version support is no longer
-available. Many of the modules in `Products.OFSP` have been removed as a
-result. The low level API to load objects from the database has lost its
-version argument as a result of this.
+ZODB 3.9 にアップグレードしたことにより、データベースレベルでのバージョン
+機能がサポートされなくなりました。 結果として、 `Products.OFSP` 内の多くの
+モジュールが削除されました。また、データベースからオブジェクトをロードする
+ための低レイヤの API からバージョン指定の引数が削除されました。
 
 
 ドキュメントの更新
 ---------------------
 
-Zope 2 now uses `Sphinx <http://sphinx.pocoo.org/>`_ to create pleasant HTML
-representations of its documentation. An effort is underway to update the
-publicly available documentation using Sphinx at http://docs.zope.org/.
+Zope 2 は `Sphinx <http://sphinx.pocoo.org/>`_ を使用して HTML による
+ドキュメントページの生成を行うようになりました。
+公式のドキュメントを Sphinx で作成して http://docs.zope.org/ で公開
+する取り組みが進行中です。
 
-So far the Zope 2 Book, the Zope Developers Guide and many smaller articles
-have been converted to reStructuredText and their content updated.
+これまでのところ、 Zope 2 Book, Zope Developers Guide, その他多くの
+細かな文章が reStructuredText に書き換えられ、更新されています。
 
 
 Acquisition redux
