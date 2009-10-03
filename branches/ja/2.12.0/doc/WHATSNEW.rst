@@ -253,32 +253,18 @@ ILocation インターフェースを実装しているインスタンスの場�
 ObjectマネージャとIContainer
 ------------------------------
 
-One of the fundamental parts of Zope 2 is the object file system as implemented
-in the `OFS` package. A central part of this package is an underlying class
-called `ObjectManager`. It is a base class of the standard `Folder` used
-for many container-ish classes inside Zope 2.
+Zope 2 の基本的な要素として、 `OFS` パッケージとして実装されているオブジェクトファイルシステムがある。このパッケージの中心的な要素に `ObjectManager` クラスがある。これは標準の `Folder` クラスのベースクラスとして使用され、Folderクラスは多くのコンテナ型クラスとして Zope 2 内部で使用されている。
 
-The API to access objects in an object manager or to add objects to one has
-been written many years ago. Since those times Python itself has gotten
-standard ways to access objects in containers and work with them. Those Python
-API's are most familiar to most developers working with Zope. The Zope
-components libraries have formalized those API's into the general IContainer
-interface in the zope.container package. In this version of Zope 2 the standard
-OFS ObjectManager fully implements this IContainer interface in addition to its
-old API.
+Object マネージャの、オブジェクトにアクセスするための API やオブジェクトを追加するための API は書かれてから何年持ったっている。これまでの間、 Python がコンテナ内のオブジェクトにアクセスするための標準的な実装を提供するたびに、協調動作するようにしてきた。こういった Python の API は多くの Zope を扱う開発者たちにとっても、親しみやすいものだった。 Zope コンポーネントライブラリは、そういった API を正式なものとして zope.container パッケージの IContainer インターフェースで規定した。このバージョンの Zope 2 の標準の OFS ObjectManager は従来の API の他に IContainer インターフェースを完全に実装している。
 
  >>> from zope.container.interfaces import IContainer
  >>> from OFS.ObjectManager import ObjectManager
  >>> IContainer.implementedBy(ObjectManager)
  True
 
-You can now write your code in a way that no longer ties it to object managers
-alone, but can support any class implementing IContainer instead. In
-conjunction with the Acquisition changes above, this will increase your chances
-of being able to reuse existing packages not specifically written for Zope 2 in
-a major way.
+このため、コードを書くときに Object マネージャに合わせた実装を行うのではなく、 IContainer を実装した任意のクラスを実装することが出来る。この変更は、前述の Acquisition の変更と合わせるととても、既存のパッケージを再利用しやすく、 Zope 2 のために特化した実装をせずに済むようにしてくれる。
 
-Here's an example of how you did work with object managers before::
+ここに、Objectマネージャを使う際の以前の実装例がある::
 
   >>> from OFS.Folder import Folder
   >>> from OFS.SimpleItem import SimpleItem
@@ -299,7 +285,7 @@ Here's an example of how you did work with object managers before::
   >>> if folder.hasObject('item2')
   ...     folder._delObject('item2')
 
-Instead of this special API, you can now use::
+このような専用APIを使わずに、今後は以下のように書くことが出来る::
 
   >>> from OFS.Folder import Folder
   >>> from OFS.SimpleItem import SimpleItem
