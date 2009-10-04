@@ -1,27 +1,26 @@
-Signals (POSIX only)
-====================
+シグナル (POSIX のみ)
+=======================
 
-Signals are a POSIX inter-process communications mechanism.
-If you are using Windows then this documentation does not apply.
+シグナルは POSIX のプロセス間通信の仕組みです。
+Windows を使っている場合、このドキュメントの内容は適用出来ません。
 
-Zope responds to signals which are sent to the process id
-specified in the file '$INSTANCE_HOME/var/Z2.pid'::
+Zope は '$INSTANCE_HOME/var/Z2.pid' に保存されているプロセスIDに送られたシグナルに応じて動作します::
 
-    SIGHUP  - close open database connections, then restart the server
-              process. A idiom for restarting a Zope server is:
+    SIGHUP  - 開いているデータベース接続を閉じて、サーバーを再起動します。
+              Zope サーバーを再起動するイディオムは以下のようになります:
 
               kill -HUP `cat $INSTANCE_HOME/var/z2.pid`
 
-    SIGTERM - close open database connections then shut down. A common
-              idiom for shutting down Zope is:
+    SIGTERM - 開いているデータベース接続を閉じて、サーバーを終了します。
+              Zope サーバーを終了するイディオムは以下のようになります:
 
               kill -TERM `cat $INSTANCE_HOME/var/Z2.pid`
 
-    SIGINT  - same as SIGTERM
+    SIGINT  - SIGTERM と同じ意味です。
 
-    SIGUSR2 - close and re-open all Zope log files (z2.log, event log,
-              detailed log.) A common idiom after rotating Zope log files
-              is:
+    SIGUSR2 - 全ての Zope のログファイルを一度閉じて再度開きます
+              (z2.log, event log, detailed log.)
+              Zope ログファイルをローテートした後に以下を実行します:
 
               kill -USR2 `cat $INSTANCE_HOME/var/z2.pid`
 
