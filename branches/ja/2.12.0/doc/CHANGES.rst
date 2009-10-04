@@ -1,4 +1,4 @@
-変更ログ
+Changelog
 =========
 
 This file contains change information for the current Zope release.
