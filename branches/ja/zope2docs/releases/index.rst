@@ -18,7 +18,10 @@ Zope 2.11 リリース
 Zope 2.10 リリース
 -------------------
 
-- `2.10 branch changelog <http://svn.zope.org/Zope/branches/2.10/doc/CHANGES.txt?view=markup>`_
+.. toctree::
+   :maxdepth: 2
+
+   2.10/CHANGES
 
 Zope 2.9 リリース
 ------------------
