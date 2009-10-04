@@ -28,4 +28,10 @@ Zope 2.9 リリース
 Zope 2.8 リリース
 ------------------
 
-- `2.8 branch changelog <http://svn.zope.org/Zope/branches/Zope-2_8-branch/doc/CHANGES.txt?view=markup>`_
+.. toctree::
+   :maxdepth: 2
+
+   2.8/CHANGES
+
+
+
