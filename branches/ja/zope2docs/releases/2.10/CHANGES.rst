@@ -421,7 +421,7 @@ Zope 2.10.2 beta 1 (2007/01/14)
     ZPT の実装は UnicodeDecodeError の発生時の挙動を設定可能となった。
     カスタム UnicodeEncodingConflictResolver は ZCML で設定することが出来る。
     (参照: Products/PageTemplates/(configure.zcml, unicodeconflictresolver.py,
-     interfaces.py)
+    interfaces.py)
 
 Zope 2.10.1 (2006-11-22)
 ---------------------------
