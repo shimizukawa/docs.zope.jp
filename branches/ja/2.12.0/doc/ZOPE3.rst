@@ -4,27 +4,16 @@ Zope 2 アプリケーション内でのZopeコンポーネント利用
 背景
 -----
 
-Zope 3 is a separate project from the Zope community aimed at web
-development. It is designed to be more 'programmer-centric' and easier
-to learn, use and extend for programmers. Zope 3 introduces an
-interface-centric component architecture that makes it easier to develop
-and deploy components without requiring developers to learn and
-understand the entire Zope framework.
+Zope 3 は Zope コミュニティー発の、 Web 開発を目的とした別プロジェクトです。より 'プログラマ中心' にデザインされ、学習が容易で、プログラマによって使われ拡張されています。 Zope 3 にはインターフェースを中核としたコンポーネントアーキテクチャが採用され、これによって開発者が Zope のフレームワーク全体を把握していなくても、開発およびデプロイが容易になっています。
 
-As of Zope 2.8, the "Five" project has been integrated into the 
-Zope 2 core. The "Five" project implements a compatibility layer 
-that allows many Zope 3 components and patterns to be used in 
-new and existing Zope 2 applications.
+Zope 2.8 で Zope コアに "Five" プロジェクトが統合されました。 "Five" プロジェクトは Zope 3 のコンポーネントとパターンを既存の、そして新しい Zope 2 アプリケーションから使用するために導入された互換レイヤです。
 
 特徴
 -----
 
-The Five integration layer provides support for Zope 3 interfaces, 
-Zope Configuration Markup Language (ZCML), adapters, views, 
-utilities and schema-driven content.
+Five 統合レイヤは Zope 3 のインターフェース、 Zope Configuration Markup Language (ZCML) 、アダプター、ビュー、ユーティリティー、そしてスキーマによるコンテンツ型を提供します。
 
-Note that the Five layer does *not* attempt to provide a ZMI user 
-interface for Zope 3 components.
+注意点として、 Five レイヤは Zope 3 コンポーネントの ZMI ユーザーインターフェースを提供 *しません* 。
 
-Zope 2 includes the essential Zope 3 packages, so it is not 
-necessary to install Zope 3.
+Zope 2 には Zope 3 のパッケージの要素が同梱されており、別途 Zope 3 をインストールする必要はありません。
+
