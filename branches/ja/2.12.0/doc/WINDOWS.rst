@@ -37,7 +37,7 @@ WindowsでZopeをソースからビルドしインストールする方法
 
     > Zope binaries installed successfully.
 
-* Zope がインストールされました。次はインスタンスを作成する必要が有ります。
+* Zope がインストールされました。次はインスタンスを作成する必要があります。
   次のように実行してください::
 
     % python.exe {install_path}\bin\mkzopeinstance.py
