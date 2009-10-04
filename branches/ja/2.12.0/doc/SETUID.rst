@@ -2,36 +2,35 @@ Zopeが動作する際のユーザー権限を設定
 ======================================
 
 .. note:: 
-  It is best practice running Zope behind a reverse proxy like
-  Apache, Squid or Varnish. In this case you do not need to run
-  or install Zope with root privileges since the reverse proxy
-  will bind to port 80 and proxy back all request to Zope running
-  on an unpriviledged port.
+  Apache, Squid, Varnish のような リバースProxy の背後で Zope
+  を稼働させるのは良い手法です。この場合、 Zope を root
+  権限でインストールや起動する必要はなく、 リバースProxy
+  が80番ポートを提供してくれ、全てのリクエストを特権の必要ない
+  ポートで起動している Zope に中継してくれます。
 
-Zope can bind its network service to low ports such as 21 (FTP) and
-80 (HTTP).  In order to bind to low ports, Zope must be started as
-the root user.  However, Zope will only run as root long enough to
-bind to these low ports.  It will then attempt to setuid to a less
-privileged user.
+Zope はネットワークサービスとして、 21 (FTP) や 80 (HTTP) などの低い
+番号のポートを使用することが出来ます。低い番号のポートを使う場合、
+Zope は root 権限で起動する必要があります。とはいえ、 Zope が root
+権限を必要とするのはそのような低い番号のポートを開くところまでで、
+その後は特権の無いユーザーに setuid しようと試みます。
 
-You must specify the user to which Zope will attempt to setuid by
-changing the 'effective-user' parameter in the zope.conf
-configuration file to an existing username or UID.  All runtime
-files will be written as this user.  If you do not specify an
-'effective-user' in the configuration file, and you attempt to start
-Zope, it will refuse to start.
+Zope が setuid に使用するユーザーを zope.conf の 'effective-user'
+パラメータに設定してください。ユーザーは存在するユーザー名か、 UID
+を指定してください。全ての実行中のファイルはそのユーザーの権限で
+書き込まれます。もし 'effective-user' を設定せずに Zope を起動しようと
+した場合、起動することは出来ないでしょう。
 
-Zope additionally emits a warning if you specify 'nobody' as the
-'effective-user'.  The rationale for this warning stems from the
-fact that, historically, many other UNIX services dropped privileges
-to the 'nobody' account after starting as root.  Any security
-defects in these services could cause someone to gain access as the
-'nobody' account on your system.  If someone was to gain control of
-your 'nobody' account they could compromise your Zope files.
+もし 'nobody' を指定した場合、 Zope は警告メッセージを表示します。
+この警告メッセージの表示には根拠があります。歴史的に多くの UNIX
+サービスが root での起動後に実行権限を 'nobody' アカウントに落とした
+ため、そのようなサービスはどれでも 'nobody' 権限を得ることが出来、
+システム内で 'nobody' 権限としてアクセス権を得てしまうという
+セキュリティー上の欠陥があります。
+もし誰かに 'nobody' アカウントを奪われた場合、彼らは Zope のファイルを
+自由に出来てしまいます。
 
-The most important thing to remember about effective user support is
-that you don't have to start Zope as root unless you want to listen
-for requests on low ports (ports beneath 1024).  In fact, if you
-don't have this need, you are much better off just starting Zope
-under a dedicated user account.
+'effective-user' サポートについて覚えておいて欲しい最も重要なことは、
+低い番号のポート (ポート 1024 以下) を使わなければ Zope を root 権限
+で起動する必要はないと言うことです。必要ないのであれば、 Zope を
+専用のユーザーアカウントで起動するのがより良いでしょう。
 
