@@ -1,87 +1,85 @@
 初期ユーザー名とパスワードの設定
 =================================
 
-Because Zope is managed through the web, user names and passwords must be
-used to assure that only authorized people can make changes to a Zope
-installation.
+Zope はWebを通して管理するため、ユーザー名とパスワードは Zope 
+のインストールに対して変更を加える権限を与えてもよい人にのみ与える、
+ということを確実に行わなければいけません。
 
-Some user name and password is needed to "bootstrap" the creation of
-normal managers of your Zope site.  This is accomplished through the
-use of the file 'inituser'.  The first time Zope starts, it will detect
-that no users have been defined in the root user folder.  It will search
-for the 'inituser' file and, if it exists, will add the user defined
-in the file to the root user folder.
+通常の管理ユーザーを Zope に登録するための、ユーザーとパスワードが "起動時" 
+に必要になります。これは 'inituser' ファイルを通して渡されます。
+Zope は一番最初の起動時に、(Zope内の)ルートのユーザーフォルダに
+アカウントが一つもないことを検知すると、 'inituser' ファイルを探して、
+ファイルがあればそのユーザー定義を(Zope内の)ユーザーフォルダに追加します。
 
-Normally, 'inituser' is created by the Zope install scripts.  Either
-the installer prompts for the password or a randomly generated
-password is created and displayed at the end of the build script.
+通常、 'inituser' は Zope のインストールスクリプトで作成されます。
+インストール時にパスワードの入力を求められるか、自動的にランダムな
+パスワードを生成してビルドスクリプトの完了時に表示します。
 
-You can use the 'zpasswd.py' script to create 'inituser' yourself.
-Execute 'zpasswd.py' like this::
+'zpasswd.py' スクリプトを使えば、 'inituser' を自分で作成することも
+できます。 'zpasswd.py' の実行は以下のように行います::
 
     python zpasswd.py inituser
 
-The script will prompt you for the name, password, and allowed
-domains.  The default is to encode the password with SHA, so please
-remember this password as there is no way to recover it (although
-'zpasswd.py' lets you reset it.)
+スクリプトはユーザー名、パスワード、そして許可するドメインの入力を
+求めます。デフォルトではパスワードは SHA にエンコードされるので、
+パスワードは忘れないようにしてください。パスワードを復元する方法は
+ありません。 (あるいは 'zpasswd.py' でパスワードをリセットしてください)
 
-In some situations you may need to bypass normal security controls
-because you have lost your password or because the security settings
-have been mixed up.  Zope provides a facility called an "emergency
-user" so that you can reset passwords and correct security
-settings.
+良くある状況として、パスワードを忘れたり、セキュリティー設定を間違える
+などのために通常のセキュリティーをバイパスしたいということがあります。
+Zope は "emergency user" (緊急ユーザー) という仕組みを提供しており、
+この仕組みを使ってパスワードをリセットしたり、正しいセキュリティー設定
+にしたり出来ます。
 
-The emergency user password must be defined outside the application
-user interface.  It is defined in the 'access' file located
-in the Zope directory.  It should be readable only by the user
-as which your web server runs.
+緊急ユーザーのパスワードはアプリケーションの外で定義されます。
+'access' という名前のファイルを Zope ディレクトリに置いてください。
+このファイルは Zope が稼働するユーザー権限でのみ、読み込めるように
+するべきです。
 
-To create the emergency user, use 'zpasswd.py' to create the
-'access' file like this::
+緊急ユーザーを作るには 'zpasswd.py' を使って以下のようにして 'access'
+ファイルを作成します::
 
     python zpasswd.py access
 
-In order to provide a somewhat higher level of security, various
-encoding schemes are supported which provide access to either SHA-1
-encryption or the standard UNIX crypt facility if it has been compiled
-into Python.  Unless you have some special requirements (see below), 
-you should use the SHA-1 facility, which is the default.
+もっと高いセキュリティーの要求がある場合のために、パスワードは
+SHA-1 や UNIX crypt などいくつかの異なる方法でエンコードすることが
+出来ます(Pythonのコンパイル時に組み込まれている必要があります)。
+特別な要求(以下を参照)がなければ、デフォルトの SHA-1 を使うのが
+良いでしょう。
 
 'inituser' と 'access' のフォーマット
 ---------------------------------------
 
-A password file should consist of a single line of the form::
+パスワードファイルは以下の形式で1行のみ記載されています::
 
     name:password
 
-Note that you may also add an optional third component to the line in the
-access file to restrict access by domain.  For example, the line::
+3つ目の要素として、ドメインの制限を付け加えることが出来ます::
 
     mario:nintendoRules:*.mydomain.com
 
-in your 'access' file will only allow permit emergency user access
-from `*.mydomain.com` machines. Attempts to access the system from
-other domains will fail, even if the correct emergency user name
-and password are used.
+これで、緊急ユーザーは `*.mydomain.com` からのアクセスのみ許可される
+ようになります。この場合、正しい緊急ユーザーの名前とパスワードを使っても、
+他のドメインからのアクセスは失敗します。
 
-Please note that if you use the ZServer monitor capability, you will
-need to run with a clear text password.
+注意して欲しい点として、 ZServer モニター機能を使用する場合は、
+crear text パスワードを使用する必要があるでしょう。
 
-varディレクトリのパーミッション設定
+var ディレクトリのパーミッション設定
 ----------------------------------------
 
-You need to set permissions on the Zope var directory.
-Zope needs to read and write data from its var directory. Before
-running Zope you should ensure that you give adequate permissions
-to the Zope var directory for the userid Zope will run under.
+Zope の var ディレクトリのパーミッションを設定する必要があります。
+Zope は var ディレクトリに読み書き両方を行う必要があります。
+Zope を起動する前に Zope の実行ユーザー権限で var ディレクトリに
+アクセスする必要十分な設定をしておいてください。
 
-Depending on how you choose to run Zope you will need to give
-different permissions to the var directory.  If you use Zope with an
-existing web server, it will probably run Zope as 'nobody'. In this
-case 'nobody' needs read and write permissions to the var directory.
+Zope をどのように実行するかによっては、 var ディレクトリに異なる
+パーミッションを設定する必要があるでしょう。既存のサーバーに
+入っている Zope を使用する場合などには、おそらく Zope は 'nobody'
+権限で動作するでしょうから、この場合は 'nobody' ユーザーに対して
+読み書きを許可するように var ディレクトリに設定します。
 
-If you change the way you run Zope you may need to modify the permissions
-of the var directory and the files in it to allow Zope to read and write
-under its changed userid.
+Zope の実行方法を変更した場合、それに合わせて var ディレクトリと
+中のファイルのアクセス権限を設定して、 Zope がそれらのファイルに
+新しく設定した userid で読み書き出来るようにしてください。
 
