@@ -1,6 +1,6 @@
 
-Zope 2 related documentation and articles
-=========================================
+Zope 2 関連ドキュメントと記事
+==============================
 
 .. toctree::
    :maxdepth: 1
@@ -8,8 +8,8 @@ Zope 2 related documentation and articles
    zope2book/source/index
    zdgbook/source/index
 
-Release information
-===================
+リリース情報
+===============
 
 .. toctree::
    :maxdepth: 2

@@ -1,8 +1,8 @@
-Zope Release Information
-========================
+Zope リリース情報
+===================
 
-Zope 2.12 Releases
-------------------
+Zope 2.12 リリース
+--------------------
 
 .. toctree::
    :maxdepth: 2
@@ -10,22 +10,22 @@ Zope 2.12 Releases
    2.12/index
 
 
-Zope 2.11 Releases
-------------------
+Zope 2.11 リリース
+-------------------
 
 - `2.11 branch changelog <http://svn.zope.org/Zope/branches/2.11/doc/CHANGES.txt?view=markup>`_
 
-Zope 2.10 Releases
-------------------
+Zope 2.10 リリース
+-------------------
 
 - `2.10 branch changelog <http://svn.zope.org/Zope/branches/2.10/doc/CHANGES.txt?view=markup>`_
 
-Zope 2.9 Releases
------------------
+Zope 2.9 リリース
+------------------
 
 - `2.9 branch changelog <http://svn.zope.org/Zope/branches/2.9/doc/CHANGES.txt?view=markup>`_
 
-Zope 2.8 Releases
------------------
+Zope 2.8 リリース
+------------------
 
 - `2.8 branch changelog <http://svn.zope.org/Zope/branches/Zope-2_8-branch/doc/CHANGES.txt?view=markup>`_
