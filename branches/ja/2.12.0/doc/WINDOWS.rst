@@ -3,11 +3,11 @@ WindowsでZopeをソースからビルドしインストールする方法
 
 * 使用する Python で使われているものと同じ MSVC バージョンをインストールします。
 
-* Python をインストールします(あるいはソースからビルドします)::
+* Python をインストールします(あるいはソースからビルドします):
 
   http://www.python.org
 
-* Python for Windows extensions をインストールします(あるいはソースからビルドします)::
+* Python for Windows extensions をインストールします(あるいはソースからビルドします):
 
   http://sourceforge.net/projects/pywin32/
 
