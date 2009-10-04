@@ -1,5 +1,24 @@
 {% extends "!layout.html" %}
 
+{%- block rootrellink %}
+<li><a target="_blank" href="http://docs.zope.org/zope2/" title="English(Original)">English(Original)</a></li> |
+<li><a target="_blank" href="http://zope.jp/" title="日本Zopeユーザー会 - JZUG">JZUG</a></li> |
+{{ super() }}
+{%- endblock %}
+
+
+{%- block sidebarsearch %}
+<h3>お問い合わせ</h3>
+<div>
+  <p>
+    日本語訳についてのご意見などは
+    <a target="_blank" href="http://zope.jp/contact-info">zope.jp の連絡フォーム</a>
+    からお願いします。
+  </p>
+</div>
+{{ super() }}
+{%- endblock %}
+
 {% block footer %}
 {{ super() }}
 <script type="text/javascript">
