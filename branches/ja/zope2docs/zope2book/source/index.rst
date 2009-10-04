@@ -1,5 +1,5 @@
-The Zope2 Book
-==============
+The Zope2 Book (未訳)
+======================
 
 Welcome to *The Zope Book*.  This book is designed to introduce you
 to `Zope2`, an open-source web application server.

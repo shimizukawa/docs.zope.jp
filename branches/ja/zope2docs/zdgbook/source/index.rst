@@ -1,5 +1,5 @@
-Zope Developer's Guide
-======================
+Zope Developer's Guide (未訳)
+==============================
 
 Contents
 --------
