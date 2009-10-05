@@ -2,9 +2,7 @@ Changelog
 =========
 
 このファイルには現在の Zope リリースでの変更点を記載しています。
-これ以前の変更については
-`HISTORY.txt <http://svn.zope.org/Zope/branches/2.12/doc/HISTORY.txt?view=markup>`_
-を参照してください。
+これ以前の変更については HISTORY.txt を参照してください。
 
 Zope 2.12.0 final  (2009/10/01)
 -------------------------------
@@ -295,8 +293,8 @@ Zope 2.12.0b1 (2009/05/06)
 2.12.0a3 (2009-04-19)
 ---------------------
 
-2.12.0a2 のソースリリースのための Tarball は完全ではありません。
-setuptools と Subversion 1.6 の非互換西の問題を含んでいます。
+2.12.0a2 のソースリリースのための Tarball は完全ではありませんでした。
+setuptools と Subversion 1.6 の非互換性の問題を含んでいます。
 
 再構築
 +++++++++++++
@@ -315,49 +313,52 @@ setuptools と Subversion 1.6 の非互換西の問題を含んでいます。
 再構築
 +++++++++++++
 
-- If the <permission /> ZCML directive is used to declare a permission that
-  does not exist, the permission will now be created automatically, defaulting
-  to being granted to the Manager role only. This means it is possible to
-  create new permissions using ZCML only. The permission will Permissions that
-  already exist will not be changed.
+- パーミッションを定義する <permission /> ZCML ディレクティブが無い場合、
+  パーミッションを自動的に作成するようになりました。デフォルトでは、
+  Manager ロールのみが許可されます。これは、新しいパーミッションが ZCML
+  でのみ作成出来るという意味です。既存のパーミッションはこの方法では
+  変更されません。
 
-- Using <require set_schema="..." /> or <require set_attributes="..." /> in
-  the <class /> directive now emits a warning rather than an error. The
-  concept of protecting attribute 'set' does not exist in Zope 2, but it
-  should be possible to re-use packages that do declare such protection.
+- <class /> ディレクティブで使われる <require set_schema="..." /> や
+  <require set_attributes="..." /> が発していたエラーは、今後は警告
+  になります。 Zope 2 には 'set' をプロテクトするというコンセプトは
+  ありませんが、パッケージに再利用性を高めるためにも定義が書かれて
+  いてもエラーにしません。
 
-- Updated to Acquisition 2.12.1.
+- パッケージ更新: Acquisition 2.12.1.
 
-- Updated to DateTime 2.12.0.
+- パッケージ更新: DateTime 2.12.0.
 
-- Updated to ZODB 3.9.0a12.
+- パッケージ更新: ZODB 3.9.0a12.
 
-- Removed the ``getPackages`` wrapper from setup.py which would force all
-  versions to an exact requirement. This made it impossible to require
-  newer versions of the dependencies. This kind of KGS information needs
-  to be expressed in a different way.
+- バージョンを明示的には要求する ``getPackages`` ラッパーを setup.py
+  から取り除きました。
+  これにより、依存パッケージのより新しいバージョンを利用することが出来ます。
+  今後は、このような KGS のバージョン情報は他の方法で表す必要が有ります。
 
-- removed ``extras_require`` section from setup.py (this might possibly
-  break legacy code).
+- ``extras_require`` セクションを setup.py から取り除きました。
+  (これは古いコードを壊す可能性がありました).
 
 バグ修正
 ++++++++++
 
-- Launchpad #348223: optimize catalog query by breaking out early from loop
-  over indexes if the result set is already empty.
+- Launchpad #348223: catalog クエリを最適化: クエリ結果が空の状態になったら、
+  短時間で index 検索を抜けるようにした。
 
-- Launchpad #344098: in ``skel/etc/zope.conf.ing``, replaced commented-out
-  ``read-only-database`` option, which is deprecated, with pointers to the
-  appropos sections of ZODB's ``component.xml``.  Updated the description
-  of the ``zserver-read-only-mode`` directive to indicate its correct
-  semantics (suppressing log / pid / lock files).  Added deprecation to the
-  ``read-only-database`` option, which has had no effect since Zope 2.6.
+- Launchpad #344098: ``skel/etc/zope.conf.ing`` で、デフォルトでコメントアウト
+  されている ``read-only-database`` オプションを削除しました。これは既に
+  deprecated であり、 ZODB の ``component.xml`` で定義されています。
+  ``zserver-read-only-mode`` ディレクティブの正しい書式 (suppressing log
+  / pid / lock files) について説明を更新しました。
+  ``read-only-database`` オプションについて、 deprecation を追加しました。
+  このオプションは Zope 2.6 から設定しても効果が無いものでした。
 
-- "Permission tab": correct wrong form parameter for
-  the user-permission report
+- "Permission tab":
+  ユーザーパーミッション表示の間違ったフォームパラメータを修正。
 
-- PageTemplates: Made PreferredCharsetResolver work with new kinds of contexts
-  that are not acquisition wrapped.
+- PageTemplates: PreferredCharsetResolver を新しい種類の context でも
+  動作するようにしました。この context は Acquisition ラッパーで
+  ラップされていません。
 
 - Object managers should evaluate to True in a boolean test.
 
@@ -617,4 +618,6 @@ setuptools と Subversion 1.6 の非互換西の問題を含んでいます。
 
 - DocumentTemplate.DT_Var.newline_to_br(): Simpler, faster
   implementation.
+
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/CHANGES.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/CHANGES.html>`_,)
 
