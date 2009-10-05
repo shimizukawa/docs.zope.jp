@@ -1,9 +1,10 @@
 Changelog
 =========
 
-This file contains change information for the current Zope release.
-Change information for previous versions of Zope can be found in the
-file HISTORY.txt.
+このファイルには現在の Zope リリースでの変更点を記載しています。
+これ以前の変更については
+`HISTORY.txt <http://svn.zope.org/Zope/branches/2.12/doc/HISTORY.txt?view=markup>`_
+を参照してください。
 
 Zope 2.12.0 final  (2009/10/01)
 -------------------------------
@@ -11,23 +12,26 @@ Zope 2.12.0 final  (2009/10/01)
 機能追加
 ++++++++++++++
 
-- Updated packages:
+- パッケージ更新:
 
   - ZODB3 = 3.9.0
 
-- Backported clone of ``ZopeVocabularyRegistry`` from ``zope.app.schema``, and
-  sane registration of it during initialization of Five product.
+- ``zope.app.schema`` の ``ZopeVocabularyRegistry`` をバックポートし、
+  Five の初期化中に正しく登録されるようにしました。
 
 バグ修正
 ++++++++++
 
-- Backported removal of experimental support for configuring the Twisted HTTP
-  server as an alternative to ``ZServer``.
+- ``ZServer`` の代わりに Twisted HTTP サーバーを使えるようにする実験的な
+  サポートの削除をバックポートしました。
 
-- Backported fix for timezone issues in date index tests from trunk.
+- date インデックステストのタイムゾーンの問題の修正を trunk からバックポート
+  しました。
 
-- LP #414757 (backported from Zope trunk): don't emit a IEndRequestEvent when
-  clearing a cloned request.
+- LP #414757 (Zope trunk からのバックポート):
+  複製したリクエストをクリアするときに IEndRequestEvent を出力しないように
+  しました。
+
 
 Zope 2.12.0 c1 (2009/09/04)
 ---------------------------
@@ -35,7 +39,7 @@ Zope 2.12.0 c1 (2009/09/04)
 機能追加
 ++++++++++++++
 
-- Updated packages:
+- パッケージ更新:
 
   - Acquisition = 2.12.3
   - pytz = 2009l
@@ -52,8 +56,8 @@ Zope 2.12.0 c1 (2009/09/04)
 バグ修正
 ++++++++++
 
-- Made the version information show up again, based on pkg_resources
-  distribution information instead of the no longer existing version.txt.
+- version.txt はもはや使用していないため、 pkg_resources でバージョン
+  情報を取得して表示するように修正しました。
 
 
 Zope 2.12.0 b4 (2008/08/06)
@@ -62,34 +66,36 @@ Zope 2.12.0 b4 (2008/08/06)
 機能追加
 ++++++++++++++
 
-- The send method of MailHost now supports unicode messages and
-  email.Message.Message objects.  It also now accepts charset and
-  msg_type parameters to help with character, header and body
-  encoding.
+- MailHost の send メソッドが unicode メッセージと
+  email.Message.Message オブジェクトに対応しました。
+  これにより charset と msg_type パラメータを渡すことが出来るようになり、
+  文字列、ヘッダー、本文のエンコード時の助けになります。
 
-- Updated packages:
+- パッケージ更新:
 
   - ZODB3 = 3.9.0b5
   - zope.testing = 3.7.7
 
-- scripts: Added 'runzope' and 'zopectl' as entry points for instance scripts.
+- scripts: インスタンス起動用の 'runzope' と 'zopectl' を エントリー
+  ポイントとして追加しました。
 
 バグ修正
 ++++++++++
 
-- LP #418454: FTP server did not work with Python 2.6.X
+- LP #418454: FTP サーバーが Python 2.6.X で動作しない問題を修正しました。
 
-- PythonScript: Fixed small Python 2.6 compatibility issue.
+- PythonScript: 小さな Python 2.6 との互換セイン問題を修正しました。
 
-- mkzopeinstance: Made instance scripts more suitable for egg based installs.
-  If you are using a customized skel, it has to be updated.
+- mkzopeinstance:
+  インスタンススクリプトをより egg ベースに適した形にしました。
+  カスタマイズした skel を使用している場合は、更新してください。
 
-- Five: Fixed the permissions creation feature added in Zope 2.12.0a2.
+- Five: Zope 2.12.0a2 で追加されたパーミッション作成機能を修正しました。
 
-- LP #399633: fixed interpreter paths
+- LP #399633: インタプリタのパスを修正しました。
 
-- MailHost manage form no longer interprets the value None as a string
-  in user and password fields.
+- MailHost の管理画面は user と password のフィールドに None が設定
+  されていた場合、それを文字列として扱わないようにしました。
 
 
 Zope 2.12.0 b3 (2009/07/15)
@@ -98,7 +104,7 @@ Zope 2.12.0 b3 (2009/07/15)
 機能追加
 ++++++++++++++
 
-- Updated packages:
+- パッケージ更新:
 
   - ZConfig = 2.7.1
   - ZODB = 3.9.0b2
@@ -114,33 +120,35 @@ Zope 2.12.0 b3 (2009/07/15)
   - zope.testing = 3.7.6
   - zope.traversing = 3.7.1
 
-- Added support to indexing datetime values to the PluginIndexes
-  DateRangeIndex. The DateIndex already had this feature.
+- インデクシングにおいて、 datetime 値のサポートを PluginIndexes
+  DataRangeIndex に追加しました。 DateIndex は既にこの機能を持っています。
 
 再構築
 +++++++++++++
 
-- PluginIndexes: Removed deprecated TextIndex.
+- PluginIndexes: deprecated となった TextIndex を削除しました。
 
-- HelpSys now uses ZCTextIndex instead of the deprecated TextIndex. Please
-  update your Zope databases by deleting the Product registrations in the
-  Control Panel and restarting Zope.
+- HelpSys が deprecate となった TextIndex の代わりに ZCTextIndex
+  を使うようになりました。データベース更新のために、 Zope の
+  コントロールパネルの Product 登録から削除して、 Zope を再起動
+  してください。
 
 バグ修正
 ++++++++++
 
-- LP #397861: exporting $PYTHON in generated 'zopectl' for fixing import issue
-  with "bin/zopectl adduser"
+- LP #397861: "bin/zopectl adduser" における問題の修正のために、
+  生成した 'zopectl' スクリプトで $PYTHON 環境変数を設定するように
+  しました。
 
-- PluginIndexes: Added 'indexSize' to IPluggableIndex.
+- PluginIndexes: IPluggableIndex に 'indexSize' を追加しました。
 
-- HelpSys: ProductHelp no longer depends on PluginIndexes initialization.
+- HelpSys: ProductHelp は PluginIndexes の初期化に依存しなくなりました。
 
-- App.Product: ProductHelp was broken since Zope 2.12.0a1.
+- App.Product: ProductHelp が Zope 2.12.0a1 から壊れていた問題を修正しました。
 
-- ObjectManagerNameChooser now also works with BTreeFolder2.
+- ObjectManagerNameChooser を BTreeFolder2 でも動作するようにしました。
 
-- Correctly handle exceptions in the ZPublisherExceptionHook.
+- ZPublisherExceptionHook 例外を正しく処理するようにしました。
 
 Zope 2.12.0 b2 (2009/05/27)
 ---------------------------
@@ -148,21 +156,22 @@ Zope 2.12.0 b2 (2009/05/27)
 再構築
 +++++++++++++
 
-- Removed all use of ``zope.app.pagetemplate`` by cloning / simplifying
-  client code.
+- ``zope.app.pagetemplate`` の利用を全て取り除きました。利用していたコード
+  はシンプルになりました。
 
-- Use ``zope.pagetemplate.engine`` instead of ``zope.app.pagetemplate.engine``.
+- ``zope.app.pagetemplate.engine`` の代わりに ``zope.pagetemplate.engine`` 
+  を使うようにしました。
   (update to versions 3.5.0 and 3.7.0, respectively, along with version 3.8.1
   of ``zope.app.publisher``).
 
-- Use ``IBrowserView`` interface from ``zope.browser.interfaces``, rather than
-  ``zope.publisher.interfaces.browser``.
+- ``zope.publisher.interfaces.browser`` よりも ``zope.browser.interfaces``
+  の ``IBrowserView`` インターフェースを使うようにしました。
 
-- Use ``IAdding`` interface from ``zope.browser.interfaces``, rather than
-  ``zope.app.container``.
+- ``zope.app.container`` よりも ``zope.browser.interfaces`` の ``IAdding``
+  インターフェースを使うようにしました。
 
-- No longer depend on ``zope.app.appsetup``;  use the event implementations
-  from ``zope.processlifetime`` instead.
+- ``zope.processlifetime`` のイベント実装を使うようにし、
+  ``zope.app.appsetup`` への依存を無くしました。
 
 機能追加
 ++++++++++++++
@@ -170,13 +179,13 @@ Zope 2.12.0 b2 (2009/05/27)
 - zExceptions.convertExceptionType:  new API, breaking out conversion of
   exception names to exception types from 'upgradeException'.
 
-- Launchpad #374719: introducing new ZPublisher events:
-  PubStart, PubSuccess, PubFailure, PubAfterTraversal and PubBeforeCommit.
+- Launchpad #374719: 新しい ZPublisher のイベントを導入:
+  PubStart, PubSuccess, PubFailure, PubAfterTraversal, PubBeforeCommit.
 
-- Testing.ZopeTestCase: Include a copy of ZODB.tests.warnhook to silence
-  a DeprecationWarning under Python 2.6.
+- Testing.ZopeTestCase: Python 2.6 で DeprecationWarning が出ないように
+  するために、ZODB.tests.warnhook のコピーを含めるようにしました。
 
-- Updated packages:
+- パッケージ更新:
 
   * python-gettext 1.0
   * pytz 2009g
@@ -206,21 +215,22 @@ Zope 2.12.0 b2 (2009/05/27)
 バグ修正
 ++++++++++
 
-- Launchpad #374729: Encoding cookie values to avoid issues with
-  firewalls and security proxies.
+- Launchpad #374729: Firewall やセキュリティー proxy を使用すると、
+  cookie の値のエンコードが無効になる問題を修正しました。
 
-- Launchpad #373583: ZODBMountPoint - fixed broken mount support and
-  extended the test suite.
+- Launchpad #373583: ZODBMountPoint のマウントの処理が壊れていた問題を
+  修正し、テストを拡張しました。
 
-- Launchpad #373621: catching and logging exceptions that could cause
-  leaking of worker threads.
+- Launchpad #373621: ワーカースレッドがリークした場合に、例外を捕まえて
+  ログ出力するようにしました。
 
-- Launchpad #373577: setting up standard logging earlier within the startup
-  phase for improving the analysis of startup errors.
+- Launchpad #373577: 起動時のエラーをより詳細に分析できるようにするため、
+  logging のセットアップをこれまでより早い時点で行うようにしました。
 
-- Launchpad #373601: abort transaction before connection close in order to
-  prevent connection leaks in case of persistent changes after the main
-  transaction is closed.
+- Launchpad #373601:
+  主トランザクションが閉じた後で永続データが更新されるような場合に、
+  接続がリークしないように、接続を閉じる前にトランザクションを
+  中止するようにしました。
 
 - Fix BBB regression which prevented setting browser ID cookies from
   browser ID managers created before the ``HTTPOnly`` feature landed.
@@ -233,10 +243,10 @@ Zope 2.12.0 b2 (2009/05/27)
   caused the ``standard_error_message`` not to be called. Fixes
   https://bugs.launchpad.net/zope2/+bug/372632 .
 
-- DocumentTemplate.DT_Raise:  use new 'zExceptions.convertExceptionType'
-  API to allow raising non-builtin exceptions.
-  Fixes https://bugs.launchpad.net/zope2/+bug/372629 , which prevented
-  viewing the "Try" tab of a script with no parameters.
+- DocumentTemplate.DT_Raise:  'zExceptions.convertExceptionType' API
+  を使用することにより、組み込み例外以外を使えるようになった。
+  https://bugs.launchpad.net/zope2/+bug/372629 で、引数がない
+  スクリプトの "Try" タブの表示が妨げられていた問題を修正した。
 
 Zope 2.12.0b1 (2009/05/06)
 --------------------------
@@ -244,12 +254,13 @@ Zope 2.12.0b1 (2009/05/06)
 再構築
 +++++++++++++
 
-- No longer depend on ``zope.app.locales``. Zope2 uses almost none of the
-  translations provided in the package and is not required for most projects.
-  The decision to include locales is left to the application developer now.
+- ``zope.app.locales`` に依存しないようにしました。 Zope 2 は大抵は
+  各パッケージが提供する翻訳を使用せず、必要ともされていません。
+  この決定には、アプリケーション開発者から locales が無くなった、
+  という意味を含んでいます。
 
-- Removed the dependency on ``zope.app.testing`` in favor of providing a more
-  minimal placeless setup as part of ZopeTestCase for our own tests.
+- ``zope.app.testing`` の依存を取り除き、 ZopeTestCase の一部である、
+  もっと小さい placeless setup を使うようにしました。
 
 - updated to ZODB 3.9.0b1
 
@@ -268,8 +279,9 @@ Zope 2.12.0b1 (2009/05/06)
 バグ修正
 ++++++++++
 
-- ZPublisher response.setBody: don't append Accept-Encoding to Vary header if
-  it is already present - this can make cache configuration difficult.
+- ZPublisher response.setBody:
+  すでに header にある場合、 Accept-Encoding を破棄しないように修正。
+  この問題はキャッシュ設定を難しくしていた。
 
 2.12.0a4 (2009-04-24)
 ---------------------
@@ -277,24 +289,25 @@ Zope 2.12.0b1 (2009/05/06)
 バグ修正
 ++++++++++
 
-- fixed versions.cfg in order to support zope.z2release for
-  creating a proper index structure
+- インデックス構造の作成のための zope.z2release で使われる、
+  versions.cfg を修正しました。
 
 2.12.0a3 (2009-04-19)
 ---------------------
 
-The generated tarball for the 2.12.0a2 source release was incomplete, due to
-a setuptools and Subversion 1.6 incompatibility.
+2.12.0a2 のソースリリースのための Tarball は完全ではありません。
+setuptools と Subversion 1.6 の非互換西の問題を含んでいます。
 
 再構築
 +++++++++++++
 
-- Added automatic inline migration for databases created with older Zope
-  versions. The ``Versions`` screen from the ``Control_Panel`` is now
-  automatically removed on Zope startup.
+- 古い Zope のバージョンで作られたデータベースを自動的にマイグレーション
+  する機能を追加。 ``Control_Panel`` の ``Versions`` 画面は、自動的に
+  Zope 起動時に削除されます。
 
-- Removed more unused code of the versions support feature including the
-  Globals.VersionNameName constant.
+- Globals.VersionNameName を含む、使われていないバージョン管理機能のコード
+  を取り除きました。
+
 
 2.12.0a2 (2009-04-19)
 ---------------------
