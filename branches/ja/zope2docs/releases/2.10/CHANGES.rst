@@ -1795,3 +1795,5 @@ Zope 2.8a1 (2004/10/17)
 
 - Item_w__name__ now 
 
+.. rubric:: (Translated by Shimizukawa, `r104364 <http://svn.zope.org/Zope/branches/2.10/doc/CHANGES.txt?rev=104364&view=markup>`_)
+

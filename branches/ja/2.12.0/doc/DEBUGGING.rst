@@ -19,3 +19,6 @@ Zope をデバッグモードで起動するには、設定ファイルの 'debu
     >>> app.objectIds()
     ['acl_users', 'Control_Panel', 'temp_folder', 'browser_id_manager', 'session_data_manager', 'error_log', 'index_html', 'standard_error_message']
     >>> 
+
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/DEBUGGING.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/DEBUGGING.html>`_)
+

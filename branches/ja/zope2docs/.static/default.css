@@ -662,3 +662,11 @@ img.logo {
         display: none;
     }
 }
+
+/* zope.jp additional */
+div.body p.rubric {
+    text-align: right;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 80%;
+}

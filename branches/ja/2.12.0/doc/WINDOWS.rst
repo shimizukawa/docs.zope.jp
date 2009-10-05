@@ -72,3 +72,6 @@ WindowsでZopeをソースからビルドしインストールする方法
   - % python {zope_instance}\bin\zopeservice.py start
   - Control Panel
   - % net start service_short_name (例: `net start Zope_-1227678699`)
+
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/WINDOWS.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/WINDOWS.html>`_)
+
