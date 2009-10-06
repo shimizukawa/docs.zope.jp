@@ -1,8 +1,10 @@
 {% extends "!layout.html" %}
 
 {%- block rootrellink %}
-<li><a target="_blank" href="http://docs.zope.org/zope2/" title="English(Original)">English(Original)</a></li> |
-<li><a target="_blank" href="http://zope.jp/" title="日本Zopeユーザー会 - JZUG">JZUG</a></li> |
+<li><a target="_blank" href="http://docs.zope.org/zope2/" title="English(Original)">English(Original)</a></li>
+{{ reldelim2 }}
+<li><a target="_blank" href="http://zope.jp/" title="日本Zopeユーザー会 - JZUG">JZUG</a></li>
+{{ reldelim2 }}
 {{ super() }}
 {%- endblock %}
 
