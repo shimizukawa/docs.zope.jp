@@ -43,5 +43,5 @@ Zope 2.8 リリース
    2.8/CHANGES
 
 
-.. rubric:: (`r97233 <http://svn.zope.org/zope2docs/trunk/releases/index.rst?rev=97233&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/>`_,)
+.. todo:: (`r97233 <http://svn.zope.org/zope2docs/trunk/releases/index.rst?rev=97233&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/>`_)
 

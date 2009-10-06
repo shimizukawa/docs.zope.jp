@@ -570,5 +570,5 @@ Zope 2.9.0 beta 1 (2005/12/06)
 - Collector #1904: On Mac OS X avoid a spurious OSError when
   zopectl exits.
 
-.. rubric:: (Translated by Shimizukawa, `r102507 <http://svn.zope.org/Zope/branches/2.9/doc/CHANGES.txt?rev=102507&view=markup>`_)
+.. todo:: (Translated by Shimizukawa, `r102507 <http://svn.zope.org/Zope/branches/2.9/doc/CHANGES.txt?rev=102507&view=markup>`_)
 
