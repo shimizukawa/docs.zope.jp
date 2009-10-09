@@ -26,4 +26,5 @@ Zope は '$INSTANCE_HOME/var/Z2.pid' に保存されているプロセスIDに�
 
 
 .. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/SIGNALS.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/SIGNALS.html>`_)
+  :class: translator
 

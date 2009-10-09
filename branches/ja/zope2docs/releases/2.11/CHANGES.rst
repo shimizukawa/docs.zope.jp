@@ -459,4 +459,5 @@ Zope 2.11 beta 1 (2007/12/29)
   ``if obj is None`` に置き換えた。
 
 .. rubric:: (Translated by Shimizukawa, `r104363 <http://svn.zope.org/Zope/branches/2.11/doc/CHANGES.txt?rev=104363&view=markup>`_)
+  :class: translator
 

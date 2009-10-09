@@ -1267,4 +1267,5 @@ Zope 2.8a1 (2004/10/17)
   to the user's id, rather than username.
 
 .. rubric:: (Translated by Shimizukawa, `r102506 <http://svn.zope.org/Zope/branches/Zope-2_8-branch/doc/CHANGES.txt?rev=102506&view=markup>`_)
+  :class: translator
 

@@ -18,5 +18,6 @@ Five 統合レイヤは Zope 3 のインターフェース、 Zope Configuration
 Zope 2 には Zope 3 のパッケージの要素が同梱されており、別途 Zope 3 をインストールする必要はありません。
 
 
-.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/ZOPE3.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/ZOPE3.html>`_,)
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/ZOPE3.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/ZOPE3.html>`_)
+  :class: translator
 
