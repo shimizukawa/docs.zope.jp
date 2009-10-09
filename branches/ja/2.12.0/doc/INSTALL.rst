@@ -207,5 +207,5 @@ http://docs.zope.org/
 - このバージョンのZopeについての重要な情報が `<CHANGES.html>`_
   にあります。参照してください。
 
-.. todo:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/INSTALL.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/INSTALL.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
 

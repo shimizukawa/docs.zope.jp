@@ -83,5 +83,5 @@ Zope の実行方法を変更した場合、それに合わせて var ディレ�
 中のファイルのアクセス権限を設定して、 Zope がそれらのファイルに
 新しく設定した userid で読み書き出来るようにしてください。
 
-.. todo:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/SECURITY.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/SECURITY.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/SECURITY.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/SECURITY.html>`_)
 

@@ -664,14 +664,9 @@ img.logo {
 }
 
 /* zope.jp additional */
-div.admonition-todo {
+div.body p.rubric {
     text-align: right;
     font-weight: normal;
     font-style: italic;
     font-size: 80%;
 }
-
-div.admonition-todo .admonition-title {
-    display: none;
-}
-

@@ -619,5 +619,5 @@ setuptools と Subversion 1.6 の非互換性の問題を含んでいます。
 - DocumentTemplate.DT_Var.newline_to_br(): Simpler, faster
   implementation.
 
-.. todo:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/CHANGES.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/CHANGES.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/CHANGES.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/CHANGES.html>`_,)
 

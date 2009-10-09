@@ -34,5 +34,5 @@ Zope が setuid に使用するユーザーを zope.conf の 'effective-user'
 で起動する必要はないと言うことです。必要ないのであれば、 Zope を
 専用のユーザーアカウントで起動するのがより良いでしょう。
 
-.. todo:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/SETUID.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/SETUID.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r104646 <http://svn.zope.org/Zope/tags/2.12.0/doc/SETUID.rst?rev=104646&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/SETUID.html>`_)
 
