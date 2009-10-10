@@ -1,14 +1,12 @@
 Zope Developer's Guide (未訳)
 ==============================
 
-Contents
---------
-
 .. toctree::
+   :numbered:
    :maxdepth: 2
 
-   Outline.rst
    Introduction.rst
+   GettingStarted.rst
    ComponentsAndInterfaces.rst
    ObjectPublishing.rst
    Products.rst
@@ -17,5 +15,3 @@ Contents
    Security.rst
    TestingAndDebugging.rst
    AppendixA.rst
-   AppendixB.rst
-

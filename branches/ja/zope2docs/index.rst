@@ -5,8 +5,8 @@ Zope 2 関連ドキュメントと記事
 .. toctree::
    :maxdepth: 1
 
-   zope2book/source/index
-   zdgbook/source/index
+   zope2book/index
+   zdgbook/index
 
 リリース情報
 ===============
