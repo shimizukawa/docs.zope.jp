@@ -1,38 +1,42 @@
-Zope Developer's Guide
+Zope 開発者ガイド
 ======================
 
-Background
+背景
 ----------
 
-The "Zope Developer's Guide" was not maintained for a long time.
+"Zope 開発者ガイド" は長い間メンテナンスされていませんでした。
+これは "Zope 開発者ガイド" を生き返らせようという試みです。
 
-This is an attempt to bring the "Zope Developer's Guide" book back to
-live.
-
-Technology
+技術
 ----------
 
-This time we use `Sphinx`_ based on a conversion of the original
-content to reStructured as the tool.
+今回、オリジナルのコンテンツを `Sphinx`_ ベースに切り替えました。
 
-To install Sphinx you can simply do::
+Sphinx をインストールするには単純に以下のようにします::
 
   easy_install Sphinx
 
-You might want to use a `virtualenv`_ to protect your global Python
-from any changes.
+もしグローバルなPython環境に色々入れたくないのであれば、 `virtualenv`_
+を使うこともできます。
 
-Sphinx can generate various different formats from the same
-source. If you want to build a HTML version of the book, you can do::
+Sphinx は一つのソースからいろいろな種類のフォーマットを出力する
+事が出来ます。HTMLを生成したいのであれば以下のようにします::
 
   make html
 
-To what extent this works on Windows is unknown.
+これが Windows でも動作するかはわかりません。
 
-Contact
+.. note:: 訳注
+
+  Windows 標準では make コマンドがないため、
+  ``sphinx-build -b html -d build/doctrees source build/html``
+  のようにsphinxコマンドを直接使用してください。コマンドのオプション等
+  については Makefile を参照してください。
+
+連絡
 -------
 
-At this point the book is best discussed at:
+この本についての最も良い議論の場は以下です:
 
 http://mail.zope.org/mailman/listinfo/zope-dev
 
@@ -40,8 +44,14 @@ http://mail.zope.org/mailman/listinfo/zope-dev
 .. _Sphinx: http://sphinx.pocoo.org/
 .. _virtualenv: http://pypi.python.org/pypi/virtualenv/
 
+
 TODO
 ----
 
-- Split Testing and Debugging chapter
-- Add getting started code inside examples
+- テストとデバッグの章を分割する
+- exampleに `始めよう` のコードを追加する
+
+
+.. rubric:: (Translated by Shimizukawa, `r104830 <http://svn.zope.org/zope2docs/trunk/zdgbook/README.txt?rev=104830&view=markup>`_)
+  :class: translator
+

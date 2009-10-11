@@ -1,5 +1,7 @@
-Zope Developer's Guide (未訳)
-==============================
+Zope 開発者ガイド
+===================
+
+.. note:: 本ドキュメントは翻訳作業中です.
 
 .. toctree::
    :numbered:
@@ -15,3 +17,7 @@ Zope Developer's Guide (未訳)
    Security.rst
    TestingAndDebugging.rst
    AppendixA.rst
+
+.. rubric:: (Translated by Shimizukawa, `r104989 <http://svn.zope.org/zope2docs/trunk/zdgbook/index.rst?rev=104989&view=markup>`_, `original-site <http://docs.zope.org/zope2/zdgbook/index.html>`_)
+  :class: translator
+

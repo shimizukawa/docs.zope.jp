@@ -1,23 +1,25 @@
 ###############
-Getting Started
+始めよう
 ###############
 
-Introduction
+はじめに
 ============
 
-This chapter cover installation and getting started with development
-of a simple application.  This guide use a build system called
-`Buildout <http://www.buildout.org>`_ to build the application.  And
-the Python packages developed as part of the application can be
-distributed as `Python eggs
-<http://peak.telecommunity.com/DevCenter/setuptools>`_.
+本章では、インストールと簡単なアプリケーションを題材とした、開発の
+始め方についてカバーします。
+このガイドでは、 `Buildout <http://www.buildout.org>`_ という
+ビルドシステムを用いて、アプリケーションのビルドを行います。
+また、アプリケーションの一部として開発された Python パッケージ
+は `Python eggs <http://peak.telecommunity.com/DevCenter/setuptools>`_
+という形式で配布することが出来ます。
 
 
-Directory Structure
+ディレクトリ構成
 ===================
 
-To begin the application development, create a directory structure to
-place Python packages and build related files.
+アプリケーション開発を始めるに当たり、 Python パッケージを配置する
+ディレクトリや、ビルド関係のファイルが置かれるディレクトリを
+作成します。
 
 ::
 
@@ -25,34 +27,36 @@ place Python packages and build related files.
   $ mkdir poll/poll_build
   $ mkdir poll/poll.main
 
-All build related files can be added inside `poll_build` directory.
-The main Python package can be added inside `poll.main` directory.
-We can make the ``poll``, a namespace package using the functionality
-provided by `pkg_resources` module included in setuptools.
+ビルド関連の全てのファイルは `poll_build` ディレクトリに格納されます。
+主となる Python パッケージは `poll.main` ディレクトリに格納されます。
+``poll`` は名前空間パッケージとして使うことが出来、これには setuptools
+に含まれる `pkg_resources` モジュールが提供する機能を使用します。
 
-Bootstraping the Build
+
+ビルド環境を整える
 ======================
 
-You should have Python 2.5 or 2.6 installed in your system.  To start
-the build process, download and run `bootstrap.py`.  The
-`bootstrap.py` will download and install `setuptools` and
-`zc.buildout` packages.  Also it will create the directory structure
-and `buildout` script inside `bin` directory.
+まずシステムにPython 2.5 か 2.6 がインストールされている必要があります。
+ビルドを始めるには、 `bootstrap.py` をダウンロードして実行します。
+`bootstrap.py` によって、 `setuptools` と `zc.buildout` パッケージが
+ダウンロード & インストールされます。
+また同時に、いくつかのディレクトリが作成され、 `bin` ディレクトリに
+`buildout` スクリプトが生成されます。
 
 ::
 
-  $ cd poll/poll.build
+  $ cd poll/poll_build
   $ touch buildout.cfg
   $ wget -c http://svn.zope.org/repos/main/zc.buildout/trunk/bootstrap/bootstrap.py
   $ python2.6 bootstrap.py
 
-Installing Zope 2
-=================
+Zope 2 のインストール
+======================
 
-From Zope 2.12 onwards Zope 2 is distributed in egg format.  To
-install Zope 2 egg and create an instance, update buildout
-configuration file (``buildout.cfg``) with appropriate parts and
-recipes.
+Zope 2.12 から Zope 2 の配布が egg 形式になりました。
+Zope 2 egg のインストールとインスタンスの作成のために、 buildout
+設定ファイル (``buildout.cfg``) の各パーツととレシピを以下のように
+設定します。
 
 ::
 
@@ -72,71 +76,74 @@ recipes.
   http-address = 8080
   eggs = ${zope2:eggs}
 
-The ``[zope2]`` part use `zc.recipe.egg` which will download `Zope2`
-egg and all its dependencies.  It will create few console scripts
-inside `bin` directory.  Also it will create a custom Python
-interpreter named ``zopepy``.
+``[zope2]`` パートでは `zc.recipe.egg` を用いて `Zope2` egg と
+それらが依存している egg をダウンロードします。また同時に、
+いくつかのコンソールスクリプトが `bin` ディレクトリに作られます。
+コンソールスクリプトには ``zopepy`` という名前のカスタム Python
+インタプリタも作成されます。
 
-The ``[instance]`` part creates a Zope 2 application instance to
-develop application.  It will create a script named ``instance``
-inside `bin` directory.  We can use that script to run the
-application instance.
+``[instance]`` パートでは、アプリケーション開発のための Zope 2
+アプリケーションインスタンスが作成されます。また同時に、
+``instance`` スクリプトが `bin` ディレクトリに作られます。
+このスクリプトを使ってアプリケーションインスタンスを実行する
+事が出来ます。
 
-After updating the buildout configuration, you can run the `buildout`
-command to build the system.
+buildout 設定ファイルを更新したら、 `buildout` コマンドを実行して
+ビルドを始めてください。
 
 ::
 
   $ ./bin/buildout
 
-The initial build will take some time to complete.
+最初のビルドは、完了するまでいくらか時間がかかります。
 
-Running Instance
-================
+インスタンスの実行
+===================
 
-Once build is completed, you can run Zope 2 instance like this.
+ビルドが完了したら、 Zope 2 インスタンスを以下のようにして起動します。
 
 ::
 
   $ ./bin/instance fg
 
 
-You can see that Zope is running in 8080 port.  You can go to the
-Zope Management Interface (ZMI).
+画面に、 Zope が 8080 ポートで起動している旨が表示されます。
+Zope 管理画面 (Zope Management Interface = ZMI) にアクセスしてください。
 
 ::
 
   http://localhost:8080/manage
 
-You can provide the user name & password provided in `[instance]`
-part to access this page.
+`[instance]` パートに上記ページにアクセスする際のユーザー名とパスワード
+の設定があります。
 
-You can see a list of installable applications in the drop-down box.
-Also you can see it in "Control_Panel" -> "Products".
+インストール出来るアプリケーションの一覧をドロップダウンメニューで
+見ることが出来ます。あるいは、 "Control_Panel" -> "Products" と
+辿ることでも確認出来ます。
 
 ::
 
   http://localhost:8080/Control_Panel/Products/manage_main
 
-In the next section we will make the `poll.main` listed here.  And
-later we will make it installable.
+次の節で、 `poll.main` を作成すればここに表示されるようになります。
+さらに節が進めば、それをインストール出来るようになるでしょう。
 
 
-Developing the main package
+メインパッケージの開発
 ===========================
 
-Now we can move to `poll.main` packae to create the main package to
-develop the application.  We can develop the entire application
-inside `poll.main` package.  But it is reccomended to split packages
-logically and maintain the dependencies between packages properly.
+それでは `poll.main` パッケージの開発に移りましょう。
+全てのアプリケーションを `poll.main` パッケージ内で開発することも
+出来ますが、パッケージは論理的な単位、かつ依存関係などの
+保守のしやすさを目安に分割することをお勧めします。
 
 ::
 
-  $ cd ../poll.build
+  $ cd ../poll.main
 
-Again we need to create the basic directory structure and `setup.py`
-to create egg distribution.  We are going to place python package
-inside `src` directory.
+ここでまた、基本的なディレクトリ構造の作成と、 egg で配布するための
+`setup.py` を作成する必要があります。 Python パッケージは
+`src` ディレクトリに置く事にします。
 
 ::
 
@@ -148,19 +155,18 @@ inside `src` directory.
   $ touch src/poll/main/__init__.py
   $ touch src/poll/main/configure.zcml
 
-The last file we created is a configuration file called Zope
-Configuration Markup Language (ZCML). Soon we will add some boiler
-plate code inside ZCML file.
+上記の最後のファイルは Zope Configuration Markup Language (ZCML)
+と呼ばれる設定ファイルです。すこししたら、いくつかの定型的な
+コードを ZCML ファイルに記載することになります。
 
-To declare `poll` as a namespace package, we need to add this boiler
-plate code to `src/poll/__init__.py`.
+`poll` は名前空間パッケージとして定義されます。 `src/poll/__init__.py`
+には、名前空間としての定型コードとして以下の内容を記載してください。
 
 ::
 
   __import__('pkg_resources').declare_namespace(__name__)
 
-Next we need to add the minimum meta data required for the package in
-`setup.py`.
+次に、 `setup.py` に最低限のパッケージ情報を記載します。
 
 ::
 
@@ -176,15 +182,16 @@ Next we need to add the minimum meta data required for the package in
                         "Zope2"],
       )
 
-We need to add two more files to be recognized by Zope.  First,
-define this call-back function in `src/poll/main/__init__.py`.
+Zope から認識されるようにするため、2つのファイルを追加します。
+まずは `src/poll/main/__init__.py` に以下のコールバック関数を
+定義します。
 
 ::
 
   def initialize(registrar):
       pass
 
-And in the ZCML file add these few lines.
+そして、 ZCML ファイルに以下の行を追加します。
 
 ::
 
@@ -195,27 +202,27 @@ And in the ZCML file add these few lines.
 
   </configure>
 
-Creating Installable Application
-================================
+インストール出来るアプリケーションの作成
+==========================================
 
-We need three things to make an installable application.
+インストール出来るアプリケーションを作成するには、以下の3つが必要です。
 
-- Form object created using ZPT (manage_addPollMain)
-- A function to define form action (addPollMain)
-- A class to define toplevel application object (PollMain).
+- オブジェクト作成時に使用されるフォーム用の ZPT (manage_addPollMain)
+- フォームのアクションを定義する関数 (addPollMain)
+- 最上位のアプリケーションオブジェクトを定義するクラス (PollMain)
 
-And we need to register the class along with form and add function
-using the `registrar` object passed to the `initialize` function.
+そして、 `initialize` 関数に渡される `register` オブジェクトを用いて、
+これらのクラスと関数を登録する必要があります。
 
-We can define all these things in `app.py` and the form template as
-`manage_addPollMain_form.zpt`.
+これら全てを `app.py` で定義し、フォームのテンプレートは
+`manage_addPollMain_form.zpt` として用意します。
 
 ::
 
   $ touch src/poll/main/app.py
   $ touch src/poll/main/manage_addPollMain_form.zpt
 
-Here is the code for `app.py`.
+`app.py` のコードは以下のようになります。
 
 ::
 
@@ -232,7 +239,7 @@ Here is the code for `app.py`.
       context._setObject(id, PollMain(id))
       return "POLL Installed: %s" % id
 
-And `manage_addPollMain_form.zpt`.
+`manage_addPollMain_form.zpt` は以下のようになります。
 
 ::
 
@@ -249,7 +256,7 @@ And `manage_addPollMain_form.zpt`.
     </body>
   </html>
 
-Finally we can register it like this (update `__init__.py`)::
+最後に、これらを登録するために `__init__.py` を以下のように更新します::
 
   from poll.main.app import PollMain, manage_addPollMain, addPollMain
 
@@ -257,15 +264,17 @@ Finally we can register it like this (update `__init__.py`)::
       registrar.registerClass(PollMain,
                               constructors=(manage_addPollMain, addPollMain))
 
-The application is now ready to install.  But we need to make some
-changes in `poll_build` to recognize this package by Zope 2.
+これでアプリケーションはインストール出来るようになりました。しかし、
+Zope 2 パッケージとして認識されるようにするためには、まだ `poll_build`
+にいくつかの変更を行う必要があります。
 
-Adding poll.main to build
-=========================
+poll.main をビルド対象に追加
+==============================
 
-First in `[buildout]` part we need to mention that `poll.main` is
-locally developed.  Otherwise buildout will try to get the package
-from package index server, by default http://pypi.python.org/pypi .
+まず `[buildout]` パートに `poll.main` がローカルで開発されている
+ものだということを表記します。これを書かないと、 buildout は
+パッケージをインデックスサーバー (標準では http://pypi.python.org/pypi)
+から取得しようとするでしょう。
 
 ::
 
@@ -273,8 +282,8 @@ from package index server, by default http://pypi.python.org/pypi .
   develop = ../poll.main
   ...
 
-Also we need to add `poll.main` egg to `eggs` option in `[zope2]`
-part.
+また、 `poll.main` egg を `[zope2]` パートの `eggs` オプションに追加
+してください。
 
 ::
 
@@ -283,15 +292,15 @@ part.
          poll.main
   ...
 
-And finally we need to add a new option to include the ZCML file.  So
-that the package will be recognized by Zope.
+最後に、 ZCML ファイルを含めるように指示する新しいオプションを追加します。
+これによって、 Zope はこのパッケージを認識できるようになります。
 
 ::
 
   ...
   zcml = poll.main
 
-The final `buildout.cfg` will look like this.
+最終的に `buildout.cfg` は以下のようになりました。
 
 ::
 
@@ -313,35 +322,36 @@ The final `buildout.cfg` will look like this.
   eggs = ${zope2:eggs}
   zcml = poll.main
 
-Now to make these change effective, run the buildout again.
+この変更を有効にするために、 buildout を再度実行してください。
 
 ::
 
   $ ./bin/buildout
 
-Now we can run application instance again.
+そしてアプリケーションインスタンスを再度実行してください。
 
 ::
 
   $ ./bin/instance fg
 
-Adding application instance
-===========================
+アプリケーションインスタンスの追加
+===================================
 
-Visit ZMI and select `POLL` from the drop-down box.  It will display
-the add-form created earlier.  You can provide the ID as `poll` and
-submit the form.  After submitting, it should display a message:
-"POLL Installed: poll".
+ZMI を開いて、 `POLL` をドロップダウンメニューから選ぶと、先ほど作成
+した追加フォームが画面に表示されます。 ID に `poll` を指定してフォーム
+を送信してみてください。画面に "POLL Installed: poll" という
+メッセージが表示されると思います。
 
-Adding the main page to POLL
-============================
 
-In this section we will try to add a main page to POLL application.
-So that we can acces POLL application like this:
-http://localhost:8080/poll .
+POLL のメインページを追加する
+==============================
 
-First create a file named `index_html.zpt` inside `src/poll/main` with
-content like this::
+この節では、 POLL アプリケーションのメインページを追加してみましょう。
+POLL アプリケーションには以下のURLでアクセス出来ます:
+http://localhost:8080/poll
+
+まず、 `index_html.zpt` というファイルを `src/poll/main` ディレクトリに
+以下の内容で作成します::
 
   <html>
   <head>
@@ -354,19 +364,22 @@ content like this::
   </body>
   </html>
 
-Now add an attribute named `index_html` inside PollMain class like
-this::
+そして `index_html` という属性を PollMain クラスに以下のように追加します::
 
   class PollMain(Folder):
       meta_type = "POLL"
 
       index_html = PageTemplateFile("index_html", globals())
 
-Restart the Zope. Now you can see that it display the main page when
-you access: http://localhost:8080/poll .
+Zope を再起動してください。追加したメインページを以下のURLで確認する
+事が出来ます: http://localhost:8080/poll
 
-Summary
+まとめ
 =======
 
-This chapter covered installation and beginning a simple project in
-Zope 2.
+本章では、インストールと、 Zope 2 での簡単なプロジェクトの始め方について
+説明しました。
+
+.. rubric:: (Translated by Shimizukawa, `r104989 <http://svn.zope.org/zope2docs/trunk/zdgbook/GettingStarted.rst?rev=104989&view=markup>`_, `original-site <http://docs.zope.org/zope2/zdgbook/GettingStarted.html>`_)
+  :class: translator
+

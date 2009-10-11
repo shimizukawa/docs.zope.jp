@@ -1,97 +1,103 @@
 ############
-Introduction
+はじめに
 ############
 
-Overview
+概要
 ========
 
-Zope 2 is a free and open-source, object-oriented web application
-server written in the Python programming language.  The term ZOPE is
-an acronym for "Z Object Publishing Environment" (the Z doesn't
-really mean anything in particular).  However, nowadays ZOPE is
-simply written as Zope.  It has three distinct audiences.
+Zope 2 は 無料でオープンソースの、開発言語 Python で書かれた
+オブジェクト指向型 Web アプリケーションサーバーです。
+ZOPE という単語は "Z Object Publishing Environment" の頭文字です
+(Z に特別な意味はありません) 。
+ところで最近では ZOPE はシンプルに Zope と表記されています。
+Zope には3種類の異なる種類の利用者がいます。
 
-*Site Managers*
-  Individuals who use of Zope's "out of the box" features to build
-  websites.  This audience is interested in making use of Zope's
-  existing array of features to create content management solutions.
-  They will likely make heavy use of "through the web" scripting
-  using DTML, Page Templates, and Python Scripts as well as (of
-  course) HTML and XML.  They are generally less concerned about code
-  reuse than the speed with which they can create a custom
-  application or website.
 
-*Developers*
-  Individuals who wish to extend Zope to create highly customized
-  solutions.  This audience is likely interested in creating highly
-  reusable custom code that makes Zope do something new and
-  interesting.  They will likely make heavy use of "through the
-  file-system" style development.
+*サイト管理者*
+  Zopeの "すぐに使える" 機能を使用して Web サイトを構築する人たちです。
+  この人たちは、 Zope が標準で持っている機能や仕組みで、どのような
+  コンテンツ管理のためのソリューションを提供してくれるか、と言った事に
+  興味があります。
+  彼らは "Web経由で" HTML や XML を扱うのと同じように、 DTML,
+  Page Templates, その他 Python スクリプトなどを作成するでしょう。
+  彼らは一般的にコードの再利用などに気を遣うよりも、専用のアプリケーション
+  や Web サイトを作る速度の方を気にします。
 
-*Administrators*
-  Individuals responsible for keeping a Zope site running and
-  performing installations and upgrades.
+*開発者*
+  より高度なカスタマイズの要求に応えるため Zope を拡張する人たちです。
+  この人たちは、 Zope に新しい、面白い機能を追加するために、非常に
+  再利用性が高いコードを作ることに興味があります。
+  彼らは "ファイルシステム経由で" の開発手法をよく使用するでしょう。
 
-This guide is intended to document Zope for the second audience,
-Developers, as defined above.  If you fit more into the "user"
-audience defined above, you'll probably want to start by reading `The
-Zope Book <http://docs.zope.org/zope2book>`_ .  If you fit more into
-the "administrator" audience defined above, you'll likely be
-interested in `The Zope Administrator's Guide
-<http://www.zope.org/DocProjects/AdminGuide>`_, although it is
-currently unfinished.
+*管理者*
+  Zope サイトの稼働、パフォーマンス、インストール、アップグレード
+  等と言った事に責任のある人たちです。
 
-Throughout this guide, it is assumed that you know how to program in
-the Python programming language.  Most of the examples in this guide
-will be in Python.  There are a number of great resources and books
-for learning Python; the best online resource is the `python.org web
-site <http://www.python.org/>`_ and many books can be found on the
-shelves of your local bookstore.
+このガイドは上記の2番目の人たち、開発者向けのドキュメントです。
+もしあなたが "利用者" という定義に最も合うのであれば、
+`The Zope Book <http://docs.zope.jp/zope2/zope2book>`_
+を読むことをお勧めします。
+あるいは、 "管理者" であるなら、まだ未完成ですが `The Zope
+Administrator's Guide <http://www.zope.org/DocProjects/AdminGuide>`_
+を読むのがよいでしょう。
 
-Organization of the book
+このガイドは、開発言語 Python でプログラムを書ける人を想定して書かれて
+います。このガイドに出てくる多くの例が Python で書かれています。
+Python を学ぶのに良い書籍がいくつかありますが、オンラインの情報源
+としては `python.org web site <http://www.python.org/>`_ が最良でしょう。
+また多くの書籍を近くの書店で見つけることが出来ると思います。
+
+
+本書の構成
 ========================
 
-This book describes Zope's services to the developer from a hands on,
-example-oriented standpoint.  This book is not a complete reference
-to the Zope API, but rather a practical guide to applying Zope's
-services to develop and deploy your own web applications.  This book
-covers the following topics:
+本書は、 Zope のサービスについてサンプルコードを基軸に開発者向けに説明
+しています。本書は Zope API の完全なリファレンスではありませんが、
+Zope のサービスを開発し自分の Web アプリケーションに適用するための
+実用的なガイドです。本書は以下の話題をカバーしています:
 
-*Getting Started*
-  This chapter provides a brief overview of installation and getting
-  started with application development.
+*始めよう*
+  本章では、インストールとアプリケーション開発の始め方についての
+  概要を説明します。
 
-*Components and Interfaces*
-  Zope use a component-centric development model.  This chapter
-  describes the component model in Zope and how Zope components are
-  described through interfaces.
+*コンポーネントとインターフェース*
+  Zope はコンポーネント中心の開発モデルを採用しています。本章では、
+  Zope のコンポーネントモデルと、 Zope コンポーネントがどのようにして
+  インターフェースを通して定義されているか、について説明します。
+  
+*オブジェクト パブリッシング*
+  Zope のアプリケーション開発はコンポーネントの作成にとどまらず、
+  コンポーネントが Web 上で *発行できる (publishable)* ことが
+  必要です。本章では、発行 (publication) についてと、あなたが作成した
+  コンポーネントがどうすれば発行できるようになるのか、について
+  説明します。
 
-*Object Publishing*
-  Developing applications for Zope involves more than just creating a
-  component, that component must be *publishable* on the web.  This
-  chapter describes publication, and how your components need to be
-  designed to be published.
+*Zope プロダクト*
+  新しい Zope コンポーネントは "Products" と呼ばれるパッケージ
+  で配布、インストールされます。
+  本章では Products の詳細について説明します。
 
-*Zope Products*
-  New Zope components are distributed and installed in packages
-  called "Products".  This chapter explains Products in detail.
+*永続化コンポーネント*
+  Zope は ZODB と呼ばれる、組み込みの透過的な Python オブジェクト
+  データベースを提供しています。本章では、永続化コンポーネントの
+  作り方と、それらが ZODB とどのようにして連携して動作するのかに
+  ついて説明します。
 
-*Persistent Components*
-  Zope provides a built-in, transparent Python object database called
-  ZODB.  This chapter describes how to create persistent components,
-  and how they work in conjunction with the ZODB.
+*獲得 (Acquisition)*
+  Zope は 獲得 (Acquisition) と呼ばれる動的な仕組みと強く関わっています。
+  本章では獲得 (Acquisition) について余すところ無く調査します。
 
-*Acquisition*
-  Zope relies heavily on a dynamic technique called acquisition. This
-  chapter explores acquisition thoroughly.
+*セキュリティー*
+  あなたが作成したコンポーネントが Web を通して多くの人々に使われる
+  ことになると、セキュリティーがとても大きな関心事になります。
+  本章では、 Zope のセキュリティー API と、あなたのオブジェクトに
+  セキュリティー設定する方法について説明します。
 
-*Security*
-  When your component is used by many different people through the
-  web, security becomes a big concern.  This chapter describes Zope's
-  security API and how you can use it to make security assertions
-  about your object.
+*デバッグとテスト*
+  Zope は標準でデバッグとテストをサポートしています。
+  本章では、これらの環境についての説明と、あなたが作成した
+  コンポーネントについてデバッグ、テストする方法について説明します。
 
-*Debugging and Testing*
-  Zope has built in debugging and testing support.  This chapter
-  describes these facilities and how you can debug and test your
-  components.
+.. rubric:: (Translated by Shimizukawa, `r104989 <http://svn.zope.org/zope2docs/trunk/zdgbook/Introduction.rst?rev=104989&view=markup>`_, `original-site <http://docs.zope.org/zope2/zdgbook/Introduction.html>`_)
+  :class: translator
+
