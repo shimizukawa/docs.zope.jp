@@ -1,24 +1,25 @@
-#########################
-Components and Interfaces
-#########################
+#################################
+コンポーネントとインターフェース
+#################################
 
-Zope uses a component architecture internally in many places.  Zope
-components is nothing but Python objects with interfaces that
-describe them.  As a Zope developer you can use interfaces right now
-to build your Zope components.
+Zope は内部の多くの箇所でコンポーネントアーキテクチャを使用しています。
+Zope のコンポーネントとは単なる Python のオブジェクトで、インターフェース
+によってその特性が記述されているに過ぎません。 Zope の開発者となる
+あなたは、このインターフェースを使用して独自の Zope コンポーネントを
+構築することが出来ます。
 
-Zope Components
-===============
+Zope コンポーネント
+====================
 
-Components are objects that are associated with interfaces.  An
-interface is a Python object that describes how you work with other
-Python objects.  In this chapter, you'll see some simple examples of
-creating components, and a description of interfaces and how they
-work.
+コンポーネントとは、インターフェースに結びつけられたオブジェクトの事です。
+インターフェースとは、他の Python オブジェクトとどのように協調動作するのか
+が記述されている Python のオブジェクトです。
+本章では、1つのインターフェースと、いくつかのシンプルなコンポーネントの
+作成を通してそれらがどのように動作するかを見ていきます。
 
-Here is a very simple component that says hello.  Like all
-components, this one generally consists of two pieces, an interface,
-and an implementation::
+ここに挨拶するだけの非常にシンプルなコンポーネントがあります。
+このように全てのコンポーネントはこの例のように一般的には2つの部品、
+1つのインターフェースと1つの実装で構成されます::
 
   from zope.interface import Interface
   from zope.interface import implements
@@ -36,28 +37,29 @@ and an implementation::
       def hello(self, name):
           return "hello %s!" % name
 
-Let's take a look at this step by step.  Here, you see two Python
-class statements.  The first class statement creates the *interface*,
-and the second class statement creates the *implementation*.
+それでは1行ずつ見ていきましょう。まず2つの Python のクラスが
+定義されています。最初のクラスは *インターフェース* を作成しており、
+2つめのクラスは *実装* を作成しています。
 
-The first class statement creates the ``IHello`` interface.  This
-interface describes one method, called ``hello``.  Notice that there
-is no implementation for this method, interfaces do not define
-behavior, they just describe a specification.
+最初のクラス定義は ``IHello`` インターフェースを作成しています。
+このインターフェースは1つのメソッド ``hello`` を記述しています。
+注意して欲しいのは、ここにはメソッドの実装は無く、インターフェース
+は動作を決めずに、単に仕様のみを記述していると言うことです。
 
-The second ``class`` statement creates the ``HelloComponent`` class.
-This class is the actual component that *does* what ``IHello``
-*describes*.  This is usually referred to as the *implementation* of
-``IHello``.  In order for you to know what interfaces
-``HelloComponent`` implements, it must somehow associate itself with
-an interface.  The ``implements`` function call inside the class does
-just that.  It says, "I implement these interfaces".  In this case,
-``HelloComponent`` asserts that it implements one interface,
-``IHello``.
+2つめの ``class`` 定義では ``HelloComponent`` クラスを定義しています。
+このクラスは ``IHello`` の記述が実際に何を *行う* のかを定義した
+コンポーネントです。通常これを ``IHello`` の *実装* と言います。
+ここで、 ``HelloComponent`` が何のインターフェースを実装しているのか
+という事をどうにかしてそのクラスとインターフェースとで表す必要があり、
+クラス内で呼ばれている ``implements`` 関数がそれを行っています。
+これは "このクラスはこれらのインターフェースを実装します"
+という意味になります。
+この例の場合、 ``HelloComponent`` は1つのインターフェース ``IHello``
+を実装していることを表明しています。
 
-The interface describes how you would work with the object, but it
-doesn't dictate how that description is implemented.  For example,
-here's a more complex implementation of the ``Hello`` interface::
+インターフェースはオブジェクトがどのような機能を持つかを記述しますが、
+その実装がどのように行われるべきかを決めたりはしません。
+例えば、ここにもう少し複雑な ``IHello`` の実装があります::
 
   import xmlrpclib
   class XMLRPCHello:
@@ -72,87 +74,86 @@ here's a more complex implementation of the ``Hello`` interface::
           s = xmlrpclib.Server('http://www.zope.org/')
           return s.hello(name)
 
-This component contacts a remote server and gets its hello greeting
-from a remote component.
+このコンポーネントはリモートサーバーに問い合わせを行い、リモート
+コンポーネントから挨拶文を取得します。
 
-And that's all there is to components, really.  The rest of this
-chapter describes interfaces and how you can work with them from the
-perspective of components.  In Chapter 3, we'll put all this together
-into a Zope product.
+これもまた一つのコンポーネントです。本章の残りの部分では、
+インターフェースについてと、インターフェースとコンポーネントの協調動作
+について説明します。3章の中で、これらを Zope プロジェクトに当てはめて
+見ていきます。
 
-Python Interfaces
-=================
+Python インターフェース
+========================
 
-Interface describe the behavior of an object by containing useful
-information about the object.  This information includes:
+インターフェースは、オブジェクトに関する役に立つ情報を含むことによって、
+オブジェクトの動きについて説明します。役に立つ情報とは:
 
-- Prose documentation about the object.  In Python terms, this is
-  called the "doc string" of the interface.  In this element, you
-  describe how the object works in prose language and any other
-  useful information about the object.
+- オブジェクトに関する自由形式のドキュメント。Python の用語で言うと
+  これはインターフェースの "doc string" です。この項目には、
+  オブジェクトがどのように動作するのかを自然言語で記載したり、
+  オブジェクトについてのその他の有用な事を記載します。
 
-- Descriptions of attributes.  Attribute descriptions include the
-  name of the attribute and prose documentation describing the
-  attributes usage.
+- 属性についての説明。属性説明には属性の名前や、属性が何に使用される
+  のかなどを自由形式で記載します。
 
-- Descriptions of methods.  Method descriptions can include:
+- メソッドについての説明。メソッド説明には以下を含めることが出来ます:
 
-  - Prose "doc string" documentation about the method and its usage.
+  - メソッドについての詳細や使用方法などを記載した "doc string" 。
 
-  - A sequence of parameter objects that describes the parameters
-    expected by the method.
+  - メソッドが期待するパラメータオブジェクトの列挙とその説明。
 
-- Optional tagged data.  Interface objects (and their attributes,
-  methods, and method parameters) can have optional, application
-  specific tagged data associated with them.  Examples uses for this
-  are security assertions, pre/post conditions, unit tests, and other
-  possible information you may want to associate with an Interface or
-  its attributes.
+- オプションのタグデータ。 インターフェースオブジェクト (とその
+  属性、メソッド、メソッドの引数) には、アプリケーションで
+  定義したタグデータを持たせることを選択出来ます。
+  例えば、インターフェースや属性に関連づけたい、セキュリティー情報、
+  事前/事後の状態、ユニットテスト、その他必要な情報などです。
 
-Not all of this information is mandatory.  For example, you may only
-want the methods of your interface to have prose documentation and
-not describe the arguments of the method in exact detail.  Interface
-objects are flexible and let you give or take any of these
-components.
+これらの情報全てが義務ではありません。例えば、作成したインターフェース
+のメソッドの説明ドキュメントは記載しても引数の説明は詳細には書かない
+といった事もできます。インターフェースオブジェクトはフレキシブルなので、
+コンポーネントが何を取捨選択するかを決めることが出来ます。
 
-Why Use Interfaces?
-===================
+なぜインターフェースを使うのですか？
+=====================================
 
-Interfaces solve a number of problems that arise while developing
-large systems with lots of developers.
+インターフェースは、多くの開発者が参加する大きいシステムの開発で見られる、
+いくつかの問題を解決します。
 
-- Developers waste a lot of time looking at the source code of your
-  system to figure out how objects work.  This is even worse if
-  someone else has already wasted their time doing the same thing.
+- 開発者たちは、各オブジェクトの挙動を知るためにあなたのシステムの
+  ソースコードを読み、これに多くの時間を浪費します。さらに悪い事に、
+  既に誰かが同じような時間の浪費をしていることがあります。
 
-- Developers who are new to your system may misunderstand how your
-  object works, causing, and possibly propagating, usage errors.
+- 新しく参加した開発者がオブジェクトの動作、結果、影響範囲、使い方など
+  を勘違いする可能性があります。
 
-- Because an object's interface is inferred from the source,
-  developers may end up using methods and attributes that are meant
-  for "internal use only".
+- オブジェクトの使い方をソースから推測した結果、開発者は
+  "内部利用専用" のメソッドや属性を使おうとするかもしれません。
 
-- Code inspection can be hard, and very discouraging to novice
-  programmers trying to understand code written by gurus.
+- 初心者のプログラマーにとって、コードから読み取るのは困難で、
+  グル (非常に技術レベルの高い人) が書いたコードを読んで理解しようと
+  する事は、やる気をなくさせてしまいます。
 
-Interfaces try to solve these problems by providing a way for you to
-describe how to use an object, and a mechanism for discovering that
-description.
+インターフェースは、オブジェクトの使い方を記述する方法を提供し、
+記述された説明を見つける仕組みを提供することで、このような問題を
+解決しようとしています。
 
-Creating Interfaces                                       
-===================
+インターフェースを作る
+=======================
 
-The first step to creating a component, as you've been shown, is to
-create an interface.
+コンポーネントを作成する最初のステップは、これまで見てきたように、
+インターフェースを作ることです。
 
-Interface objects can be conveniently constructed using the Python
-``class`` statement.  Keep in mind that this syntax can be a little
-misleading, because interfaces are *not* classes.  It is important to
-understand that using Python's class syntax is just a convenience,
-and that the resulting object is an *interface*, not a class.
+インターフェースオブジェクトは Python の ``class`` 構文で簡単に
+構築することが出来ます。覚えておいて欲しい事として、 class
+構文を使っているためすこし紛らわしいのですが、
+インターフェースは class では *ありません* 。
+Python のクラスの構文を使用しているのは単に便利だからであり、
+結果として得られるオブジェクトはクラスではなく *インターフェース*
+だという事を理解しておくのは重要です。
 
-To create an interface object using Python's class syntax, create a
-Python class that subclasses from ``zope.interface.Interface``::
+Python のクラス構文を使用してインターフェースを作成するには、
+``zope.interface.Interface`` を継承した Python クラスを作成して
+ください::
 
   from zope.interface import Interface
 
@@ -161,17 +162,17 @@ Python class that subclasses from ``zope.interface.Interface``::
       def hello(name):
           """Say hello to the world"""
 
-This interface does not implement behavior for its methods, it just
-describes an interface that a typical "Hello" object would realize.
-By subclassing the ``zope.interface.Interface`` interface, the
-resulting object ``Hello`` is an interface object. The Python
-interpreter confirms this::
+このインターフェースは、各メソッドの挙動を実装しておらず、ただ単に
+"IHello" オブジェクトが実装された場合のインターフェース仕様を
+記述しています。 ``zope.interface.Interface`` を継承することにより、
+得られる ``IHello`` オブジェクトはインターフェースオブジェクト
+になります。 Python インタープリタを使って以下のように確認出来ます::
 
   >>> IHello
   <InterfaceClass __main__.IHello>
 
-Now, you can associate the ``Hello`` Interface with your new concrete
-class in which you define your user behavior.  For example::
+ここで、利用者の挙動を定義した具象クラスと ``IHello`` インターフェース
+を関連づける事が出来ます。例えば::
 
   class HelloComponent:
 
@@ -180,24 +181,25 @@ class in which you define your user behavior.  For example::
       def hello(self, name):
           return "Hello %s!" % name
 
-This new class, ``HelloComponent`` is a concrete class that
-implements the ``Hello`` interface.  A class can realize more than
-one interface.  For example, say you had an interface called 'Item'
-that described how an object worked as an item in a "Container"
-object.  If you wanted to assert that ``HelloComponent`` instances
-realized the ``Item`` interface as well as ``Hello``, you can provide
-a sequence of Interface objects to the 'HelloComponent' class::
+この新しい ``HelloComponent`` クラスは ``IHello`` インターフェースを
+実装した具象クラスです。クラスは1つ以上のインターフェースを持つこと
+も出来ます。例えば、 "Container" オブジェクト内でどのように動作するのか
+という事が記述された 'IItem' というインターフェースがあるとします。
+もし ``HelloConponent`` インスタンスに ``IHello`` と同じように、
+``IItem`` インターフェースを実装することを宣言するのであれば、
+'HelloComponent' クラスの宣言で以下のように、インターフェースオブジェクト
+を並べて記載します::
 
   class HelloComponent:
 
       implements(IHello, IItem)
 
 
-The Interface Model
-===================
+インターフェースモデル
+=======================
 
-Interfaces can extend other interfaces.  For example, let's extend
-the ``IHello`` interface by adding an additional method::
+インターフェースは他のインターフェースに拡張できます。例えば、
+``IHello`` インターフェースを拡張してメソッドを追加してみましょう::
 
   class ISmartHello(IHello):
       """A Hello object that remembers who it's greeted"""
@@ -206,21 +208,21 @@ the ``IHello`` interface by adding an additional method::
           """Returns the name of the last person greeted."""
 
 
-``ISmartHello`` extends the ``IHello`` interface.  It does this by
-using the same syntax a class would use to subclass another class.
+``ISmartHello`` は ``IHello`` インターフェースを拡張しています。
+これは、クラス構文が他のクラスを継承するのと同じ構文で実現できます。
 
-Now, you can ask the ``ISmartHello`` for a list of the interfaces it
-extends with ``getBases``::
+ここで、 ``ISmartHello`` に対して、自身が拡張しているインターフェース
+の一覧を ``getBases`` を使って問い合わせることが出来ます::
 
   >>> ISmartHello.getBases()
   (<InterfaceClass __main__.IHello>,)
 
-An interface can extend any number of other interfaces, and
-``getBases`` will return that list of interfaces for you.  If you
-want to know if ``ISmartHello`` extends any other interface, you
-could call ``getBases`` and search through the list, but a
-convenience method called ``extends`` is provided that returns true
-or false for this purpose::
+インターフェースは複数のインターフェースから拡張することが出来、
+``getBases`` はそれらのインターフェースの一覧を返すでしょう。
+``ISmartHello`` があるインターフェースを拡張しているかどうかを
+知りたい場合、 ``getBases`` を呼び出し、結果の一覧を検索して探す
+ことも出来ますが、 ``extends`` メソッドを呼び出せばより簡単に
+目的の結果を得られます::
 
   >>> ISmartHello.extends(IHello)
   True
@@ -229,67 +231,68 @@ or false for this purpose::
   >>> ISmartHello.extends(ISandwich)
   False
 
-Here you can see ``extends`` can be used to determine if one
-interface extends another.
+``extends`` を使って、あるインターフェースが他のあるインターフェース
+を拡張しているのかどうかを判断出来る事が分かりました。
 
-You may notice a similarity between interfaces extending from other
-interfaces and classes sub-classing from other classes.  This *is* a
-similar concept, but the two should not be considered equal.  There
-is no assumption that classes and interfaces exist in a one to one
-relationship; one class may implement several interfaces, and a class
-may not implement its base classes's interfaces.
+あなたはインターフェースが他のインターフェースを拡張することと、
+クラスが他のクラスをサブクラス化することとに類似性を見いだすでしょう。
+これらは同じコンセプトですが、この二つを同じと考えるべきではありません。
+クラスとインターフェースが１対１に対応づけられているという前提はありません。
+1つのクラスが複数のインターフェースを実装することもあるでしょうし、
+あるクラスは基底クラスのインターフェースを実装しないかもしれません。
 
-The distinction between a class and an interface should always be
-kept clear.  The purpose of a class is to share the implementation of
-how an object works.  The purpose of an interface is to document how
-to work *with* an object, not how the object is implemented.  It is
-possible to have several different classes with very different
-implementations realize the same interface.  Because of this,
-interfaces and classes should never be confused.
+クラスとインターフェースとの区別は常に明確に保たれるべきです。
+クラスの目的はオブジェクトがどのように動作するかについての実装を
+共有することです。インターフェースの目的はオブジェクト *と* どのように
+動作するのかを記載することであり、オブジェクトがどのように実装されるか
+を決めることではありません。これにより、同じインターフェースの実装
+として全く異なる実装を持ついくつものクラスを持てるようになります。
+このような違いがあるので、インターフェースとクラスを混同するべきでは
+ありません。
 
 
-Querying an Interface
-=====================
+インターフェース問い合わせ
+===========================
 
-Interfaces can be queried for information.  The simplest case is to
-ask an interface the names of all the various interface items it
-describes.  From the Python interpreter, for example, you can walk
-right up to an interface and ask it for its *names*::
+インターフェースは情報取得のための問い合わせの仕組みがあります。
+最もシンプルなケースとしては、インターフェースを構成している全ての
+要素名を問い合わせることがあります。例として Python インタープリタを
+使って以下のようにインターフェースが持っている *名前* を問い合わせます::
 
   >>> User.names()
   ['getUserName', 'getFavoriteColor', 'getPassword']
 
-Interfaces can also give you more interesting information about their
-items.  Interface objects can return a list of '(name, description)'
-tuples about their items by calling the *namesAndDescriptions*
-method.
+インターフェースは各要素についてさらに詳細な情報を取得する方法も
+提供しています。インターフェースオブジェクトは、 *namesAndDescriptions*
+メソッドを使うことで各要素についての '(name, description)' タプルの
+リストを返します。
 
-For example::
+例::
 
   >>> User.namesAndDescriptions()
   [('getUserName', <Interface.Method.Method object at 80f38f0>),
   ('getFavoriteColor', <Interface.Method.Method object at 80b24f0>),
   ('getPassword', <Interface.Method.Method object at 80fded8>)]
 
-As you can see, the "description" of the Interface's three items in
-these cases are all `Method` objects.  Description objects can be
-either 'Attribute' or `Method` objects.  Attributes, methods, and
-interface objects implement the following interface::
+この例ではインターフェースの3つの要素の "description" は全て `Method`
+オブジェクトです。 'Attribute' と `Method` のどちらも Description
+オブジェクトになることが出来ます。属性、メソッド、そしてインターフェース
+オブジェクトは以下のインターフェースを実装しています:
 
-- `getName()` -- Returns the name of the object.
+- `getName()` -- オブジェクトの名前を返します。
 
-- `getDoc()` -- Returns the documentation for the object.
+- `getDoc()` -- オブジェクトのドキュメントを返します。
 
-Method objects provide a way to describe rich meta-data about Python
-methods. Method objects have the following methods:
+メソッドオブジェクトは Python メソッドについてのより詳細なメタデータ
+を記述する仕組みを提供しており、以下のメソッドを持っています:
 
-- `getSignatureInfo()` -- Returns a dictionary describing the method
-  parameters.
+- `getSignatureInfo()` -- メソッドの引数についての定義を格納した辞書
+  を返します。
 
-- `getSignatureString()` -- Returns a human-readable string
-  representation of the method's signature.
+- `getSignatureString()` -- メソッドのシグネチャを人間が読める文字列で
+  返します。
 
-For example::
+例::
 
   >>> m = User.namesAndDescriptions()[0][1]
   >>> m
@@ -300,34 +303,40 @@ For example::
   {'varargs': None, 'kwargs': None, 'optional': {'fullName': 1}, 
   'required': (), 'positional': ('fullName',)}  
 
-You can use `getSignatureInfo` to find out the names and types of the
-method parameters.
+`getSignatureInfo` を使うことでメソッドの各引数の名前や型について
+知ることが出来ます。
 
 
-Checking Implementation
-=======================
+実装の確認
+===========
 
-You can ask an interface if a certain class or instance that you hand
-it implements that interface.  For example, say you want to know if
-instances of the `HelloComponent` class implement 'Hello'::
+クラスやインスタンスが、あるインターフェースを実装しているかどうかを、
+インターフェースに問い合わせることが出来ます。
+例えば、 `HelloCmponent` クラスが 'IHello' を実装しているかどうかは
+以下のように確認します::
 
   IHello.implementedBy(HelloComponent)
 
-This is a true expression.  If you had an instance of
-`HelloComponent`, you can also ask the interface if that instance
-implements the interface::
+これは真を返します。同様に `HelloComponent` のインスタンスについても、
+インターフェースに対して、インスタンスがそのインターフェースを実装
+しているかを以下のように確認します::
 
   IHello.implementedBy(my_hello_instance)
 
-This would also return true if *my_hello_instance* was an instance of
-*HelloComponent*, or any other class that implemented the *Hello*
-Interface.
+これにも、 *my_hello_instance* が *HelloComponent* のインスタンスならば
+真を返します。他に *IHello* インターフェースを実装しているクラスであれば
+真を返すでしょう。
 
-Conclusion
+まとめ
 ==========
 
-Interfaces provide a simple way to describe your Python objects.  By
-using interfaces you document capabilities of objects.  As Zope
-becomes more component oriented, your objects will fit right in.
-While components and interfaces are forward looking technologies,
-they are useful today for documentation and verification.
+インターフェースは、 Python オブジェクトの定義を記述するシンプルな
+方法を提供します。インターフェースを使って、オブジェクトが出来る事
+を記載してください。 Zope は今後もっとコンポーネント指向になっていき、
+そのとき、あなたのオブジェクトも、よりフィットしてくるでしょう。
+コンポーネントとインターフェースの技術が進み、ドキュメントと
+検証の機能が今日ではとても使えるものになっています。
+
+.. rubric:: (Translated by Shimizukawa, `r104989 <http://svn.zope.org/zope2docs/trunk/zdgbook/ComponentsAndInterfaces.rst?rev=104989&view=markup>`_, `original-site <http://docs.zope.org/zope2/zdgbook/ComponentsAndInterfaces.html>`_)
+  :class: translator
+
