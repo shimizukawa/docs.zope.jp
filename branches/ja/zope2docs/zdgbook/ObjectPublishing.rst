@@ -1,48 +1,49 @@
-#################
-Object Publishing
-#################
+############################
+オブジェクト パブリッシング
+############################
 
-Introduction
-============
+はじめに
+=========
 
-Zope puts your objects on the web. This is called *object
-publishing*. One of Zope's unique characteristics is the way it
-allows you to walk up to your objects and call methods on them with
-simple URLs.  In addition to HTTP, Zope makes your objects available
-to other network protocols including FTP, WebDAV and XML-RPC.
+Zope はオブジェクトをWeb上に置きます。これは *オブジェクト
+パブリッシング* と呼ばれています。 Zope のユニークな特徴として
+シンプルなURLへのアクセスでオブジェクトのメソッドを呼び出したり、
+オブジェクトの関連を辿ったりする仕組みがあります。
+HTTP にくわえ、 FTP, WebDAV, XML-RPC などのネットワークプロトコル
+で Zope はオブジェクトを扱うことが出来ます。
 
-
-In this chapter you'll find out exactly how Zope publishes
-objects. You'll learn all you need to know in order to design your
-objects for web publishing.
+本章では、 Zope がどのようにしてオブジェクトを発行するのかを
+学びます。また、 オブジェクトの Web 発行を行うために必要となる事を
+学びます。
 
  
-HTTP Publishing
-===============
+HTTP パブリッシング
+====================
 
-When you contact Zope with a web browser, your browser sends an HTTP
-request to Zope's web server. After the request is completely
-received, it is processed by 'ZPublisher', which is Zope's object
-publisher. 'ZPublisher' is a kind of light-weight ORB (Object Request
-Broker). It takes the request and locates an object to handle the
-request. The publisher uses the request URL as a map to locate the
-published object. Finding an object to handle the request is called
-*traversal*, since the publisher moves from object to object as it
-looks for the right one. Once the published object is found, the
-publisher calls a method on the published object, passing it
-parameters as necessary.  The publisher uses information in the
-request to determine which method to call, and what parameters to
-pass. The process of extracting parameters from the request is called
-*argument marshalling*. The published object then returns a response,
-which is passed back to Zope's web server. The web server, then
-passes the response back to your web browser.
+Web ブラウザと Zope が通信するとき、ブラウザは HTTP リクエストを
+Zope Web サーバーに送信します。このリクエストが正しく受信されると、
+リクエストは 'ZPublisher' という Zope のオブジェクトパブリッシング
+の仕組みによって処理されます。 'ZPublisher' とは軽量 ORB (オブジェクト
+リクエストブローカー) の一種です。
+これによってリクエストが扱うべきオブジェクトの位置が特定されます。
+パブリッシャーは要求されたURLでオブジェクトの位置に照らし合わせます。
+リクエストからオブジェクトを見つけ出すことを *トラバーサル*
+と言い、パブリッシャーはオブジェクトからオブジェクトを辿って
+目的のオブジェクトを見つけます。
+発行対象となるオブジェクトを見つけたら、パブリッシャーは対象オブジェクト
+のメソッドを呼び出し、その際に必要なパラメータを渡します。
+パブリッシャーはメソッドを呼び出す際のパラメータ等の情報をリクエストから
+取り出して渡します。リクエストからパラメータを取り出して分解する事を
+*引数マーシャリング* と言います。
+発行オブジェクトがレスポンスを返した場合、レスポンスは Zope Web サーバー
+に返されます。 Web サーバーはレスポンスを呼出元の Web ブラウザーに
+渡し返します。
 
-
-The publishing process is summarized in [2-1]
+発行の手順の概要を [2-1] のようにまとめました。
 
 .. figure:: Figures/2-1.png
 
-   2.1 Object publishing
+   2.1 オブジェクト パブリッシング
 
 
 Typically the published object is a persistent object that the
