@@ -81,6 +81,6 @@ SHA-1 や UNIX crypt などいくつかの異なる方法でエンコードす�
 注意して欲しい点として、 ZServer モニター機能を使用する場合は、
 crear text パスワードを使用する必要があるでしょう。
 
-.. rubric:: (Translated by Shimizukawa, `r105249 <http://svn.zope.org/Zope/tags/2.12.1/doc/SECURITY.rst?rev=105249&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/SECURITY.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r105416 <http://svn.zope.org/Zope/tags/2.12.1/doc/SECURITY.rst?rev=105416&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/SECURITY.html>`_)
   :class: translator
 

@@ -4,7 +4,7 @@ Changelog
 このファイルには現在の Zope リリースでの変更点を記載しています。
 これ以前の変更については HISTORY.txt を参照してください。
 
-Zope 2.12.1 (unreleased)
+Zope 2.12.1 (2009/11/02)
 ------------------------
 
 バグ修正
@@ -648,6 +648,6 @@ setuptools と Subversion 1.6 の非互換性の問題を含んでいます。
 - DocumentTemplate.DT_Var.newline_to_br(): Simpler, faster
   implementation.
 
-.. rubric:: (Translated by Shimizukawa, `r105249 <http://svn.zope.org/Zope/tags/2.12.1/doc/CHANGES.rst?rev=105249&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/CHANGES.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r105416 <http://svn.zope.org/Zope/tags/2.12.1/doc/CHANGES.rst?rev=105416&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/CHANGES.html>`_)
   :class: translator
 

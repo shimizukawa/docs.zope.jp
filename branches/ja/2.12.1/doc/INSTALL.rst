@@ -351,6 +351,6 @@ http://docs.zope.org/
 - このバージョンのZopeについての重要な情報が :doc:`CHANGES`
   にあります。参照してください。
 
-.. rubric:: (Translated by Shimizukawa, `r105249 <http://svn.zope.org/Zope/tags/2.12.1/doc/INSTALL.rst?rev=105249&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r105416 <http://svn.zope.org/Zope/tags/2.12.1/doc/INSTALL.rst?rev=105416&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
   :class: translator
 
