@@ -550,34 +550,65 @@ request 内に追加の親オブジェクトを設定することが出来ます
 との互換性のため ISO-8859-1 (Latin-1) となっています。
 デフォルトはそのうち UTF-8 などに変更されるでしょう。
 
+.. comment::
 
-HTTP Responses
-==============
+  HTTP Responses
+  ==============
 
-Normally the published method returns a string which is considered
-the body of the HTTP response. The response headers can be controlled
-by calling methods on the response object, which is described later
-in the chapter. Optionally, the published method can return a tuple
-with the title, and body of the response. In this case, the publisher
-returns an generated HTML page, with the first item of the tuple used
-for the HTML 'title' of the page, and the second item as the contents
-of the HTML 'body' tag. For example a response of::
+.. comment::
+
+  Normally the published method returns a string which is considered
+  the body of the HTTP response. The response headers can be controlled
+  by calling methods on the response object, which is described later
+  in the chapter. Optionally, the published method can return a tuple
+  with the title, and body of the response. In this case, the publisher
+  returns an generated HTML page, with the first item of the tuple used
+  for the HTML 'title' of the page, and the second item as the contents
+  of the HTML 'body' tag. For example a response of::
+  
+    ('response', 'the response')
+  
+  
+  is turned into this HTML page::
+  
+    <html>
+    <head><title>response</title></head>
+    <body>the response</body>
+    </html>
+
+通常であれば、発行メソッドは HTTP レスポンスの本文となることを想定した
+文字列を返します。レスポンスヘッダーはレスポンスを返すオブジェクトの
+メソッド呼び出しの中で操作されます (この操作については本章の後の方で
+説明します) 。他の返値として、発行メソッドはタイトルと本文となる
+文字列のタプルを返すことも出来ます。この場合、パブリッシャーは HTML
+ページを生成し、タプルの先頭を HTML の 'title' タグに設定し、次のタプル
+アイテムを HTML の 'body' タグに設定します。
+例として、以下のようなレスポンスを返すとします::
 
   ('response', 'the response')
 
-
-is turned into this HTML page::
+これが以下の HTML ページに変換されます::
 
   <html>
   <head><title>response</title></head>
   <body>the response</body>
   </html>
 
-Controlling Base HREF
-=====================
+.. comment::
 
-When you publish an object that returns HTML relative links should
-allow you to navigate between methods. Consider this example::
+  Controlling Base HREF
+  =====================
+
+ベース HREF の制御
+==================
+
+.. comment::
+
+  When you publish an object that returns HTML relative links should
+  allow you to navigate between methods. Consider this example::
+
+オブジェクトがメソッド間を行き来できるような相対リンクを含む HTML を
+返したとします。以下の例を見てください::
 
   class Example:
       "example"
@@ -604,11 +635,17 @@ allow you to navigate between methods. Consider this example::
                     </body>
                     </html>"""
 
+.. comment::
 
-However, the default method, 'index_html' presents a problem. Since
-you can access the 'index_html' method without specifying the method
-name in the URL, relative links returned by the 'index_html' method
-won't work right. For example::
+  However, the default method, 'index_html' presents a problem. Since
+  you can access the 'index_html' method without specifying the method
+  name in the URL, relative links returned by the 'index_html' method
+  won't work right. For example::
+
+ここで、デフォルトメソッド 'index_html' が問題となります。 'index_html'
+は URL に含んでいなくても呼び出されるメソッドですが、このとき 'index_html'
+が相対リンクを含むページを生成した場合、この相対リンクは意図したリンクに
+なりません。例えば::
 
             class Example:
                 "example"
@@ -625,19 +662,34 @@ won't work right. For example::
                               </html>"""
                  ...
 
-If you publish an instance of the 'Example' class with the URL
-'http://zope/example', then the relative link to method 'one' will be
-'http://zope/one', instead of the correct link,
-'http://zope/example/one'.
+.. comment::
 
+  If you publish an instance of the 'Example' class with the URL
+  'http://zope/example', then the relative link to method 'one' will be
+  'http://zope/one', instead of the correct link,
+  'http://zope/example/one'.
 
-Zope solves this problem for you by inserting a 'base' tag inside the
-'head' tag in the HTML output of 'index_html' method when it is
-accessed as the default method. You will probably never notice this,
-but if you see a mysterious 'base' tag in your HTML output, know you
-know where it came from. You can avoid this behavior by manually
-setting your own base with a 'base' tag in your 'index_html' method
-output.
+'Example' クラスのインスタンスを 'http://zope/example' という URL で発行
+した場合、 'one' メソッドへの相対リンクは 'http://zope/example/one' と
+なって欲しいところですが、 'http://zope/one' という意図しないリンクに
+なってしまいます。
+
+.. comment::
+
+  Zope solves this problem for you by inserting a 'base' tag inside the
+  'head' tag in the HTML output of 'index_html' method when it is
+  accessed as the default method. You will probably never notice this,
+  but if you see a mysterious 'base' tag in your HTML output, know you
+  know where it came from. You can avoid this behavior by manually
+  setting your own base with a 'base' tag in your 'index_html' method
+  output.
+
+Zope はこの問題を解決するために、 'index_html' メソッドがデフォルトメソッド
+として呼び出された場合に、 'base' タグを 'head' タグ内に挿入します。
+たいていの場合、このことに気づくことはないと思いますが、この不思議な
+'base' タグが HTML 出力煮含まれる理由については知っておいてください。
+この自動設定を行わないようにするためには、手動で 'index_html' メソッド
+の出力に 'base' タグを入れておく方法があります。
 
 
 Response Headers
