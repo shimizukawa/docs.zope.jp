@@ -453,9 +453,10 @@ request 内に追加の親オブジェクトを設定することが出来ます
     it. Later in the chapter you'll find out how the publisher figures
     out what arguments to pass when calling.
   
-- 発行可能なオブジェクトを呼び出します。もし、発行可能なオブジェクトが
+- 発行可能なオブジェクトの呼び出し -- もし、発行可能なオブジェクトが
   関数・メソッド・呼び出し可能オブジェクト、の何れかであれば、パブリッシャー
-  は呼び出しを行います。この章の後の方で、
+  は呼び出しを行います。この章の後の方で、パブリッシャーが呼び出し時に
+  引数をどのようにして渡すかを説明します。
 
 .. comment::
 
@@ -466,6 +467,14 @@ request 内に追加の親オブジェクトを設定することが出来ます
     the HTTP method. So for an HTTP 'HEAD' request, the publisher would
     call the 'HEAD' method on the published object.
   
+- デフォルトメソッドの呼び出し -- もし発行可能なオブジェクトが呼び出し
+  可能ではない場合、パブリッシャーはデフォルトメソッドを呼び出します。
+  HTTP の 'GET' と 'POST' の request の場合、デフォルトメソッドは
+  'index_html' です。他の HTTP request 、例えば 'PUT' の場合などは、
+  パブリッシャーはそのメソッド名のメソッドを探して呼び出し、
+  'HEAD' request の場合には発行可能なオブジェクトの 'HEAD' メソッドを
+  呼び出すでしょう。
+
 .. comment::
 
   - Stringifying the published object -- If the published object isn't
@@ -473,32 +482,74 @@ request 内に追加の親オブジェクトを設定することが出来ます
     publishes it using the Python 'str' function to turn it into a
     string.
 
+- 発行可能なオブジェクトの文字列への変換 -- もし発行可能なオブジェクト
+  が呼び出し可能でなく、デフォルトメソッドもｵmって以内場合、
+  パブリッシャーは Python の 'str' 関数を使ってオブジェクトを
+  文字列に変換します。
 
-After the response method has been determined and called, the
-publisher must interpret the results.
+.. comment::
 
-Character Encodings for Responses
-=================================
+  After the response method has been determined and called, the
+  publisher must interpret the results.
 
-If the published method returns an object of type 'string', a plain
-8-bit character string, the publisher will use it directly as the
-body of the response.
+呼び出されるメソッドが確定して呼び出された後、パブリッシャーは返値
+を解釈する必要があります。
 
-Things are different if the published method returns a unicode
-string, because the publisher has to apply some character
-encoding. The published method can choose which character encoding it
-uses by setting a 'Content-Type' response header which includes a
-'charset' property (setting response headers is explained later in
-this chapter). A common choice of character encoding is UTF-8. To
-cause the publisher to send unicode results as UTF-8 you need to set
-a 'Content-Type' header with the value 'text/html; charset=UTF-8'
+.. comment::
 
-If the 'Content-Type' header does not include a charser property (or
-if this header has not been set by the published method) then the
-publisher will choose a default character encoding. Today this
-default is ISO-8859-1 (also known as Latin-1) for compatability with
-old versions of Zope which did not include Unicode support. At some
-time in the future this default is likely to change to UTF-8.
+  Character Encodings for Responses
+  =================================
+
+レスポンスの文字エンコーディング
+================================
+
+.. comment::
+
+  If the published method returns an object of type 'string', a plain
+  8-bit character string, the publisher will use it directly as the
+  body of the response.
+
+もし、発行可能なオブジェクトが 'string' 型のオブジェクトか 8-bit 文字列
+を返してきた場合、パブリッシャーはこれをそのままレスポンスの本文に
+使用するでしょう。
+
+.. comment::
+
+  Things are different if the published method returns a unicode
+  string, because the publisher has to apply some character
+  encoding. The published method can choose which character encoding it
+  uses by setting a 'Content-Type' response header which includes a
+  'charset' property (setting response headers is explained later in
+  this chapter). A common choice of character encoding is UTF-8. To
+  cause the publisher to send unicode results as UTF-8 you need to set
+  a 'Content-Type' header with the value 'text/html; charset=UTF-8'
+
+あるいは発行メソッドが Unicode 文字列を返してきた場合、パブリッシャー
+は何らかの文字エンコーディングを適用します。発行メソッドはどの
+文字エンコーディングを使用するかを 'Content-Type' レスポンスヘッダー
+の 'charset' 属性で指定することが出来ます
+(レスポンスヘッダーの設定方法についてはこの章の後の方で説明します)。
+一般的には文字エンコーディングとして UTF-8 を選択します。
+パブリッシャーが Unicode の返値を UTF-8 に変換するように指定するには、
+'Content-Type' ヘッダーに 'text/html; charset=UTF-8' という値を
+設定してください。
+
+.. comment:;
+
+  If the 'Content-Type' header does not include a charser property (or
+  if this header has not been set by the published method) then the
+  publisher will choose a default character encoding. Today this
+  default is ISO-8859-1 (also known as Latin-1) for compatability with
+  old versions of Zope which did not include Unicode support. At some
+  time in the future this default is likely to change to UTF-8.
+
+もし 'Content-Type' ヘッダーに charset 属性が含まれていない
+(または発行メソッドでヘッダーが設定されなかった場合) には、パブリッシャー
+はデフォルトの文字エンコーディングを使用します。現在のところ、この
+デフォルトの文字エンコーディングは、 Unicode サポートの無い時代の古い Zope
+との互換性のため ISO-8859-1 (Latin-1) となっています。
+デフォルトはそのうち UTF-8 などに変更されるでしょう。
+
 
 HTTP Responses
 ==============
