@@ -2,23 +2,69 @@
 オブジェクト パブリッシング
 ############################
 
+.. comment::
+
+  #################
+  Object Publishing
+  #################
+  
+  Introduction
+  ============
+
 はじめに
 =========
 
-Zope はオブジェクトをWeb上に置きます。これは *オブジェクト
+.. comment::
+
+  Zope puts your objects on the web. This is called *object
+  publishing*. One of Zope's unique characteristics is the way it
+  allows you to walk up to your objects and call methods on them with
+  simple URLs.  In addition to HTTP, Zope makes your objects available
+  to other network protocols including FTP, WebDAV and XML-RPC.
+
+Zope はオブジェクトをWeb上に配置します。これは *オブジェクト
 パブリッシング* と呼ばれています。 Zope のユニークな特徴として
 シンプルなURLへのアクセスでオブジェクトのメソッドを呼び出したり、
 オブジェクトの関連を辿ったりする仕組みがあります。
 HTTP にくわえ、 FTP, WebDAV, XML-RPC などのネットワークプロトコル
 で Zope はオブジェクトを扱うことが出来ます。
 
+.. comment::
+  
+  In this chapter you'll find out exactly how Zope publishes
+  objects. You'll learn all you need to know in order to design your
+  objects for web publishing.
+
 本章では、 Zope がどのようにしてオブジェクトを発行するのかを
 学びます。また、 オブジェクトの Web 発行を行うために必要となる事を
 学びます。
 
+.. comment::
+   
+  HTTP Publishing
+  ===============
  
 HTTP パブリッシング
 ====================
+
+.. comment::
+  
+  When you contact Zope with a web browser, your browser sends an HTTP
+  request to Zope's web server. After the request is completely
+  received, it is processed by 'ZPublisher', which is Zope's object
+  publisher. 'ZPublisher' is a kind of light-weight ORB (Object Request
+  Broker). It takes the request and locates an object to handle the
+  request. The publisher uses the request URL as a map to locate the
+  published object. Finding an object to handle the request is called
+  *traversal*, since the publisher moves from object to object as it
+  looks for the right one. Once the published object is found, the
+  publisher calls a method on the published object, passing it
+  parameters as necessary.  The publisher uses information in the
+  request to determine which method to call, and what parameters to
+  pass. The process of extracting parameters from the request is called
+  *argument marshalling*. The published object then returns a response,
+  which is passed back to Zope's web server. The web server, then
+  passes the response back to your web browser.
 
 Web ブラウザと Zope が通信するとき、ブラウザは HTTP リクエストを
 Zope Web サーバーに送信します。このリクエストが正しく受信されると、
@@ -27,7 +73,7 @@ Zope Web サーバーに送信します。このリクエストが正しく受�
 リクエストブローカー) の一種です。
 これによってリクエストが扱うべきオブジェクトの位置が特定されます。
 パブリッシャーは要求されたURLでオブジェクトの位置に照らし合わせます。
-リクエストからオブジェクトを見つけ出すことを *トラバーサル*
+リクエストからオブジェクトを見つけ出すことを *探索(Traversal)*
 と言い、パブリッシャーはオブジェクトからオブジェクトを辿って
 目的のオブジェクトを見つけます。
 発行対象となるオブジェクトを見つけたら、パブリッシャーは対象オブジェクト
@@ -39,42 +85,86 @@ Zope Web サーバーに送信します。このリクエストが正しく受�
 に返されます。 Web サーバーはレスポンスを呼出元の Web ブラウザーに
 渡し返します。
 
+.. comment::
+
+  The publishing process is summarized in [2-1]
+  
+  .. figure:: Figures/2-1.png
+  
+     2.1 Object publishing
+
 発行の手順の概要を [2-1] のようにまとめました。
 
 .. figure:: Figures/2-1.png
 
    2.1 オブジェクト パブリッシング
 
+.. comment::
 
-Typically the published object is a persistent object that the
-published module loads from the ZODB.  See Chapter 4 for more
-information on the ZODB.
-
-
-This chapter will cover all the steps of object publishing in
-detail. To summarize, object publishing consists of the main steps:
-
-1. The client sends a request to the publisher
-
-2. The publisher locates the published object using the request
-   URL as a map.
-
-3. The publisher calls the published object with arguments from
-   the request.
-
-4. The publisher interprets and returns the results to the
-   client.
-
-The chapter will also cover all the technical details, special cases
-and extra-steps that this list glosses over.
+  Typically the published object is a persistent object that the
+  published module loads from the ZODB.  See Chapter 4 for more
+  information on the ZODB.
 
 
-URL Traversal
-=============
+主に、発行オブジェクトは永続オブジェクトで、発行モジュールが ZODB
+からロードします。 ZODB について詳しくは4章を参照してください。
 
-Traversal is the process the publisher uses to locate the published
-object. Typically the publisher locates the published object by
-walking along the URL. Take for example a collection of objects::
+.. comment::
+
+  This chapter will cover all the steps of object publishing in
+  detail. To summarize, object publishing consists of the main steps:
+
+本章ではオブジェクトパブリッシングの各ステップについて詳しく見て
+行きます。オブジェクトパブリッシングの主要なステップを要約すると
+以下のようになります。
+
+.. comment::
+
+  1. The client sends a request to the publisher
+  
+  2. The publisher locates the published object using the request
+     URL as a map.
+  
+  3. The publisher calls the published object with arguments from
+     the request.
+  
+  4. The publisher interprets and returns the results to the
+     client.
+  
+  The chapter will also cover all the technical details, special cases
+  and extra-steps that this list glosses over.
+
+
+1. クライアントがパブリッシャーにリクエストを送る
+
+2. パブリッシャーは発行オブジェクトの位置をURLから特定
+
+3. パブリッシャーが発行オブジェクトをリクエスト時の引数付きで
+   呼び出す
+
+4. パブリッシャーが結果を解釈し、クライアントに結果を返送
+
+本章では、技術の詳細、特別なケース、追加のステップなど、上記の一覧
+以上の点についても触れていきます。
+
+
+.. comment::
+
+  URL Traversal
+  =============
+
+URL 探索
+=========
+
+.. comment::
+
+  Traversal is the process the publisher uses to locate the published
+  object. Typically the publisher locates the published object by
+  walking along the URL. Take for example a collection of objects::
+
+探索は、パブリッシャーが発行オブジェクトの位置を特定する
+ための処理です。主に、パブリッシャーは URL に従って発行オブジェクト
+を辿って位置を特定します。以下の例を見てみましょう::
 
       class Classification:
           ...
@@ -92,113 +182,247 @@ walking along the URL. Take for example a collection of objects::
       vertebrates.mammals.dog=Animal(...)
       vertebrates.reptiles.lizard=Animal(...)
 
+.. comment::
 
-This collection of objects forms an object hierarchy. Using Zope you
-can publish objects with URLs. For example, the URL
-'http://zope/vertebrates/mammals/monkey/screech', will traverse the
-object hierarchy, find the 'monkey' object and call its 'screech'
-method.
+  This collection of objects forms an object hierarchy. Using Zope you
+  can publish objects with URLs. For example, the URL
+  'http://zope/vertebrates/mammals/monkey/screech', will traverse the
+  object hierarchy, find the 'monkey' object and call its 'screech'
+  method.
+
+このオブジェクトの集合はオブジェクトの階層構造を形成しています。
+Zope を使って URL によるオブジェクトの発行が出来ます。例えば URL が
+'http://zope/vertebrates/mammals/monkey/screech' の場合、オブジェクト
+階層の探索によって 'monkey' オブジェクトを見つけ、 'screech'
+メソッドを呼び出します。
+
+.. comment::
+
+  .. figure:: Figures/2-2.png
+  
+     2.2 Traversal path through an object hierarchy
 
 .. figure:: Figures/2-2.png
 
-   2.2 Traversal path through an object hierarchy
+   2.2 オブジェクト階層の探索
 
-The publisher starts from the root object and takes each step in the
-URL as a key to locate the next object. It moves to the next object
-and continues to move from object to object using the URL as a guide.
+.. comment::
 
-Typically the next object is a sub-object of the current object that
-is named by the path segment. So in the example above, when the
-publisher gets to the 'vertebrates' object, the next path segment is
-"mammals", and this tells the publisher to look for a sub-object of
-the current object with that name. Traversal stops when Zope comes to
-the end of the URL. If the final object is found, then it is
-published, otherwise an error is returned.
+  The publisher starts from the root object and takes each step in the
+  URL as a key to locate the next object. It moves to the next object
+  and continues to move from object to object using the URL as a guide.
 
+パブリッシャーはルートオブジェクトを起点として、 URL をキーとして
+オブジェクトを次々と辿っていきます。
 
-Now let's take a more rigorous look at traversal.
+.. comment::
 
-Traversal Interfaces
-====================
+  Typically the next object is a sub-object of the current object that
+  is named by the path segment. So in the example above, when the
+  publisher gets to the 'vertebrates' object, the next path segment is
+  "mammals", and this tells the publisher to look for a sub-object of
+  the current object with that name. Traversal stops when Zope comes to
+  the end of the URL. If the final object is found, then it is
+  published, otherwise an error is returned.
+  
+  Now let's take a more rigorous look at traversal.
 
-Zope defines interfaces for publishable objects, and publishable
-modules.
-
-
-When you are developing for Zope you almost always use the 'Zope'
-package as your published module. However, if you are using
-'ZPublisher' outside of Zope you'll be interested in the published
-module interface.
-
-
-Publishable Object Requirements
-===============================
-
-Zope has few restrictions on publishable objects. The basic rule is
-that the object must have a doc string. This requirement goes for
-method objects too.
-
-Another requirement is that a publishable object must not have a name
-that begin with an underscore. These two restrictions are designed to
-keep private objects from being published.
+主に次のオブジェクトは現在のオブジェクトのサブオブジェクトで、パス名
+の名前が付けられています。前述の例では、パブリッシャーは 'vertebrates'
+オブジェクトを取得し、次のパス名が "mammals" なので、パブリッシャーは
+この名前のサブオブジェクトが現在のオブジェクトに無いかを探します。
+探索のステップはURLの末端まで辿ったところで終わりになります。
+最終的なオブジェクトが見つかればそのオブジェクトが発行されます。
+見つからなければエラーが返されます。
 
 
-Finally, published objects cannot be Python module objects.
+それでは、もっと厳密に探索を見ていきましょう。
 
-Traversal Methods
-=================
+.. comment::
 
-During traversal, 'ZPublisher' cuts the URL into path elements
-delimited by slashes, and uses each path element to traverse from the
-current object to the next object. 'ZPublisher' locates the next
-object in one of three ways:
+  Traversal Interfaces
+  ====================
 
-1. Using '__bobo_traverse__'
+探索インターフェース
+=====================
 
-2. Using 'getattr'
+.. comment::
 
-3. Using dictionary access.
+  Zope defines interfaces for publishable objects, and publishable
+  modules.
+  
+  When you are developing for Zope you almost always use the 'Zope'
+  package as your published module. However, if you are using
+  'ZPublisher' outside of Zope you'll be interested in the published
+  module interface.
+  
+Zope は発行可能なオブジェクトとモジュールという意味を持つインターフェース
+を定義しています。
 
-First the publisher attempts to call the traversal hook method,
-'__bobo_traverse__'. If the current object has this method it is
-called with the request and the current path element. The method
-should return the next object or 'None' to indicate that a next
-object can't be found. You can also return a tuple of objects from
-'__bobo_traverse__' indicating a sequence of sub-objects. This allows
-you to add additional parent objects into the request. This is almost
-never necessary.
-
-
-Here's an example of how to use '__bobo_traverse__'::
-
-          def __bobo_traverse__(self, request, key):
-              # if there is a special cookie set, return special
-              # subobjects, otherwise return normal subobjects
-
-              if request.cookies.has_key('special'):
-                  # return a subobject from the special dict
-                  return self.special_subobjects.get(key, None)
-
-              # otherwise return a subobject from the normal dict
-              return self.normal_subobjects.get(key, None)
+Zopeのための開発をしているとき、たいていの場合において 'Zope' パッケージ
+を発行モジュールに使用するでしょう。もし 'ZPublisher' をZope 以外で
+使おうとするときには、発行モジュールのインターフェースに興味をもつ
+と思います。
 
 
-This example shows how you can examine the request during the
-traversal process.
+.. comment::
 
-If the current object does not define a '__bobo_traverse__'
-method, then the next object is searched for using 'getattr'.
-This locates sub-objects in the normal Python sense.
+  Publishable Object Requirements
+  ===============================
 
-If the next object can't be found with 'getattr', 'ZPublisher'
-calls on the current object as though it were a
-dictionary. Note: the path element will be a string, not an
-integer, so you cannot traverse sequences using index numbers
-in the URL.
+発行可能なオブジェクトの要件
+============================
 
-For example, suppose 'a' is the current object, and 'next' is
-the name of the path element. Here are the three things that
-'ZPublisher' will try in order to find the next object:
+.. comment::
+
+  Zope has few restrictions on publishable objects. The basic rule is
+  that the object must have a doc string. This requirement goes for
+  method objects too.
+
+Zope は発行可能なオブジェクトについて2,3の制限を持っています。
+基本ルールとして、そのオブジェクトには doc string が必須です。
+このはメソッドオブジェクトであっても同様です。
+
+.. comment::
+
+  Another requirement is that a publishable object must not have a name
+  that begin with an underscore. These two restrictions are designed to
+  keep private objects from being published.
+
+他の要件として、発行可能なオブジェクトの名前はアンダースコアで
+始まっていてはいけません。これらの2つの制限は、発行においてオブジェクト
+のプライベート状態を維持するための方式です。
+
+.. comment::
+
+  Finally, published objects cannot be Python module objects.
+
+最後に、発行オブジェクトはPythonモジュールオブジェクトにはなれません。
+
+.. comment::
+
+  Traversal Methods
+  =================
+
+探索メソッド
+============
+
+.. comment::
+
+  During traversal, 'ZPublisher' cuts the URL into path elements
+  delimited by slashes, and uses each path element to traverse from the
+  current object to the next object. 'ZPublisher' locates the next
+  object in one of three ways:
+  
+  1. Using '__bobo_traverse__'
+  
+  2. Using 'getattr'
+  
+  3. Using dictionary access.
+
+探索を行うとき、 'ZPublisher' はURLをスラッシュで分割して、パスエレメント
+という単位で現在のオブジェクトから次のオブジェクトへと探索していきます。
+'ZPublisher' は次のオブジェクトを見つける方法として以下の3つの方法を
+使います:
+
+1. '__bobo_traverse__' を使う
+
+2. 'getattr' を使う
+
+3. 辞書アクセスを使う
+
+
+.. comment::
+
+  First the publisher attempts to call the traversal hook method,
+  '__bobo_traverse__'. If the current object has this method it is
+  called with the request and the current path element. The method
+  should return the next object or 'None' to indicate that a next
+  object can't be found. You can also return a tuple of objects from
+  '__bobo_traverse__' indicating a sequence of sub-objects. This allows
+  you to add additional parent objects into the request. This is almost
+  never necessary.
+
+最初に、パブリッシャーは '__bobo_traverse__' という探索のための
+フックメソッド呼び出しを試みます。もし現在のオブジェクトがこのメソッド
+を持っていれば、 request と現在のパスエレメントを引数として呼び出します。
+メソッドは次のオブジェクトを返すか、次のオブジェクトが見つからない事を
+表す 'None' を返します。 '__bobo_traverse__' は次のオブジェクトとして
+複数のオブジェクトをタプル型で返すことも出来ます。これによって、
+request 内に追加の親オブジェクトを設定することが出来ますが、たいていの場合
+において追加の親を設定する必要はありません。
+
+
+.. comment::
+
+  Here's an example of how to use '__bobo_traverse__'::
+  
+            def __bobo_traverse__(self, request, key):
+                # if there is a special cookie set, return special
+                # subobjects, otherwise return normal subobjects
+  
+                if request.cookies.has_key('special'):
+                    # return a subobject from the special dict
+                    return self.special_subobjects.get(key, None)
+  
+                # otherwise return a subobject from the normal dict
+                return self.normal_subobjects.get(key, None)
+
+以下の例は '__bobo_traverse__' を使う例です::
+
+    def __bobo_traverse__(self, request, key):
+        # もしここで特別なcookie値があれば、それに見合ったオブジェクト
+        # を返しますが、そうでない場合は通常のオブジェクトを返します。
+
+        if request.cookies.has_key('special'):
+            # 特別な辞書からオブジェクトを返します
+            return self.special_subobjects.get(key, None)
+
+        # そうでなければ、通常の辞書からオブジェクトを返します
+        return self.normal_subobjects.get(key, None)
+
+
+.. comment::
+
+  This example shows how you can examine the request during the
+  traversal process.
+  
+この例は、探索処理中に request の内容によって処理を変えられることを
+表しています。
+
+.. comment::
+
+  If the current object does not define a '__bobo_traverse__'
+  method, then the next object is searched for using 'getattr'.
+  This locates sub-objects in the normal Python sense.
+
+
+もし、現在のオブジェクトが '__bobo_traverse__' メソッドを定義して
+いなければ、次の方法として 'getattr' で次のオブジェクトを探します。
+オブジェクトの属性を辿るのは普通に Python 的です。
+
+.. comment::
+  
+  If the next object can't be found with 'getattr', 'ZPublisher'
+  calls on the current object as though it were a
+  dictionary. Note: the path element will be a string, not an
+  integer, so you cannot traverse sequences using index numbers
+  in the URL.
+
+もし次のオブジェクトが 'getattr' で見つからなかった場合、 'ZPublisher'
+は現在のオブジェクトに辞書アクセスを試みます。注意: パスエレメントは
+数字ではなく文字列なので、 URL 中に数字を使用しても配列へのアクセスには
+なりません。
+
+.. comment::
+
+  For example, suppose 'a' is the current object, and 'next' is
+  the name of the path element. Here are the three things that
+  'ZPublisher' will try in order to find the next object:
+
+例えば現在のオブジェクトが 'a' だとして、次のパスエレメントが 'next' 
+だとします。ここで 'ZPublisher' は以下の3つの方法で次のオブジェクト
+を見つけようとします:
 
   1. 'a.__bobo_traverse__("next")'
 
@@ -206,29 +430,48 @@ the name of the path element. Here are the three things that
 
   3. 'a["next"]'
 
+.. comment::
 
-Publishing Methods        
-==================
+  Publishing Methods        
+  ==================
 
-Once the published object is located with traversal, Zope *publishes*
-it in one of three possible ways.
+パブリッシング メソッド
+========================
 
-- Calling the published object -- If the published object is a
-  function or method or other callable object, the publisher calls
-  it. Later in the chapter you'll find out how the publisher figures
-  out what arguments to pass when calling.
+.. comment::
 
-- Calling the default method -- If the published object is not
-  callable, the publisher uses the default method. For HTTP 'GET' and
-  'POST' requests the default method is 'index_html'. For other HTTP
-  requests such as 'PUT' the publisher looks for a method named by
-  the HTTP method. So for an HTTP 'HEAD' request, the publisher would
-  call the 'HEAD' method on the published object.
+  Once the published object is located with traversal, Zope *publishes*
+  it in one of three possible ways.
 
-- Stringifying the published object -- If the published object isn't
-  callable, and doesn't have a default method, the publisher
-  publishes it using the Python 'str' function to turn it into a
-  string.
+探索によって発行可能なオブジェクトが特定されると、 Zope は以下の3つの
+方法から可能な方法でオブジェクトを発行します。
+
+.. comment::
+
+  - Calling the published object -- If the published object is a
+    function or method or other callable object, the publisher calls
+    it. Later in the chapter you'll find out how the publisher figures
+    out what arguments to pass when calling.
+  
+- 発行可能なオブジェクトを呼び出します。もし、発行可能なオブジェクトが
+  関数・メソッド・呼び出し可能オブジェクト、の何れかであれば、パブリッシャー
+  は呼び出しを行います。この章の後の方で、
+
+.. comment::
+
+  - Calling the default method -- If the published object is not
+    callable, the publisher uses the default method. For HTTP 'GET' and
+    'POST' requests the default method is 'index_html'. For other HTTP
+    requests such as 'PUT' the publisher looks for a method named by
+    the HTTP method. So for an HTTP 'HEAD' request, the publisher would
+    call the 'HEAD' method on the published object.
+  
+.. comment::
+
+  - Stringifying the published object -- If the published object isn't
+    callable, and doesn't have a default method, the publisher
+    publishes it using the Python 'str' function to turn it into a
+    string.
 
 
 After the response method has been determined and called, the
