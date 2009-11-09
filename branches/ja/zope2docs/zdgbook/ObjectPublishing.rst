@@ -645,35 +645,64 @@ Zope はこの問題を解決するために、 'index_html' メソッドがデ�
 この自動設定を行わないようにするためには、手動で 'index_html' メソッド
 の出力に 'base' タグを入れておく方法があります。
 
+..
+  Response Headers
+  ----------------
 
-Response Headers
-----------------
-
-The publisher and the web server take care of setting response
-headers such as 'Content-Length' and 'Content-Type'. Later in
-the chapter you'll find out how to control these headers.
-Later you'll also find out how exceptions are used to set the
-HTTP response code.
-
-Pre-Traversal Hook
+レスポンスヘッダー
 ------------------
 
-The pre-traversal hook allows your objects to take special action
-before they are traversed. This is useful for doing things like
-changing the request. Applications of this include special
-authentication controls, and virtual hosting support.
+..
+  The publisher and the web server take care of setting response
+  headers such as 'Content-Length' and 'Content-Type'. Later in
+  the chapter you'll find out how to control these headers.
+  Later you'll also find out how exceptions are used to set the
+  HTTP response code.
 
-If your object has a method named '__before_publishing_traverse__',
-the publisher will call it with the current object and the request,
-before traversing your object. Most often your method will change the
-request. The publisher ignores anything you return from the
-pre-traversal hook method.
+パブリッシャーと Web サーバーは 'Content-Length' や 'Content-Type'
+などのレスポンスヘッダーを設定します。本章の後の方でこれらのヘッダー
+の設定方法を説明します。また、どのような例外でどんな HTTP レスポンス
+コードが設定されるのかも説明します。
 
-The 'ZPublisher.BeforeTraverse' module contains some functions that
-help you register pre-traversal callbacks. This allows you to perform
-fairly complex callbacks to multiple objects when a given object is
-about to be traversed.
+..
+  Pre-Traversal Hook
+  ------------------
 
+探索前フック
+------------
+
+..
+  The pre-traversal hook allows your objects to take special action
+  before they are traversed. This is useful for doing things like
+  changing the request. Applications of this include special
+  authentication controls, and virtual hosting support.
+
+探索前フックによって、探索処理が行われる前にオブジェクトに特別な操作を
+行うことが出来ます。これは request の内容を変更するなどの使い方が出来ます。
+このような機能の例として、認証制御や、バーチャルホスティングサポート
+などがあります。
+
+..
+  If your object has a method named '__before_publishing_traverse__',
+  the publisher will call it with the current object and the request,
+  before traversing your object. Most often your method will change the
+  request. The publisher ignores anything you return from the
+  pre-traversal hook method.
+
+もしオブジェクトに '__before_publishing_traverse__' メソッドがあれば、
+パブリッシャーは探索処理の前に、このメソッドを現在のオブジェクトと
+リクエストを引数として呼び出します。
+
+..
+  The 'ZPublisher.BeforeTraverse' module contains some functions that
+  help you register pre-traversal callbacks. This allows you to perform
+  fairly complex callbacks to multiple objects when a given object is
+  about to be traversed.
+
+'ZPublisher.BeforeTraverse' モジュールは、探索前コールバック登録のための
+ヘルプ関数を多く持っています。これを使うことで、オブジェクトが探索処理
+されようとしているときに、複数のオブジェクトに対する複雑なコールバックの
+処理を行うことが出来るようになります。
 
 Traversal and Acquisition
 -------------------------
