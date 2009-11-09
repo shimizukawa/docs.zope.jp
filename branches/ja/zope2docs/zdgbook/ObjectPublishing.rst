@@ -2,8 +2,7 @@
 オブジェクト パブリッシング
 ############################
 
-.. comment::
-
+..
   #################
   Object Publishing
   #################
@@ -14,8 +13,7 @@
 はじめに
 =========
 
-.. comment::
-
+..
   Zope puts your objects on the web. This is called *object
   publishing*. One of Zope's unique characteristics is the way it
   allows you to walk up to your objects and call methods on them with
@@ -29,8 +27,7 @@ Zope はオブジェクトをWeb上に配置します。これは *オブジェ�
 HTTP にくわえ、 FTP, WebDAV, XML-RPC などのネットワークプロトコル
 で Zope はオブジェクトを扱うことが出来ます。
 
-.. comment::
-  
+..
   In this chapter you'll find out exactly how Zope publishes
   objects. You'll learn all you need to know in order to design your
   objects for web publishing.
@@ -39,16 +36,14 @@ HTTP にくわえ、 FTP, WebDAV, XML-RPC などのネットワークプロト�
 学びます。また、 オブジェクトの Web 発行を行うために必要となる事を
 学びます。
 
-.. comment::
-   
+..
   HTTP Publishing
   ===============
  
 HTTP パブリッシング
 ====================
 
-.. comment::
-  
+..
   When you contact Zope with a web browser, your browser sends an HTTP
   request to Zope's web server. After the request is completely
   received, it is processed by 'ZPublisher', which is Zope's object
@@ -85,8 +80,7 @@ Zope Web サーバーに送信します。このリクエストが正しく受�
 に返されます。 Web サーバーはレスポンスを呼出元の Web ブラウザーに
 渡し返します。
 
-.. comment::
-
+..
   The publishing process is summarized in [2-1]
   
   .. figure:: Figures/2-1.png
@@ -99,8 +93,7 @@ Zope Web サーバーに送信します。このリクエストが正しく受�
 
    2.1 オブジェクト パブリッシング
 
-.. comment::
-
+..
   Typically the published object is a persistent object that the
   published module loads from the ZODB.  See Chapter 4 for more
   information on the ZODB.
@@ -109,8 +102,7 @@ Zope Web サーバーに送信します。このリクエストが正しく受�
 主に、発行オブジェクトは永続オブジェクトで、発行モジュールが ZODB
 からロードします。 ZODB について詳しくは4章を参照してください。
 
-.. comment::
-
+..
   This chapter will cover all the steps of object publishing in
   detail. To summarize, object publishing consists of the main steps:
 
@@ -118,8 +110,7 @@ Zope Web サーバーに送信します。このリクエストが正しく受�
 行きます。オブジェクトパブリッシングの主要なステップを要約すると
 以下のようになります。
 
-.. comment::
-
+..
   1. The client sends a request to the publisher
   
   2. The publisher locates the published object using the request
@@ -148,16 +139,14 @@ Zope Web サーバーに送信します。このリクエストが正しく受�
 以上の点についても触れていきます。
 
 
-.. comment::
-
+..
   URL Traversal
   =============
 
 URL 探索
 =========
 
-.. comment::
-
+..
   Traversal is the process the publisher uses to locate the published
   object. Typically the publisher locates the published object by
   walking along the URL. Take for example a collection of objects::
@@ -182,8 +171,7 @@ URL 探索
       vertebrates.mammals.dog=Animal(...)
       vertebrates.reptiles.lizard=Animal(...)
 
-.. comment::
-
+..
   This collection of objects forms an object hierarchy. Using Zope you
   can publish objects with URLs. For example, the URL
   'http://zope/vertebrates/mammals/monkey/screech', will traverse the
@@ -196,8 +184,7 @@ Zope を使って URL によるオブジェクトの発行が出来ます。例�
 階層の探索によって 'monkey' オブジェクトを見つけ、 'screech'
 メソッドを呼び出します。
 
-.. comment::
-
+..
   .. figure:: Figures/2-2.png
   
      2.2 Traversal path through an object hierarchy
@@ -206,8 +193,7 @@ Zope を使って URL によるオブジェクトの発行が出来ます。例�
 
    2.2 オブジェクト階層の探索
 
-.. comment::
-
+..
   The publisher starts from the root object and takes each step in the
   URL as a key to locate the next object. It moves to the next object
   and continues to move from object to object using the URL as a guide.
@@ -215,8 +201,7 @@ Zope を使って URL によるオブジェクトの発行が出来ます。例�
 パブリッシャーはルートオブジェクトを起点として、 URL をキーとして
 オブジェクトを次々と辿っていきます。
 
-.. comment::
-
+..
   Typically the next object is a sub-object of the current object that
   is named by the path segment. So in the example above, when the
   publisher gets to the 'vertebrates' object, the next path segment is
@@ -238,16 +223,14 @@ Zope を使って URL によるオブジェクトの発行が出来ます。例�
 
 それでは、もっと厳密に探索を見ていきましょう。
 
-.. comment::
-
+..
   Traversal Interfaces
   ====================
 
 探索インターフェース
 =====================
 
-.. comment::
-
+..
   Zope defines interfaces for publishable objects, and publishable
   modules.
   
@@ -265,16 +248,14 @@ Zopeのための開発をしているとき、たいていの場合において 
 と思います。
 
 
-.. comment::
-
+..
   Publishable Object Requirements
   ===============================
 
 発行可能なオブジェクトの要件
 ============================
 
-.. comment::
-
+..
   Zope has few restrictions on publishable objects. The basic rule is
   that the object must have a doc string. This requirement goes for
   method objects too.
@@ -283,8 +264,7 @@ Zope は発行可能なオブジェクトについて2,3の制限を持ってい
 基本ルールとして、そのオブジェクトには doc string が必須です。
 このはメソッドオブジェクトであっても同様です。
 
-.. comment::
-
+..
   Another requirement is that a publishable object must not have a name
   that begin with an underscore. These two restrictions are designed to
   keep private objects from being published.
@@ -293,22 +273,19 @@ Zope は発行可能なオブジェクトについて2,3の制限を持ってい
 始まっていてはいけません。これらの2つの制限は、発行においてオブジェクト
 のプライベート状態を維持するための方式です。
 
-.. comment::
-
+..
   Finally, published objects cannot be Python module objects.
 
 最後に、発行オブジェクトはPythonモジュールオブジェクトにはなれません。
 
-.. comment::
-
+..
   Traversal Methods
   =================
 
 探索メソッド
 ============
 
-.. comment::
-
+..
   During traversal, 'ZPublisher' cuts the URL into path elements
   delimited by slashes, and uses each path element to traverse from the
   current object to the next object. 'ZPublisher' locates the next
@@ -332,8 +309,7 @@ Zope は発行可能なオブジェクトについて2,3の制限を持ってい
 3. 辞書アクセスを使う
 
 
-.. comment::
-
+..
   First the publisher attempts to call the traversal hook method,
   '__bobo_traverse__'. If the current object has this method it is
   called with the request and the current path element. The method
@@ -353,8 +329,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
 において追加の親を設定する必要はありません。
 
 
-.. comment::
-
+..
   Here's an example of how to use '__bobo_traverse__'::
   
             def __bobo_traverse__(self, request, key):
@@ -382,16 +357,14 @@ request 内に追加の親オブジェクトを設定することが出来ます
         return self.normal_subobjects.get(key, None)
 
 
-.. comment::
-
+..
   This example shows how you can examine the request during the
   traversal process.
   
 この例は、探索処理中に request の内容によって処理を変えられることを
 表しています。
 
-.. comment::
-
+..
   If the current object does not define a '__bobo_traverse__'
   method, then the next object is searched for using 'getattr'.
   This locates sub-objects in the normal Python sense.
@@ -401,8 +374,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
 いなければ、次の方法として 'getattr' で次のオブジェクトを探します。
 オブジェクトの属性を辿るのは普通に Python 的です。
 
-.. comment::
-  
+..
   If the next object can't be found with 'getattr', 'ZPublisher'
   calls on the current object as though it were a
   dictionary. Note: the path element will be a string, not an
@@ -414,8 +386,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
 数字ではなく文字列なので、 URL 中に数字を使用しても配列へのアクセスには
 なりません。
 
-.. comment::
-
+..
   For example, suppose 'a' is the current object, and 'next' is
   the name of the path element. Here are the three things that
   'ZPublisher' will try in order to find the next object:
@@ -430,24 +401,21 @@ request 内に追加の親オブジェクトを設定することが出来ます
 
   3. 'a["next"]'
 
-.. comment::
-
+..
   Publishing Methods        
   ==================
 
 パブリッシング メソッド
 ========================
 
-.. comment::
-
+..
   Once the published object is located with traversal, Zope *publishes*
   it in one of three possible ways.
 
 探索によって発行可能なオブジェクトが特定されると、 Zope は以下の3つの
 方法から可能な方法でオブジェクトを発行します。
 
-.. comment::
-
+..
   - Calling the published object -- If the published object is a
     function or method or other callable object, the publisher calls
     it. Later in the chapter you'll find out how the publisher figures
@@ -458,8 +426,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
   は呼び出しを行います。この章の後の方で、パブリッシャーが呼び出し時に
   引数をどのようにして渡すかを説明します。
 
-.. comment::
-
+..
   - Calling the default method -- If the published object is not
     callable, the publisher uses the default method. For HTTP 'GET' and
     'POST' requests the default method is 'index_html'. For other HTTP
@@ -475,8 +442,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
   'HEAD' request の場合には発行可能なオブジェクトの 'HEAD' メソッドを
   呼び出すでしょう。
 
-.. comment::
-
+..
   - Stringifying the published object -- If the published object isn't
     callable, and doesn't have a default method, the publisher
     publishes it using the Python 'str' function to turn it into a
@@ -487,24 +453,21 @@ request 内に追加の親オブジェクトを設定することが出来ます
   パブリッシャーは Python の 'str' 関数を使ってオブジェクトを
   文字列に変換します。
 
-.. comment::
-
+..
   After the response method has been determined and called, the
   publisher must interpret the results.
 
 呼び出されるメソッドが確定して呼び出された後、パブリッシャーは返値
 を解釈する必要があります。
 
-.. comment::
-
+..
   Character Encodings for Responses
   =================================
 
 レスポンスの文字エンコーディング
 ================================
 
-.. comment::
-
+..
   If the published method returns an object of type 'string', a plain
   8-bit character string, the publisher will use it directly as the
   body of the response.
@@ -513,8 +476,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
 を返してきた場合、パブリッシャーはこれをそのままレスポンスの本文に
 使用するでしょう。
 
-.. comment::
-
+..
   Things are different if the published method returns a unicode
   string, because the publisher has to apply some character
   encoding. The published method can choose which character encoding it
@@ -534,8 +496,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
 'Content-Type' ヘッダーに 'text/html; charset=UTF-8' という値を
 設定してください。
 
-.. comment:;
-
+..
   If the 'Content-Type' header does not include a charser property (or
   if this header has not been set by the published method) then the
   publisher will choose a default character encoding. Today this
@@ -550,13 +511,11 @@ request 内に追加の親オブジェクトを設定することが出来ます
 との互換性のため ISO-8859-1 (Latin-1) となっています。
 デフォルトはそのうち UTF-8 などに変更されるでしょう。
 
-.. comment::
-
+..
   HTTP Responses
   ==============
 
-.. comment::
-
+..
   Normally the published method returns a string which is considered
   the body of the HTTP response. The response headers can be controlled
   by calling methods on the response object, which is described later
@@ -594,16 +553,14 @@ request 内に追加の親オブジェクトを設定することが出来ます
   <body>the response</body>
   </html>
 
-.. comment::
-
+..
   Controlling Base HREF
   =====================
 
 ベース HREF の制御
 ==================
 
-.. comment::
-
+..
   When you publish an object that returns HTML relative links should
   allow you to navigate between methods. Consider this example::
 
@@ -635,8 +592,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
                     </body>
                     </html>"""
 
-.. comment::
-
+..
   However, the default method, 'index_html' presents a problem. Since
   you can access the 'index_html' method without specifying the method
   name in the URL, relative links returned by the 'index_html' method
@@ -662,8 +618,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
                               </html>"""
                  ...
 
-.. comment::
-
+..
   If you publish an instance of the 'Example' class with the URL
   'http://zope/example', then the relative link to method 'one' will be
   'http://zope/one', instead of the correct link,
@@ -674,8 +629,7 @@ request 内に追加の親オブジェクトを設定することが出来ます
 なって欲しいところですが、 'http://zope/one' という意図しないリンクに
 なってしまいます。
 
-.. comment::
-
+..
   Zope solves this problem for you by inserting a 'base' tag inside the
   'head' tag in the HTML output of 'index_html' method when it is
   accessed as the default method. You will probably never notice this,
