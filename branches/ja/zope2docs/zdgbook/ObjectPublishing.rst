@@ -704,18 +704,32 @@ Zope はこの問題を解決するために、 'index_html' メソッドがデ�
 されようとしているときに、複数のオブジェクトに対する複雑なコールバックの
 処理を行うことが出来るようになります。
 
-Traversal and Acquisition
--------------------------
+..
+  Traversal and Acquisition
+  -------------------------
 
-Acquisition affects traversal in several ways. See Chapter 5,
-"Acquisition" for more information on acquisition. The most obvious
-way in which acquisition affects traversal is in locating the next
-object in a path. As we discussed earlier, the next object during
-traversal is often found using 'getattr'. Since acquisition affects
-'getattr', it will affect traversal. The upshot is that when you are
-traversing objects that support implicit acquisition, you can use
-traversal to walk over acquired objects. Consider the object
-hierarchy rooted in 'fruit'::
+探索と獲得
+-----------
+
+..
+  Acquisition affects traversal in several ways. See Chapter 5,
+  "Acquisition" for more information on acquisition. The most obvious
+  way in which acquisition affects traversal is in locating the next
+  object in a path. As we discussed earlier, the next object during
+  traversal is often found using 'getattr'. Since acquisition affects
+  'getattr', it will affect traversal. The upshot is that when you are
+  traversing objects that support implicit acquisition, you can use
+  traversal to walk over acquired objects. Consider the object
+  hierarchy rooted in 'fruit'::
+
+獲得は探索にいくつかの影響を及ぼします。"獲得" については5章で詳しく
+説明します。獲得が探索に及ぼす最も明確な影響は、パスから次のオブジェクト
+を取り出す際に発生します。これまで説明してきたように、探索処理において
+次のオブジェクトの決定にしばしば 'getattr' が使用されますが、獲得は
+'getattr' に影響するため、探索にも影響することになります。結果として、
+暗黙の獲得が発生すると、探索の続きが獲得されたオブジェクトで行われる
+事になります。例として、オブジェクト階層のルートが 'fruit'_ である
+階層構造があるとします::
 
         from Acquisition import Implicit
 
@@ -728,23 +742,42 @@ hierarchy rooted in 'fruit'::
         fruit.apple.strawberry=Node()
         fruit.orange.banana=Node()
 
-When publishing these objects, acquisition can come into play. For
-example, consider the URL */fruit/apple/orange*. The publisher would
-traverse from 'fruit', to 'apple', and then using acquisition, it
-would traverse to 'orange'.
+..
+  When publishing these objects, acquisition can come into play. For
+  example, consider the URL */fruit/apple/orange*. The publisher would
+  traverse from 'fruit', to 'apple', and then using acquisition, it
+  would traverse to 'orange'.
 
-Mixing acquisition and traversal can get complex. Consider the URL
-*/fruit/apple/orange/strawberry/banana*. This URL is functional but
-confusing. Here's an even more perverse but legal URL
-*/fruit/apple/orange/orange/apple/apple/banana*.
+これらのオブジェクトが発行されるときに獲得機能が働きます。例えば、
+URL */fruit/apple/orange* の探索処理を見てみましょう。パブリッシャー
+は 'fruit', 'apple' と辿って、次に獲得機能を使って 'orange' に到達
+します。
 
+..
+  Mixing acquisition and traversal can get complex. Consider the URL
+  */fruit/apple/orange/strawberry/banana*. This URL is functional but
+  confusing. Here's an even more perverse but legal URL
+  */fruit/apple/orange/orange/apple/apple/banana*.
 
-In general you should limit yourself to constructing URLs which use
-acquisition to acquire along containment, rather than context
-lines. It's reasonable to publish an object or method that you
-acquire from your container, but it's probably a bad idea to publish
-an object or method that your acquire from outside your
-container. For example::
+獲得と探索が混在する処理は複雑な結果をもたらします。 URL が
+*/fruit/apple/orange/strawberry/banana* の場合、この URL はただしく
+オブジェクトにたどり着きますが、なぜ正しく動作するのかすぐには理解
+出来ません。さらに納得しづらいけど正しい URL の例として
+*/fruit/apple/orange/orange/apple/apple/banana* などもあります。
+
+..
+  In general you should limit yourself to constructing URLs which use
+  acquisition to acquire along containment, rather than context
+  lines. It's reasonable to publish an object or method that you
+  acquire from your container, but it's probably a bad idea to publish
+  an object or method that your acquire from outside your
+  container. For example::
+
+一般的に、獲得の仕組みに沿った URL の構築を人間が行うことは、文脈
+に沿った URL の構築に比べて限界があります。獲得によってオブジェクトや
+メソッドを発行するのは手軽ではありますが、コンテナの外からオブジェクト
+やメソッドを獲得して発行するのは、良いアイディアとは言えません。
+例えば::
 
         from Acquisition import Implicit
 
@@ -768,36 +801,66 @@ container. For example::
          basket.apple=Fruit()
          basket.carrot=Vegetable()
 
-The URL */basket/apple/numberOfItems* uses acquisition along
-containment lines to publish the 'numberOfItems' method (assuming
-that 'apple' doesn't have a 'numberOfItems' attribute). However, the
-URL */basket/carrot/apple/texture* uses acquisition to locate the
-'texture' method from the 'apple' object's context, rather than from
-its container. While this distinction may be obscure, the guiding
-idea is to keep URLs as simple as possible. By keeping acquisition
-simple and along containment lines your application increases in
-clarity, and decreases in fragility.
+..
+  The URL */basket/apple/numberOfItems* uses acquisition along
+  containment lines to publish the 'numberOfItems' method (assuming
+  that 'apple' doesn't have a 'numberOfItems' attribute). However, the
+  URL */basket/carrot/apple/texture* uses acquisition to locate the
+  'texture' method from the 'apple' object's context, rather than from
+  its container. While this distinction may be obscure, the guiding
+  idea is to keep URLs as simple as possible. By keeping acquisition
+  simple and along containment lines your application increases in
+  clarity, and decreases in fragility.
 
+URL */basket/apple/numberOfItems* はコンテナに沿って獲得が働き、
+'numberOfItems' メソッドが発行されます ('apple' は 'numberOfItems'
+属性を持っていないと言うのに！) 。また、 URL */basket/carrot/apple/texture*
+も獲得が働き、コンテナからではなく 'apple' オブジェクトから 'texture'
+メソッドに辿り着きます。この区別はわかりにくく、 URL は可能な限り
+シンプルに保つようにするべきでしょう。獲得をシンプルに保ち、コンテナ
+に沿ってのみ行われるようにすることで、アプリケーションはより明瞭になり、
+脆弱性は減少します。
 
-A second usage of acquisition in traversal concerns the request. The
-publisher tries to make the request available to the published object
-via acquisition. It does this by wrapping the first object in an
-acquisition wrapper that allows it to acquire the request with the
-name 'REQUEST'. This means that you can normally acquire the request
-in the published object like so::
+..
+  A second usage of acquisition in traversal concerns the request. The
+  publisher tries to make the request available to the published object
+  via acquisition. It does this by wrapping the first object in an
+  acquisition wrapper that allows it to acquire the request with the
+  name 'REQUEST'. This means that you can normally acquire the request
+  in the published object like so::
+
+探索中の獲得に関するの2つめの利用例は、 request に関するものです。
+パブリッシャーは発行可能なオブジェクトから request オブジェクトを
+取得する際に獲得を用います。これは最初のオブジェクトが獲得ラッパー
+にくるまれていて、 'REQUEST' という名前へのアクセス時に request 
+オブジェクトを獲得して返す仕組みによって行われています。
+つまり、通常であれば以下のようにして発行可能なオブジェクトから
+request オブジェクトを取得できます::
 
         request=self.REQUEST # for implicit acquirers
 
-or like so::
+..
+  or like so::
+
+あるいは以下のようにします::
 
         request=self.aq_acquire('REQUEST') # for explicit acquirers
 
-Of course, this will not work if your objects do not support
-acquisition, or if any traversed objects have an attribute named
-'REQUEST'.
+..
+  Of course, this will not work if your objects do not support
+  acquisition, or if any traversed objects have an attribute named
+  'REQUEST'.
 
-Finally, acquisition has a totally different role in object
-publishing related to security which we'll examine next.
+もちろん、オブジェクトが獲得をサポートしていなければ、あるいは
+探索したどこかのオブジェクトに 'REQUEST' 属性を見つけなければ、
+この記述は機能しません。
+
+..
+  Finally, acquisition has a totally different role in object
+  publishing related to security which we'll examine next.
+
+最後に、獲得にはオブジェクトパブリッシングとは全く異なる役割があります。
+次の節ではこの役割、セキュリティーついて説明します。
 
 Traversal and Security
 ----------------------
