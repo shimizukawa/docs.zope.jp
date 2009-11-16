@@ -862,92 +862,191 @@ request オブジェクトを取得できます::
 最後に、獲得にはオブジェクトパブリッシングとは全く異なる役割があります。
 次の節ではこの役割、セキュリティーついて説明します。
 
-Traversal and Security
-----------------------
+..
+  Traversal and Security
+  ----------------------
 
-As the publisher moves from object to object during traversal it
-makes security checks. The current user must be authorized to access
-each object along the traversal path. The publisher controls access
-in a number of ways. For more information about Zope security, see
-Chapter 6, "Security".
+探索とセキュリティー
+--------------------
 
-Basic Publisher Security
-------------------------
+..
+  As the publisher moves from object to object during traversal it
+  makes security checks. The current user must be authorized to access
+  each object along the traversal path. The publisher controls access
+  in a number of ways. For more information about Zope security, see
+  Chapter 6, "Security".
 
-The publisher imposes a few basic restrictions on traversable
-objects. These restrictions are the same of those for publishable
-objects. As previously stated, publishable objects must have doc
-strings and must not have names beginning with underscore.
+パブリッシャーがオブジェクトからオブジェクトへの探索を進めているとき、
+同時にセキュリティーチェックが行われます。現在のユーザーは探索パス
+のうちの全てのオブジェクトについてアクセス許可されている必要があります。
+パブリッシャーはいくつかの方法でアクセスを制御します。
+セキュリティーについて詳しくは 6章 "セキュリティー" を参照してください。
 
-The following details are not important if you are using the Zope
-framework. However, if your are publishing your own modules, the rest
-of this section will be helpful.
+..
+  Basic Publisher Security
+  ------------------------
 
-The publisher checks authorization by examining the '__roles__'
-attribute of each object as it performs traversal. If present, the
-'__roles__' attribute should be 'None' or a list of role names. If it
-is None, the object is considered public. Otherwise the access to the
-object requires validation.
+基本的なパブリッシャーセキュリティー
+------------------------------------
 
-Some objects such as functions and methods do not support creating
-attributes (at least they didn't before Python 2). Consequently, if
-the object has no '__roles__' attribute, the publisher will look for
-an attribute on the object's parent with the name of the object
-followed by '__roles__'. For example, a function named 'getInfo'
-would store its roles in its parent's 'getInfo__roles__' attribute.
+..
+  The publisher imposes a few basic restrictions on traversable
+  objects. These restrictions are the same of those for publishable
+  objects. As previously stated, publishable objects must have doc
+  strings and must not have names beginning with underscore.
 
-If an object has a '__roles__' attribute that is not empty and not
-'None', the publisher tries to find a user database to authenticate
-the user. It searches for user databases by looking for an
-'__allow_groups__' attribute, first in the published object, then in
-the previously traversed object, and so on until a user database is
-found.
+パブリッシャーは探索可能なオブジェクトにいくつかの基本的な制限を課します。
+これらの制限の内容は発行可能なオブジェクトに対してのものと同じです。
+前に説明したように、発行可能なオブジェクトはかならず doc string を
+持っている必要があり、名前がアンダースコアで始まっていてはいけません。
 
-When a user database is found, the publisher attempts to validate the
-user against the user database. If validation fails, then the
-publisher will continue searching for user databases until the user
-can be validated or until no more user databases can be found.
+..
+  The following details are not important if you are using the Zope
+  framework. However, if your are publishing your own modules, the rest
+  of this section will be helpful.
 
-The user database may be an object that provides a validate
-method::
+以下の説明は Zope フレームワークを使用している上では重要な内容では
+ありません。しかしもし、あなたの独自モジュールを発行しようとしている
+のであればこの節は役に立つでしょう。
+
+..
+  The publisher checks authorization by examining the '__roles__'
+  attribute of each object as it performs traversal. If present, the
+  '__roles__' attribute should be 'None' or a list of role names. If it
+  is None, the object is considered public. Otherwise the access to the
+  object requires validation.
+
+パブリッシャーはオブジェクトへのアクセス許可状態チェックを各オブジェクトの
+'__roles__' 属性の確認で行います。もし '__roles__' 属性があれば、
+その値は 'None' か、ロール名のリストです。もしこれが None ならば、
+オブジェクトは公開 (無認証でアクセス可能) されています。
+None でない場合、オブジェクトへのアクセスには確認が必要です。
+
+..
+  Some objects such as functions and methods do not support creating
+  attributes (at least they didn't before Python 2). Consequently, if
+  the object has no '__roles__' attribute, the publisher will look for
+  an attribute on the object's parent with the name of the object
+  followed by '__roles__'. For example, a function named 'getInfo'
+  would store its roles in its parent's 'getInfo__roles__' attribute.
+
+関数やメソッドなどの多くのオブジェクトは追加の属性設定に対応して
+いません (すくなくとも Python 2 以前には出来ませんでした)。
+したがって、オブジェクトが '__roles__' 属性を持っていない場合、
+パブリッシャーはオブジェクトの親オブジェクトに、 'オブジェクト名_roles__'
+という属性が無いかを探します。例えば、 'getInfo' 関数のロール情報は
+親オブジェクトに 'getInfo__roles__' 属性として保持されます。
+
+..
+  If an object has a '__roles__' attribute that is not empty and not
+  'None', the publisher tries to find a user database to authenticate
+  the user. It searches for user databases by looking for an
+  '__allow_groups__' attribute, first in the published object, then in
+  the previously traversed object, and so on until a user database is
+  found.
+
+オブジェクトが '__roles__' 属性をもっているて、それが 'None' でなく、
+空でもない場合、パブリッシャーはユーザーデータベースを調べて
+認証しようと試みます。ユーザーデータベースの検索は '__allow_groups__'
+属性を取得するために行われ、まず発行可能なオブジェクトから始めて、
+次に、一つ前の探索オブジェクトを確認し、ユーザーデータベースが見つかる
+まで続けられます。
+
+..
+  When a user database is found, the publisher attempts to validate the
+  user against the user database. If validation fails, then the
+  publisher will continue searching for user databases until the user
+  can be validated or until no more user databases can be found.
+
+ユーザーデータベースが見つかれば、パブリッシャーはユーザーが
+ユーザーデータベース内にいるか確認します。もしユーザーが見つからなければ
+パブリッシャーは正しいユーザーが見つかるか、ユーザーデータベースが
+見つからなくなるまで検索を続けます。
+
+..
+  The user database may be an object that provides a validate
+  method::
+
+ユーザーデータベースオブジェクトは validate メソッドを提供します::
 
   validate(request, http_authorization, roles)
 
-where 'request' is a mapping object that contains request
-information, 'http_authorization' is the value of the HTTP
-'Authorization' header or 'None' if no authorization header was
-provided, and 'roles' is a list of user role names.
+..
+  where 'request' is a mapping object that contains request
+  information, 'http_authorization' is the value of the HTTP
+  'Authorization' header or 'None' if no authorization header was
+  provided, and 'roles' is a list of user role names.
 
-The validate method returns a user object if succeeds, and 'None' if
-it cannot validate the user. See Chapter 6 for more information on
-user objects. Normally, if the validate method returns 'None', the
-publisher will try to use other user databases, however, a user
-database can prevent this by raising an exception.
+'request' はマッピングオブジェクトで、リクエスト情報を持っています。
+'http_authorization' は HTTP 'Authorization' ヘッダーの値で、
+ヘッダーがなければ 'None' になります。
+'roles' はユーザーロール名のリストです。
 
+..
+  The validate method returns a user object if succeeds, and 'None' if
+  it cannot validate the user. See Chapter 6 for more information on
+  user objects. Normally, if the validate method returns 'None', the
+  publisher will try to use other user databases, however, a user
+  database can prevent this by raising an exception.
 
-If validation fails, Zope will return an HTTP header that causes your
-browser to display a user name and password dialog. You can control
-the realm name used for basic authentication by providing a module
-variable named '__bobo_realm__'. Most web browsers display the realm
-name in the user name and password dialog box.
+validate メソッドは成功すればユーザーオブジェクトを返しますが、
+ユーザーが確認出来なければ 'None' を返します。ユーザーオブジェクト
+については 6 章で詳しく説明します。通常、 validate メソッドが 'None'
+を返した場合、パブリッシャーは他のユーザーデータベースを使おうとしますが、
+ユーザーデータベースは例外を発生させてこれを中止させることができます。
 
-If validation succeeds the publisher assigns the user object to the
-request variable, 'AUTHENTICATED_USER'. The publisher places no
-restriction on user objects.
+..
+  If validation fails, Zope will return an HTTP header that causes your
+  browser to display a user name and password dialog. You can control
+  the realm name used for basic authentication by providing a module
+  variable named '__bobo_realm__'. Most web browsers display the realm
+  name in the user name and password dialog box.
 
+validation が失敗したとき、 Zope はブラウザーにユーザー名とパスワード
+の入力を促すダイアログを表示するよう HTTP ヘッダーを設定するでしょう。
+基本認証のための realm 名は '__bobo_realm__' モジュールで制御する
+ことができます。多くの Web ブラウザーは realm 名をユーザー名と
+パスワードを入力するダイアログボックスに表示します。
 
-Zope Security
+..
+  If validation succeeds the publisher assigns the user object to the
+  request variable, 'AUTHENTICATED_USER'. The publisher places no
+  restriction on user objects.
 
-When using Zope rather than publishing your own modules, the
-publisher uses acquisition to locate user folders and perform
-security checks. The upshot of this is that your published objects
-must inherit from 'Acquisition.Implicit' or
-'Acquisition.Explicit'. See Chapter 5, "Acquisition", for more
-information about these classes. Also when traversing each object
-must be returned in an acquisition context. This is done
-automatically when traversing via 'getattr', but you must wrap
-traversed objects manually when using '__getitem__' and
-'__bobo_traverse__'. For example::
+validation が成功した場合、パブリッシャーはユーザーオブジェクトを
+request の 'AUTHENTICATED_USER' 変数に割り当てます。
+The publisher places no restriction on user objects.
+パブリッシャーはユーザーオブジェクトの配置に制限を持っていません。
+
+..
+  Zope Security
+
+Zope セキュリティー
+-------------------
+
+..
+  When using Zope rather than publishing your own modules, the
+  publisher uses acquisition to locate user folders and perform
+  security checks. The upshot of this is that your published objects
+  must inherit from 'Acquisition.Implicit' or
+  'Acquisition.Explicit'. See Chapter 5, "Acquisition", for more
+  information about these classes. Also when traversing each object
+  must be returned in an acquisition context. This is done
+  automatically when traversing via 'getattr', but you must wrap
+  traversed objects manually when using '__getitem__' and
+  '__bobo_traverse__'. For example::
+
+独自モジュールの発行に比べ、 Zope を使っているとパブリッシャーが
+獲得を使ってユーザーフォルダーを見つけ、セキュリティーチェックを
+行ってくれます。これはつまり、発行可能なオブジェクトは
+'Acquisition.Implicit' か 'Acquisition.Explicit' を継承している
+必要があると言うことになります。これらのクラスについて詳しくは
+5 章 "獲得" を参照してください。
+ところで、探索の途中で返される各オブジェクトも獲得が可能となっている
+必要があります。これは探索時のオブジェクト取得が 'getattr' で
+行われていれば自動的に満たしますが、 '__getitem__' か
+'__bobo_traverse__' でオブジェクトを返している場合には、以下の
+例のように手動で行う必要があります::
 
           class Example(Acquisition.Explicit):
               ...
@@ -957,197 +1056,401 @@ traversed objects manually when using '__getitem__' and
                   next_object=self._get_next_object(name)
                   return  next_object.__of__(self)      
 
+..
+  Finally, traversal security can be circumvented with the
+  '__allow_access_to_unprotected_subobjects__' attribute as described
+  in Chapter 6, "Security".
 
-Finally, traversal security can be circumvented with the
-'__allow_access_to_unprotected_subobjects__' attribute as described
-in Chapter 6, "Security".
+最後に、 '__allow_access_to_unprotected_subobjects__' 属性による
+探索セキュリティーの抜け穴について 6 章 "セキュリティー" で説明します。
 
+..
+  Environment Variables
+  =====================
 
-Environment Variables
-=====================
+環境変数
+========
 
-You can control some facets of the publisher's operation by setting
-environment variables.
+..
+  You can control some facets of the publisher's operation by setting
+  environment variables.
 
-- 'Z_DEBUG_MODE' -- Sets debug mode. In debug mode tracebacks are not
-  hidden in error pages. Also debug mode causes 'DTMLFile' objects,
-  External Methods and help topics to reload their contents from disk
-  when changed. You can also set debug mode with the '-D' switch when
-  starting Zope.
+パブリッシャーの多くの挙動を環境変数設定で制御することが出来ます。
 
-- 'Z_REALM' -- Sets the basic authorization realm. This controls the
-  realm name as it appears in the web browser's username and password
-  dialog. You can also set the realm with the '__bobo_realm__' module
-  variable, as mentioned previously.
+..
+  - 'Z_DEBUG_MODE' -- Sets debug mode. In debug mode tracebacks are not
+    hidden in error pages. Also debug mode causes 'DTMLFile' objects,
+    External Methods and help topics to reload their contents from disk
+    when changed. You can also set debug mode with the '-D' switch when
+    starting Zope.
 
-- 'PROFILE_PUBLISHER' -- Turns on profiling and sets the name of the
-  profile file. See the Python documentation for more information
-  about the Python profiler.
+- 'Z_DEBUG_MODE' -- デバッグモードを設定します。デバッグモードでは、
+  トレースバックがエラーページに隠れることがありません。また、
+  'DTMLFile' オブジェクト、Externalメソッドオブジェクト、ヘルプトピック
+  などが変更時にディスクからリロードされるようになります。
+  Zope の起動時に '-D' オプションを渡してもデバッグモードで起動する
+  事が出来ます。
 
+..
+  - 'Z_REALM' -- Sets the basic authorization realm. This controls the
+    realm name as it appears in the web browser's username and password
+    dialog. You can also set the realm with the '__bobo_realm__' module
+    variable, as mentioned previously.
 
-Many more options can be set using switches on the startup
-script. See the *Zope Administrator's Guide* for more information.
+- 'Z_REALM' -- 基本認証の realm を設定します。 realm 名は Web ブラウザー
+  のユーザー名とパスワードを入力するダイアログに表示されます。
+  別の方法として '__bobo_realm__' モジュール変数に設定しておく方法も
+  あります。
 
-Testing
--------
+..
+  - 'PROFILE_PUBLISHER' -- Turns on profiling and sets the name of the
+    profile file. See the Python documentation for more information
+    about the Python profiler.
 
-ZPublisher comes with built-in support for testing and working with
-the Python debugger.  This topic is covered in more detail in Chapter
-7, "Testing and Debugging".
+- 'PROFILE_PUBLISHER' -- プロファイリングを有効にし、プロファイル結果
+  を記録するファイル名を設定します。 Python プロファイラーについて
+  詳しくは Python ドキュメント を参照してください。
 
-Publishable Module
-------------------
+..
+  Many more options can be set using switches on the startup
+  script. See the *Zope Administrator's Guide* for more information.
 
-If you are using the Zope framework, this section will be irrelevant
-to you. However, if you are publishing your own modules with
-'ZPublisher' read on.
+さらに多くのオプションが起動スクリプトで設定できます。
+詳しくは *Zope 管理者ガイド* を参照してください。
 
-The publisher begins the traversal process by locating an object in
-the module's global namespace that corresponds to the first element
-of the path. Alternately the first object can be located by one of
-two hooks.
+..
+  Testing
+  -------
 
-If the module defines a 'web_objects' or 'bobo_application' object,
-the first object is searched for in those objects. The search happens
-according to the normal rules of traversal, using
-'__bobo_traverse__', 'getattr', and '__getitem__'.
+テスト
+------
 
-The module can receive callbacks before and after traversal. If the
-module defines a '__bobo_before__' object, it will be called with no
-arguments before traversal. Its return value is ignored. Likewise, if
-the module defines a '__bobo_after__' object, it will be called after
-traversal with no arguments. These callbacks can be used for things
-like acquiring and releasing locks.
+..
+  ZPublisher comes with built-in support for testing and working with
+  the Python debugger.  This topic is covered in more detail in Chapter
+  7, "Testing and Debugging".
 
-Calling the Published Object
-----------------------------
+ZPublisher はテストとデバッガーの仕組みを内蔵しています。
+これについては 7 章 "テストとデバッグ" で詳しく説明します。
 
-Now that we've covered how the publisher located the published object
-and what it does with the results of calling it, let's take a closer
-look at how the published object is called.
+..
+  Publishable Module
+  ------------------
 
-The publisher marshals arguments from the request and automatically
-makes them available to the published object. This allows you to
-accept parameters from web forms without having to parse the
-forms. Your objects usually don't have to do anything special to be
-called from the web. Consider this function::
+発行可能なモジュール
+--------------------
+
+..
+  If you are using the Zope framework, this section will be irrelevant
+  to you. However, if you are publishing your own modules with
+  'ZPublisher' read on.
+
+本節は、 Zope フレームワークを使っている人向けではなく、独自のモジュール
+を 'ZPublisher' で発行しようとしている人向けの内容です。
+
+..
+  The publisher begins the traversal process by locating an object in
+  the module's global namespace that corresponds to the first element
+  of the path. Alternately the first object can be located by one of
+  two hooks.
+
+パブリッシャーは探索処理において、パスの最初のエレメントについては
+モジュールのグローバルな名前空間からオブジェクトを特定します。
+別の方法として、最初のオブジェクトを２つのフックから決めることが
+出来ます。、
+
+..
+  If the module defines a 'web_objects' or 'bobo_application' object,
+  the first object is searched for in those objects. The search happens
+  according to the normal rules of traversal, using
+  '__bobo_traverse__', 'getattr', and '__getitem__'.
+
+もしモジュールが 'web_objects' か 'bobo_application' オブジェクトを
+定義していれば、最初のオブジェクトはこれらのオブジェクトから検索されます。
+ここでの検索は、探索の通常のルールである
+'__bobo_traverse__', 'getattr', '__getitem__' に従って行われます。
+
+..
+  The module can receive callbacks before and after traversal. If the
+  module defines a '__bobo_before__' object, it will be called with no
+  arguments before traversal. Its return value is ignored. Likewise, if
+  the module defines a '__bobo_after__' object, it will be called after
+  traversal with no arguments. These callbacks can be used for things
+  like acquiring and releasing locks.
+
+モジュール探索の前と後とでコールバック呼び出しを受けることが出来ます。
+もしオブジェクトが '__bobo_before__' オブジェクトを定義していれば、
+探索処理前に引数無しで呼び出されます。このときの返値は無視されます。
+同様に、モジュールが '__bobo_after__' オブジェクトを定義していれば、
+探索処理の後で引数無しで呼び出されます。これらのコールバックは
+獲得やロックの解放のために使われます。
+
+..
+  Calling the Published Object
+  ----------------------------
+
+発行可能なモジュールの呼び出し
+-------------------------------
+
+..
+  Now that we've covered how the publisher located the published object
+  and what it does with the results of calling it, let's take a closer
+  look at how the published object is called.
+
+ここまでで、パブリッシャーがどうやって発行可能なオブジェクトを見つけ出し、
+結果の値を取り出すかを学びました。次は、発行可能なオブジェクトの呼び出され方
+について、もっと詳しく見ていきましょう。
+
+..
+  The publisher marshals arguments from the request and automatically
+  makes them available to the published object. This allows you to
+  accept parameters from web forms without having to parse the
+  forms. Your objects usually don't have to do anything special to be
+  called from the web. Consider this function::
+
+パブリッシャーは引数を request から取り出し、自動的に発行可能なオブジェクト
+に適用します。これによって Web フォームからのデータを自分で解析せずに
+フォームのパラメータを使うことが出来ます。あなたのオブジェクトが Web から
+呼び出されるとき、大抵は特別な処理をなにもする必要がありません。
+以下の関数を見てみましょう::
 
       def greet(name):
-          "greet someone"
+          "誰かに挨拶をする"
           return "Hello, %s" % name
 
-You can provide the 'name' argument to this function by calling it
-with a URL like *greet?name=World*. You can also call it with a HTTP
-'POST' request which includes 'name' as a form variable.
+..
+  You can provide the 'name' argument to this function by calling it
+  with a URL like *greet?name=World*. You can also call it with a HTTP
+  'POST' request which includes 'name' as a form variable.
 
-In the next sections we'll take a closer look at how the publisher
-marshals arguments.
+この関数の 'name' 引数を URL から渡すには *greet?name=World* のようにします。
+あるいはフォーム変数を渡すように HTTP の 'POST' リクエストに 'name' を
+含めて渡す事も出来ます。
 
-Marshalling Arguments from the Request
---------------------------------------
+..
+  In the next sections we'll take a closer look at how the publisher
+  marshals arguments.
 
-The publisher marshals form data from GET and POST requests. Simple
-form fields are made available as Python strings. Multiple fields
-such as form check boxes and multiple selection lists become
-sequences of strings. File upload fields are represented with
-'FileUpload' objects. File upload objects behave like normal Python
-file objects and additionally have a 'filename' attribute which is
-the name of the file and a 'headers' attribute which is a dictionary
-of file upload headers.
+次のセクションでは、パブリッシャーがどのようにして引数を生成しているのか、
+もっと詳しく見ていきましょう。
 
-The publisher also marshals arguments from CGI environment variables
-and cookies. When locating arguments, the publisher first looks in
-CGI environment variables, then other request variables, then form
-data, and finally cookies. Once a variable is found, no further
-searching is done. So for example, if your published object expects
-to be called with a form variable named 'SERVER_URL', it will fail,
-since this argument will be marshaled from the CGI environment first,
-before the form data.
+..
+  Marshalling Arguments from the Request
+  --------------------------------------
 
-The publisher provides a number of additional special variables such
-as 'URL0' which are derived from the request. These are covered in
-the 'HTTPRequest' API documentation.
+リクエストからの引数生成
+------------------------
 
-Argument Conversion
--------------------
+..
+  The publisher marshals form data from GET and POST requests. Simple
+  form fields are made available as Python strings. Multiple fields
+  such as form check boxes and multiple selection lists become
+  sequences of strings. File upload fields are represented with
+  'FileUpload' objects. File upload objects behave like normal Python
+  file objects and additionally have a 'filename' attribute which is
+  the name of the file and a 'headers' attribute which is a dictionary
+  of file upload headers.
 
-The publisher supports argument conversion. For example consider this
-function::
+パブリッシャーは GET や POST リクエストのデータから引数を生成します。
+シンプルなフォームフィールドは Python の文字列になります。
+複数の値を持つフィールド (チェックボックスと複数選択リスト) は文字列
+の配列になります。ファイルアップロードフィールドは 'FileUpload'
+オブジェクトに変換されます。ファイルアップロードオブジェクトは Python
+の普通のファイルオブジェクトのように振る舞い、これにファイル名を
+格納した 'filename' 属性と、ファイルアップロード時のヘッダー情報を
+格納した'headers' 属性が追加されています。
+
+..
+  The publisher also marshals arguments from CGI environment variables
+  and cookies. When locating arguments, the publisher first looks in
+  CGI environment variables, then other request variables, then form
+  data, and finally cookies. Once a variable is found, no further
+  searching is done. So for example, if your published object expects
+  to be called with a form variable named 'SERVER_URL', it will fail,
+  since this argument will be marshaled from the CGI environment first,
+  before the form data.
+
+パブリッシャーはさらに CGI 環境変数や cookie からも引数を生成します。
+引数を割り当てるときにパブリッシャーはまず CGI 環境変数を見て、
+次に他のリクエスト変数、フォームデータ、最後に cookie を見ます。
+一度変数が見つかると、そこで変数を探す処理を止めます。例えば、
+発行オブジェクトが 'SERVER_URL' という名前のフォーム変数付きで
+呼び出されることを期待しても、これは失敗するでしょう。
+この名前の変数は CGI 環境変数の方から先に見つけてしまうので、
+フォームのこの変数にはたどり着きません。
+
+..
+  The publisher provides a number of additional special variables such
+  as 'URL0' which are derived from the request. These are covered in
+  the 'HTTPRequest' API documentation.
+
+パブリッシャーは 'URL0' のようないくつかの追加の特別な変数を提供します。
+この値はリクエストの内容から生成されます。これらについて詳しくは
+'HTTPRequest' API ドキュメントを参照してください。
+
+..
+  Argument Conversion
+  -------------------
+
+引数の変換
+----------
+
+..
+  The publisher supports argument conversion. For example consider this
+  function::
+
+パブリッシャーは引数の変換をサポートしています。例えば以下の関数::
 
         def onethird(number):
             "returns the number divided by three"
             return number / 3.0
 
-This function cannot be called from the web because by default the
-publisher marshals arguments into strings, not numbers. This is why
-the publisher provides a number of converters. To signal an argument
-conversion you name your form variables with a colon followed by a
-type conversion code. For example, to call the above function with 66
-as the argument you can use this URL *onethird?number:int=66* The
-publisher supports many converters:
+..
+  This function cannot be called from the web because by default the
+  publisher marshals arguments into strings, not numbers. This is why
+  the publisher provides a number of converters. To signal an argument
+  conversion you name your form variables with a colon followed by a
+  type conversion code. For example, to call the above function with 66
+  as the argument you can use this URL *onethird?number:int=66* The
+  publisher supports many converters:
 
-- boolean -- Converts a variable to true or false. Variables that are
-  0, None, an empty string, or an empty sequence are false, all
-  others are true.
+この関数は Web からは呼び出せません。なぜならここで期待しているのは
+数値ですが、パブリッシャーはデフォルトでは引数を文字列として受け取る
+からです。これが、パブリッシャーが多くのコンバータを提供する理由です。
+引数の変換を指定するために、フォームの変数名に続けてコロンと型名を
+記載してください。例えば、上記の関数に 66 という数値型の引数を
+渡したいのであれば、 URL に *onethird?number:int=66* と書きます。
+パブリッシャーは以下のような多くのコンバータをサポートしています:
 
-- int -- Converts a variable to a Python integer.
+..
+  - boolean -- Converts a variable to true or false. Variables that are
+    0, None, an empty string, or an empty sequence are false, all
+    others are true.
+  
+- boolean -- 値を真か偽に変換します。変数が 0, None, 空文字列, 空配列,
+  の場合に偽となり、それ以外は真となります。
 
-- long -- Converts a variable to a Python long integer.
+..
+  - int -- Converts a variable to a Python integer.
+  
+- int -- 値を Python の integer に変換します。
 
-- float -- Converts a variable to a Python floating point number.
+..
+  - long -- Converts a variable to a Python long integer.
 
-- string -- Converts a variable to a Python string.
+- long -- 値を Python の long integer に変換します。
+  
+..
+  - float -- Converts a variable to a Python floating point number.
 
-- ustring -- Converts a variable to a Python unicode string.
+- float -- 値を Python の浮動小数点値に変換します。
+  
+..
+  - string -- Converts a variable to a Python string.
+  
+- string -- 値を Python の文字列に変換します。
 
-- required -- Raises an exception if the variable is not present or
-  is an empty string.
+..
+  - ustring -- Converts a variable to a Python unicode string.
 
-- ignore_empty -- Excludes a variable from the request if the
-  variable is an empty string.
+- ustring -- 値を Python の unicode 文字列に変換します。
+  
+..
+  - required -- Raises an exception if the variable is not present or
+    is an empty string.
 
-- date -- Converts a string to a *DateTime* object. The formats
-  accepted are fairly flexible, for example '10/16/2000', '12:01:13
-  pm'.
+- required -- 変数が設定されなかったり、空文字列などの場合に例外が
+  発生します。
+  
+..
+  - ignore_empty -- Excludes a variable from the request if the
+    variable is an empty string.
+  
+- ignore_empty -- 変数が空文字列の場合に request のフォーム変数から
+  取り除きます。
 
-- list -- Converts a variable to a Python list of values, even if
-  there is only one value.
+..
+  - date -- Converts a string to a *DateTime* object. The formats
+    accepted are fairly flexible, for example '10/16/2000', '12:01:13
+    pm'.
 
-- tuple -- Converts a variable to a Python tuple of values, even if
-  there is only one value.
+- data -- 文字列を *DateTime* オブジェクトに変換します。文字列フォーマット
+  は '10/16/2000' や '12:01:13 pm' など、かなり柔軟に受け付けます。
 
-- lines -- Converts a string to a Python list of values by splitting
-  the string on line breaks.
+..
+  - list -- Converts a variable to a Python list of values, even if
+    there is only one value.
+ 
+- list -- 値を Python の list の要素として複数、または単一の要素値に
+  変換します。
 
-- tokens -- Converts a string to a Python list of values by splitting
-  the string on spaces.
+..
+  - tuple -- Converts a variable to a Python tuple of values, even if
+    there is only one value.
 
-- text -- Converts a variable to a string with normalized line
-  breaks.  Different browsers on various platforms encode line
-  endings differently, so this converter makes sure the line endings
-  are consistent, regardless of how they were encoded by the browser.
+- tuple -- 値を Python の tuple の要素として複数、または単一の要素値に
+  変換します。
 
-- ulines, utokens, utext -- like lines, tokens, text, but using
-  unicode strings instead of plain strings.
+..
+  - lines -- Converts a string to a Python list of values by splitting
+    the string on line breaks.
+ 
+- lines -- 文字列を改行で分割して Python の文字列の list に変換します。
 
-If the publisher cannot coerce a request variable into the type
-required by the type converter it will raise an error. This is useful
-for simple applications, but restricts your ability to tailor error
-messages. If you wish to provide your own error messages, you should
-convert arguments manually in your published objects rather than
-relying on the publisher for coercion. Another possibility is to use
-JavaScript to validate input on the client-side before it is
-submitted to the server.
+..
+  - tokens -- Converts a string to a Python list of values by splitting
+    the string on spaces.
 
-You can combine type converters to a limited extent. For example you
-could create a list of integers like so::
+- tokens -- 文字列を空白で分割して Python の文字列の list に変換します。
+
+..
+  - text -- Converts a variable to a string with normalized line
+    breaks.  Different browsers on various platforms encode line
+    endings differently, so this converter makes sure the line endings
+    are consistent, regardless of how they were encoded by the browser.
+
+- text -- 変数の改行コードを平準化した文字列に変換します。ブラウザ間で
+  改行コードが異なっていいますが、このコンバータは改行コードを平準化し、
+  プログラムがブラウザ毎の改行コードを意識しなくて済むようにします。
+
+..
+  - ulines, utokens, utext -- like lines, tokens, text, but using
+    unicode strings instead of plain strings.
+
+- ulines, utokens, utext -- lines, tokens, text の unicode 文字列版です。
+
+..
+  If the publisher cannot coerce a request variable into the type
+  required by the type converter it will raise an error. This is useful
+  for simple applications, but restricts your ability to tailor error
+  messages. If you wish to provide your own error messages, you should
+  convert arguments manually in your published objects rather than
+  relying on the publisher for coercion. Another possibility is to use
+  JavaScript to validate input on the client-side before it is
+  submitted to the server.
+
+パブリッシャーがリクエスト変数をコンバータで変換出来なかった場合には、
+例外が発生するでしょう。これはシンプルなアプリケーションには有用ですが、
+エラーメッセージを仕立てるといった気の利いた処理が制限されてしまいます。
+もし独自のエラーメッセージを提供したければ、発行オブジェクト内で引数を
+手動で変換するのが良いでしょう。あるいは可能性として、 JavaScript を
+使ってクライアントサイドでデータを投稿する前に入力のチェックを行うという
+方法も考えられます。
+
+..
+  You can combine type converters to a limited extent. For example you
+  could create a list of integers like so::
+
+型コンバータは複数並べることができます。例えばいくつかの数値で構成された
+list を作るためには::
 
         <input type="checkbox" name="numbers:list:int" value="1">
         <input type="checkbox" name="numbers:list:int" value="2">
         <input type="checkbox" name="numbers:list:int" value="3">
 
-In addition to these type converters, the publisher also supports
-method and record arguments.
+これらの型コンバータに加え、パブリッシャーは method と record の引数
+もサポートしています。
+
 
 Character Encodings for Arguments
 ---------------------------------
