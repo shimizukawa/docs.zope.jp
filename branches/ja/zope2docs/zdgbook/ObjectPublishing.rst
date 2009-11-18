@@ -1451,72 +1451,144 @@ list を作るためには::
 これらの型コンバータに加え、パブリッシャーは method と record の引数
 もサポートしています。
 
+..
+  Character Encodings for Arguments
+  ---------------------------------
 
-Character Encodings for Arguments
----------------------------------
+引数の文字エンコーディング
+--------------------------
 
-The publisher needs to know what character encoding was used by the
-browser to encode form fields into the request. That depends on
-whether the form was submitted using GET or POST (which the publisher
-can work out for itself) and on the character encoding used by the
-page which contained the form (for which the publisher needs your
-help).
+..
+  The publisher needs to know what character encoding was used by the
+  browser to encode form fields into the request. That depends on
+  whether the form was submitted using GET or POST (which the publisher
+  can work out for itself) and on the character encoding used by the
+  page which contained the form (for which the publisher needs your
+  help).
 
-In some cases you need to add a specification of the character
-encoding to each fields type converter. The full details of how this
-works are explained below, however most users do not need to deal
-with the full details:
+パブリッシャーはブラウザから送られるフォームフィールドの
+文字エンコーディングが何であるかを知っておく必要があります。
+これは、 GET か POST (どちらで送信されたかはパブリッシャー自身が
+知っています) で送信されたフォームや、フォームを含むページの
+文字エンコードが何だったか (これをパブリッシャーが知るには、
+あなたの助けが必要です) に関連します。
 
-1. If your pages all use the UTF-8 character encoding (or at least
-   all the pages that contain forms) the browsers will always use
-   UTF-8 for arguments. You need to add ':utf8' into all argument
-   type converts. For example:
+..
+  In some cases you need to add a specification of the character
+  encoding to each fields type converter. The full details of how this
+  works are explained below, however most users do not need to deal
+  with the full details:
+
+多くのケースでは、あなたが各フィールドの型コンバータに
+文字エンコーディングを指定する必要があります。こういった指定の方法を
+含め、全体的にどのように動作するのかについて、以下で説明します。
+ただし、たいていの人は全ての詳細までは知る必要はないでしょう。
+
+..
+  1. If your pages all use the UTF-8 character encoding (or at least
+     all the pages that contain forms) the browsers will always use
+     UTF-8 for arguments. You need to add ':utf8' into all argument
+     type converts. For example:
+  
+     <input type="text" name="name:utf8:ustring">
+     <input type="checkbox" name="numbers:list:int:utf8" value="1">
+     <input type="checkbox" name="numbers:list:int:utf8" value="1">
+  
+       % Anonymous User - Apr. 6, 2004 5:56 pm:
+        121
+
+1. もしあなたのページの文字エンコーディングが全て UTF-8
+   (あるいは少なくとも全てのページがフォームを含む) なら、ブラウザは
+   常に引数に UTF-8 を使うでしょう。この場合、 ':utf8' を以下の例のように
+   全ての型コンバータ指定の後ろに付けてください:
 
    <input type="text" name="name:utf8:ustring">
    <input type="checkbox" name="numbers:list:int:utf8" value="1">
    <input type="checkbox" name="numbers:list:int:utf8" value="1">
 
+.. [訳注]これは何？
      % Anonymous User - Apr. 6, 2004 5:56 pm:
       121
 
-2. If your pages all use a character encoding which has ASCII as a
-   subset (such as Latin-1, UTF-8, etc) then you do not need to
-   specify any chatacter encoding for boolean, int, long, float, and
-   date types.  You can also omit the character encoding type
-   converter from string, tokens, lines, and text types if you only
-   need to handle ASCII characters in that form field.
+..
+  2. If your pages all use a character encoding which has ASCII as a
+     subset (such as Latin-1, UTF-8, etc) then you do not need to
+     specify any chatacter encoding for boolean, int, long, float, and
+     date types.  You can also omit the character encoding type
+     converter from string, tokens, lines, and text types if you only
+     need to handle ASCII characters in that form field.
 
-Character Encodings for Arguments; The Full Story
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. もしあなたのページの文字エンコーディングが全て ASCII またはそのサブセット
+   (Latin-1, UTF-8, など) なら、boolean, int, long, float, date 型には
+   文字エンコーディングを指定する必要はありません。 string, tokens, lines, text
+   型についても、 ASCII 文字コードしかフォームで扱わないのであれば、
+   文字エンコーディング指定を省略することが出来ます。
 
-If you are not in one of those two easy categories, you first need to
-determine which character encoding will be used by the browser to
-encode the arguments in submitted forms.
+..
+  Character Encodings for Arguments; The Full Story
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Forms submitted using GET, or using POST with 
-   "application/x-www-form-urlencoded" (the default) 
+引数の文字エンコーディング; その全体像
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+  If you are not in one of those two easy categories, you first need to
+  determine which character encoding will be used by the browser to
+  encode the arguments in submitted forms.
 
-   1. Page uses an encoding of unicode: Forms are submitted using
-      UTF8, as required by RFC 2718 2.2.5
+以下に２つの簡単な分類を作りました。あなたがどちらにも属さないのであれば、
+まず、ブラウザで使用する、そしてフォームから送信する文字エンコーディングを
+何にするかを決める必要があります。
 
-   2. Page uses another regional 8 bit encoding: Forms are often
-      submitted using the same encoding as the page. If you choose to
-      use such an encoding then you should also verify how browsers
-      behave.
+..
+  1. Forms submitted using GET, or using POST with 
+     "application/x-www-form-urlencoded" (the default) 
+  
+     1. Page uses an encoding of unicode: Forms are submitted using
+        UTF8, as required by RFC 2718 2.2.5
+  
+     2. Page uses another regional 8 bit encoding: Forms are often
+        submitted using the same encoding as the page. If you choose to
+        use such an encoding then you should also verify how browsers
+        behave.
 
-2. Forms submitted using "multipart/form-data":
+1. フォームの送信に GET か POST を使用しており、その際にパラメータ
+   "application/x-www-form-urlencoded" (デフォルト) を付けて送っている。
 
-   According to HTML 4.01 (section 17.13.4) browsers should state
-   which character encoding they are using for each field in a
-   Content-Type header, however this is poorly supported. The current
-   crop of browsers appear to use the same encoding as the page
-   containing the form.
+   1. ページで unicode 系のエンコーディングが使われている場合、フォームは
+      UFT8 で送られます。これは RFC 2718 2.2.5 で定められています。
 
-   Every field needs that character encoding name appended to is
-   converter.  The tag parser insists that tags must only use
-   alphanumberic characters or an underscore, so you might need to
-   use a short form of the encoding name from the Python 'encodings'
-   library package (such as utf8 rather than UTF-8).
+   2. ページに 8 bit の地域固有のエンコーディングが使われている場合、
+      フォームはそのページと同じエンコーディングで送信されます。
+      もし、このようなエンコーディングを使用した場合、ブラウザ毎の
+      挙動を確認した方が良いでしょう。
+
+..
+  2. Forms submitted using "multipart/form-data":
+  
+     According to HTML 4.01 (section 17.13.4) browsers should state
+     which character encoding they are using for each field in a
+     Content-Type header, however this is poorly supported. The current
+     crop of browsers appear to use the same encoding as the page
+     containing the form.
+  
+     Every field needs that character encoding name appended to is
+     converter.  The tag parser insists that tags must only use
+     alphanumberic characters or an underscore, so you might need to
+     use a short form of the encoding name from the Python 'encodings'
+     library package (such as utf8 rather than UTF-8).
+
+2. フォームの送信に "multipart/form-data" を使う場合:
+
+   HTML 4.01 (セクション 17.13.4) によると、ブラウザは各フィールドの
+   文字エンコーディングとして Content-Type ヘッダーを使うことになっており、
+   大抵はこのように動作します。現状、ブラウザはフォームのあるページの
+   エンコーディングと同じものを使用しています。
+
+   全てのフィールドには文字エンコーディング名をコンバータ名のうしろに
+   付ける必要があります。タグパーサーは、タグがアルファベットと
+   アンダースコアだけで構成される文字列を要求します。このため、
+   エンコーディング名には Python の 'encodings' ライブラリにある
+   短い名前を使用するのが望ましいでしょう (UTF-8 よりは utf8 を使いましょう)。
 
 
 Method Arguments
