@@ -21,11 +21,11 @@
   to other network protocols including FTP, WebDAV and XML-RPC.
 
 Zope はオブジェクトをWeb上に配置します。これは *オブジェクト
-パブリッシング* と呼ばれています。 Zope のユニークな特徴として
+パブリッシング* と呼ばれています。 Zope の独特な特徴として
 シンプルなURLへのアクセスでオブジェクトのメソッドを呼び出したり、
 オブジェクトの関連を辿ったりする仕組みがあります。
-HTTP にくわえ、 FTP, WebDAV, XML-RPC などのネットワークプロトコル
-で Zope はオブジェクトを扱うことが出来ます。
+Zope は HTTP の他に、 FTP, WebDAV, XML-RPC などのネットワークプロトコル
+でオブジェクトを扱うことが出来ます。
 
 ..
   In this chapter you'll find out exactly how Zope publishes
@@ -33,8 +33,8 @@ HTTP にくわえ、 FTP, WebDAV, XML-RPC などのネットワークプロト�
   objects for web publishing.
 
 本章では、 Zope がどのようにしてオブジェクトを発行するのかを
-学びます。また、 オブジェクトの Web 発行を行うために必要となる事を
-学びます。
+学びます。また、 オブジェクトを Web で発行する *(Web Publishing)*
+ために必要となる事を学びます。
 
 ..
   HTTP Publishing
@@ -1299,10 +1299,15 @@ ZPublisher はテストとデバッガーの仕組みを内蔵しています。
   The publisher supports argument conversion. For example consider this
   function::
 
+..
+        def onethird(number):
+            "returns the number divided by three"
+            return number / 3.0
+
 パブリッシャーは引数の変換をサポートしています。例えば以下の関数::
 
         def onethird(number):
-            "returns the number divided by three"
+            "3で割った値を返す"
             return number / 3.0
 
 ..
@@ -1314,7 +1319,7 @@ ZPublisher はテストとデバッガーの仕組みを内蔵しています。
   as the argument you can use this URL *onethird?number:int=66* The
   publisher supports many converters:
 
-この関数は Web からは呼び出せません。なぜならここで期待しているのは
+この関数は Web からは呼び出せません。なぜならここで期待している引数は
 数値ですが、パブリッシャーはデフォルトでは引数を文字列として受け取る
 からです。これが、パブリッシャーが多くのコンバータを提供する理由です。
 引数の変換を指定するために、フォームの変数名に続けてコロンと型名を
@@ -1500,11 +1505,11 @@ list を作るためには::
 1. もしあなたのページの文字エンコーディングが全て UTF-8
    (あるいは少なくとも全てのページがフォームを含む) なら、ブラウザは
    常に引数に UTF-8 を使うでしょう。この場合、 ':utf8' を以下の例のように
-   全ての型コンバータ指定の後ろに付けてください:
+   全ての型コンバータ指定の後ろに付けてください::
 
-   <input type="text" name="name:utf8:ustring">
-   <input type="checkbox" name="numbers:list:int:utf8" value="1">
-   <input type="checkbox" name="numbers:list:int:utf8" value="1">
+     <input type="text" name="name:utf8:ustring">
+     <input type="checkbox" name="numbers:list:int:utf8" value="1">
+     <input type="checkbox" name="numbers:list:int:utf8" value="1">
 
 .. [訳注]これは何？
      % Anonymous User - Apr. 6, 2004 5:56 pm:
