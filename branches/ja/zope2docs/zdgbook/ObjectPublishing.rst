@@ -1613,7 +1613,7 @@ method 引数
 多くの場合、フォームデータを元にオブジェクトの発行を制御したいと考えます。
 例えば、セレクトボックスの選択状態によってどのメソッドを呼び出すかを
 変えたい場合などがあります。同様に、送信ボタンが複数ある場合に、
-どのボタンが押されたかによって異なるメソッドが呼び出される、
+どのボタンが押されたかによって異なるメソッドが呼び出されるようにしたい、
 という事もあります。
 
 ..
@@ -1634,7 +1634,7 @@ method 引数
    presenting a select list. Method names can be placed in the select
    option values.
 
-もしフォームのフィールド名が ':method' なら、そのフィールドの値は
+フォームのフィールド名が ':method' なら、そのフィールドの値が
 'PATH_INFO' に追加されます。例えば、元々の 'PATH_INFO' が 'foo/bar'
 で、 ':method' フィールドの値が 'x/y' だとすると、最終的に 'PATH_INFO'
 は 'foo/bar/x/y' という値に変換されます。これをセレクトボックスの値
@@ -1650,7 +1650,7 @@ method 引数
    methods, since submit button values are displayed and should,
    therefore, not contain method names.
 
-もしフォームフィールドの名前の末尾に ':method' と付いていた場合、
+フォームフィールドの名前の末尾に ':method' と付いていた場合、
 ':method' より前の名前の部分が 'PATH_INFO' に追加されます。
 例えば、元々の 'PATH_INFO' が 'foo/bar' で、 'x/y:method' という
 フィールドがあるとすると、最終的に 'PATH_INFO' は 'foo/bar/x/y'
@@ -1745,7 +1745,7 @@ record 引数
    empty) or a list containing the selected toppings.
 
 'default' 型のフィールドに設定された値は、他のフィールドの値が空の時に
-代わりに使われる値です。前述の例では、 topings の一覧からユーザーが
+代わりに使われる値です。前述の例では、 toppings の一覧からユーザーが
 値を選ばなかった場合に、デフォルト値が使用されます。レコード 'pizza'
 の 'toppings' 属性は list 型となり、1つの値 "ALL" が格納されます。
 他の選択肢を選択していた場合はその値が list に格納されます。
