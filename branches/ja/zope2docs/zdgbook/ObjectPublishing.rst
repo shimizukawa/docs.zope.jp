@@ -1596,67 +1596,134 @@ list を作るためには::
    短い名前を使用するのが望ましいでしょう (UTF-8 よりは utf8 を使いましょう)。
 
 
-Method Arguments
-----------------
+..
+  Method Arguments
+  ----------------
 
-Sometimes you may wish to control which object is published based on
-form data. For example, you might want to have a form with a select
-list that calls different methods depending on the item
-chosen. Similarly, you might want to have multiple submit buttons
-which invoke a different method for each button.
+method 引数
+------------
 
-The publisher provides a way to select methods using form variables
-through use of the *method* argument type. The method type allows the
-request 'PATH_INFO' to be augmented using information from a form
-item name or value.
+..
+  Sometimes you may wish to control which object is published based on
+  form data. For example, you might want to have a form with a select
+  list that calls different methods depending on the item
+  chosen. Similarly, you might want to have multiple submit buttons
+  which invoke a different method for each button.
 
-If the name of a form field is ':method', then the value of the field
-is added to 'PATH_INFO'. For example, if the original 'PATH_INFO' is
-'foo/bar' and the value of a ':method' field is 'x/y', then
-'PATH_INFO' is transformed to 'foo/bar/x/y'. This is useful when
-presenting a select list. Method names can be placed in the select
-option values.
+多くの場合、フォームデータを元にオブジェクトの発行を制御したいと考えます。
+例えば、セレクトボックスの選択状態によってどのメソッドを呼び出すかを
+変えたい場合などがあります。同様に、送信ボタンが複数ある場合に、
+どのボタンが押されたかによって異なるメソッドが呼び出される、
+という事もあります。
 
-If the name of a form field ends in ':method' then the part of the
-name before ':method' is added to 'PATH_INFO'. For example, if the
-original 'PATH_INFO' is 'foo/bar' and there is a 'x/y:method' field,
-then 'PATH_INFO' is transformed to 'foo/bar/x/y'. In this case, the
-form value is ignored. This is useful for mapping submit buttons to
-methods, since submit button values are displayed and should,
-therefore, not contain method names.
+..
+  The publisher provides a way to select methods using form variables
+  through use of the *method* argument type. The method type allows the
+  request 'PATH_INFO' to be augmented using information from a form
+  item name or value.
 
-Only one method field should be provided. If more than one method
-field is included in the request, the behavior is undefined.
+パブリッシャーはそのための方法として、 *method* という引数型
+を提供しています。 'method' 引数を使うとそのフィールドの名前か値を元に
+'PATH_INFO' を変換します。
 
-Record Arguments 
-----------------
+..
+   If the name of a form field is ':method', then the value of the field
+   is added to 'PATH_INFO'. For example, if the original 'PATH_INFO' is
+   'foo/bar' and the value of a ':method' field is 'x/y', then
+   'PATH_INFO' is transformed to 'foo/bar/x/y'. This is useful when
+   presenting a select list. Method names can be placed in the select
+   option values.
 
-Sometimes you may wish to consolidate form data into a structure
-rather than pass arguments individually. Record arguments allow you
-to do this.
+もしフォームのフィールド名が ':method' なら、そのフィールドの値は
+'PATH_INFO' に追加されます。例えば、元々の 'PATH_INFO' が 'foo/bar'
+で、 ':method' フィールドの値が 'x/y' だとすると、最終的に 'PATH_INFO'
+は 'foo/bar/x/y' という値に変換されます。これをセレクトボックスの値
+に応用すると便利です。メソッド名を option エレメントの値に指定する
+という使い方が出来ます。
 
-The 'record' type converter allows you to combine multiple
-form variables into a single input variable. For example::
+..
+   If the name of a form field ends in ':method' then the part of the
+   name before ':method' is added to 'PATH_INFO'. For example, if the
+   original 'PATH_INFO' is 'foo/bar' and there is a 'x/y:method' field,
+   then 'PATH_INFO' is transformed to 'foo/bar/x/y'. In this case, the
+   form value is ignored. This is useful for mapping submit buttons to
+   methods, since submit button values are displayed and should,
+   therefore, not contain method names.
+
+もしフォームフィールドの名前の末尾に ':method' と付いていた場合、
+':method' より前の名前の部分が 'PATH_INFO' に追加されます。
+例えば、元々の 'PATH_INFO' が 'foo/bar' で、 'x/y:method' という
+フィールドがあるとすると、最終的に 'PATH_INFO' は 'foo/bar/x/y'
+という値に変換されます。このときのフィールドの値は無視されます。
+これを送信ボタンに応用すると便利です。送信ボタンの value 値は表示に
+使用するため、メソッド名を value に指定できないからです。
+
+..
+   Only one method field should be provided. If more than one method
+   field is included in the request, the behavior is undefined.
+
+メソッドフィールドは1つだけ使うようにするべきです。もし複数の
+メソッドフィールドがリクエストに含まれていた場合、そのときの挙動は
+未定義のため何が起きるか分かりません。
+
+
+..
+   Record Arguments 
+   ----------------
+
+record 引数
+------------
+
+..
+   Sometimes you may wish to consolidate form data into a structure
+   rather than pass arguments individually. Record arguments allow you
+   to do this.
+
+時々、複数のフィールドの値をそれぞれ異なる引数としてではなく、1つの
+構造体として受け取りたいことがあります。これは record 引数で実現出来ます。
+
+..
+   The 'record' type converter allows you to combine multiple
+   form variables into a single input variable. For example::
+
+'record' 型のコンバータは複数のフォーム変数を一つの変数に統合します。
+例えば::
 
   <input name="date.year:record:int">
   <input name="date.month:record:int">
   <input name="date.day:record:int">
 
-This form will result in a single variable, 'date', with
-attributes 'year', 'month', and 'day'.
+..
+   This form will result in a single variable, 'date', with
+   attributes 'year', 'month', and 'day'.
 
-You can skip empty record elements with the 'ignore_empty'
-converter. For example::
+このフォームは一つの変数 'data' に変化され、この変数にそれぞれ
+'year', 'month', 'day' という属性が付いています。
+
+..
+   You can skip empty record elements with the 'ignore_empty'
+   converter. For example::
+
+空のレコード要素を受け取りたくない場合は 'ignore_empty' を使って
+以下のようにしてください::
 
   <input type="text" name="person.email:record:ignore_empty">
 
-When the email form field is left blank the publisher skips over the
-variable rather than returning a null string as its value. When the
-record 'person' is returned it will not have an 'email' attribute if
-the user did not enter one.
+..
+   When the email form field is left blank the publisher skips over the
+   variable rather than returning a null string as its value. When the
+   record 'person' is returned it will not have an 'email' attribute if
+   the user did not enter one.
 
-You can also provide default values for record elements with the
-'default' converter. For example::
+例えばフォームの email フィールドが空文字列として返ってくるよりも、
+そのフィールドを無視する方がよいでしょう。ユーザーが email 欄を空のまま
+送信すると、レコード 'person' が 'email' という属性の無い状態で返されます。
+
+..
+   You can also provide default values for record elements with the
+   'default' converter. For example::
+
+'default' コンバータを指定すると、デフォルト値を持たせることも出来ます::
 
   <input type="hidden"
          name="pizza.toppings:record:list:default" 
@@ -1669,16 +1736,25 @@ You can also provide default values for record elements with the
   <option>Garlic<option>
   </select>
 
-The 'default' type allows a specified value to be inserted when the
-form field is left blank. In the above example, if the user does not
-select values from the list of toppings, the default value will be
-used. The record 'pizza' will have the attribute 'toppings' and its
-value will be the list containing the word "All" (if the field is
-empty) or a list containing the selected toppings.
+..
+   The 'default' type allows a specified value to be inserted when the
+   form field is left blank. In the above example, if the user does not
+   select values from the list of toppings, the default value will be
+   used. The record 'pizza' will have the attribute 'toppings' and its
+   value will be the list containing the word "All" (if the field is
+   empty) or a list containing the selected toppings.
 
-You can even marshal large amounts of form data into multiple records
-with the 'records' type converter. Here's an example::
+'default' 型のフィールドに設定された値は、他のフィールドの値が空の時に
+代わりに使われる値です。前述の例では、 topings の一覧からユーザーが
+値を選ばなかった場合に、デフォルト値が使用されます。レコード 'pizza'
+の 'toppings' 属性は list 型となり、1つの値 "ALL" が格納されます。
+他の選択肢を選択していた場合はその値が list に格納されます。
 
+..
+   You can even marshal large amounts of form data into multiple records
+   with the 'records' type converter. Here's an example::
+
+..
   <h2>Member One</h2>
   Name:
   <input type="text" name="members.name:records"><BR>
@@ -1687,6 +1763,7 @@ with the 'records' type converter. Here's an example::
   Age:
   <input type="text" name="members.age:int:records"><BR>
 
+..
   <H2>Member Two</H2>
   Name:
   <input type="text" name="members.name:records"><BR>
@@ -1695,13 +1772,43 @@ with the 'records' type converter. Here's an example::
   Age:
   <input type="text" name="members.age:int:records"><BR>
 
-This form data will be marshaled into a list of records named
-'members'. Each record will have a 'name', 'email', and 'age'
-attribute.
+他にも大きなフォームデータを複数のレコードに格納する 'records' 型の
+コンバータがあります。以下の例を見てみましょう::
 
-Record marshalling provides you with the ability to create complex
-forms. However, it is a good idea to keep your web interfaces as
-simple as possible.
+  <h2>メンバー１</h2>
+  名前:
+  <input type="text" name="members.name:records"><BR>
+  Email:
+  <input type="text" name="members.email:records"><BR>
+  年齢:
+  <input type="text" name="members.age:int:records"><BR>
+
+  <H2>メンバー２</H2>
+  名前:
+  <input type="text" name="members.name:records"><BR>
+  Email:
+  <input type="text" name="members.email:records"><BR>
+  年齢:
+  <input type="text" name="members.age:int:records"><BR>
+
+..
+   This form data will be marshaled into a list of records named
+   'members'. Each record will have a 'name', 'email', and 'age'
+   attribute.
+
+このフォームのデータは 'members' という名前の list になり、要素は
+record になります。各レコードには 'name', 'email', 'age' という属性
+があるでしょう。
+
+..
+   Record marshalling provides you with the ability to create complex
+   forms. However, it is a good idea to keep your web interfaces as
+   simple as possible.
+
+レコードマーシャリングによって複雑なフォームを作る事が出来るようになります。
+ただし、 Web のインターフェースを出来るだけシンプルに保つことはとても
+良いことなので、忘れないようにして下さい。
+
 
 Exceptions
 ----------
