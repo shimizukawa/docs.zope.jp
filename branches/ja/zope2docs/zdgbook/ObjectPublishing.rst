@@ -1809,127 +1809,259 @@ record になります。各レコードには 'name', 'email', 'age' という�
 ただし、 Web のインターフェースを出来るだけシンプルに保つことはとても
 良いことなので、忘れないようにして下さい。
 
+..
+   Exceptions
+   ----------
 
-Exceptions
-----------
+例外処理
+--------
 
-Unhandled exceptions are caught by the object publisher and are
-translated automatically to nicely formatted HTTP output.
+..
+   Unhandled exceptions are caught by the object publisher and are
+   translated automatically to nicely formatted HTTP output.
 
-When an exception is raised, the exception type is mapped to an HTTP
-code by matching the value of the exception type with a list of
-standard HTTP status names. Any exception types that do not match
-standard HTTP status names are mapped to "Internal Error" (500). The
-standard HTTP status names are: "OK", "Created", "Accepted", "No
-Content", "Multiple Choices", "Redirect", "Moved Permanently", "Moved
-Temporarily", "Not Modified", "Bad Request", "Unauthorized",
-"Forbidden", "Not Found", "Internal Error", "Not Implemented", "Bad
-Gateway", and "Service Unavailable". Variations on these names with
-different cases and without spaces are also valid.
+捕まえられなかった例外はオブジェクトパブリッシャーで捕まえられ、
+HTTP出力用のきれいなフォーマットに自動的に変換されます。
 
-An attempt is made to use the exception value as the body of the
-returned response. The object publisher will examine the exception
-value. If the value is a string that contains some white space, then
-it will be used as the body of the return error message. If it
-appears to be HTML, the error content type will be set to
-'text/html', otherwise, it will be set to 'text/plain'. If the
-exception value is not a string containing white space, then the
-object publisher will generate its own error message.
+..
+   When an exception is raised, the exception type is mapped to an HTTP
+   code by matching the value of the exception type with a list of
+   standard HTTP status names. Any exception types that do not match
+   standard HTTP status names are mapped to "Internal Error" (500). The
+   standard HTTP status names are: "OK", "Created", "Accepted", "No
+   Content", "Multiple Choices", "Redirect", "Moved Permanently", "Moved
+   Temporarily", "Not Modified", "Bad Request", "Unauthorized",
+   "Forbidden", "Not Found", "Internal Error", "Not Implemented", "Bad
+   Gateway", and "Service Unavailable". Variations on these names with
+   different cases and without spaces are also valid.
 
-There are two exceptions to the above rule:
+例外が発生すると、例外の種類でHTTPのステータスコードが割り当てられられます。
+例外がHTTPステータスコードに割り当てられていない場合は、 "Internal Error"
+(500) になります。スタンダードHTTPステータス名として、次のものがあります:
+"OK", "Created", "Accepted", "No Content", "Multiple Choices", "Redirect",
+"Moved Permanently", "Moved Temporarily", "Not Modified", "Bad Request",
+"Unauthorized", "Forbidden", "Not Found", "Internal Error", "Not Implemented",
+"Bad Gateway", "Service Unavailable" 。これらのそれぞれの名前のバリエーション
+として、大文字小文字の違いや空白の有無なども許されています。
 
-1. If the exception type is: "Redirect", "Multiple Choices" "Moved
-   Permanently", "Moved Temporarily", or "Not Modified", and the
-   exception value is an absolute URI, then no body will be provided
-   and a 'Location' header will be included in the output with the
-   given URI.
+..
+   An attempt is made to use the exception value as the body of the
+   returned response. The object publisher will examine the exception
+   value. If the value is a string that contains some white space, then
+   it will be used as the body of the return error message. If it
+   appears to be HTML, the error content type will be set to
+   'text/html', otherwise, it will be set to 'text/plain'. If the
+   exception value is not a string containing white space, then the
+   object publisher will generate its own error message.
 
-2. If the exception type is "No Content", then no body will be
-   returned.
+発生した例外の値は、レスポンスのBodyとして返せるか確認します。
+オブジェクトパブリッシャーは例外の値をチェックして、値がいくつかの空白を
+含む文字列であれば、エラーメッセージのBodyとして返すようにします。
+それが HTML のようであれば、コンテントタイプを 'text/html' に設定し、
+そうでなければ 'text/plain' に設定します。
+例外の値が空白を含む文字列ではない場合、オブジェクトパブリッシャーが
+自身でエラーメッセージを生成するでしょう。
 
-When a body is returned, traceback information will be included in a
-comment in the output. As mentioned earlier, the environment variable
-'Z_DEBUG_MODE' can be used to control how tracebacks are included. If
-this variable is set then tracebacks are included in 'PRE' tags,
-rather than in comments. This is very handy during debugging.
+..
+   There are two exceptions to the above rule:
 
-Exceptions and Transactions
----------------------------
+さらに以下の二つの種類の例外があります:
 
-When Zope receives a request it begins a transaction. Then it begins
-the process of traversal. Zope automatically commits the transaction
-after the published object is found and called. So normally each web
-request constitutes one transaction which Zope takes care of for
-you. See Chapter 4. for more information on transactions.
+..
+   1. If the exception type is: "Redirect", "Multiple Choices" "Moved
+      Permanently", "Moved Temporarily", or "Not Modified", and the
+      exception value is an absolute URI, then no body will be provided
+      and a 'Location' header will be included in the output with the
+      given URI.
 
-If an unhandled exception is raised during the publishing process,
-Zope aborts the transaction. As detailed in Chapter
-4. Zope handles 'ConflictErrors' by re-trying the request up to
-three times.  This is done with the 'zpublisher_exception_hook'.
+..
+   2. If the exception type is "No Content", then no body will be
+      returned.
 
-In addition, the error hook is used to return an error message to the
-user. In Zope the error hook creates error messages by calling the
-'raise_standardErrorMessage' method. This method is implemented by
-'SimpleItem.Item'. It acquires the 'standard_error_message' DTML
-object, and calls it with information about the exception.
+1. 例外の型が次の場合: "Redirect", "Multiple Choices" "Moved Permanently",
+   "Moved Temporarily", "Not Modified", かつ、例外の値が絶対 URI の場合、
+   Bodyは空となり 'Location' ヘッダーに、与えられた URI が設定されます。
 
-You will almost never need to override the
-'raise_standardErrorMessage' method in your own classes, since it is
-only needed to handle errors that are raised by other components. For
-most errors, you can simply catch the exceptions normally in your
-code and log error messages as needed. If you need to, you should be
-able to customize application error reporting by overriding the
-'standard_error_message' DTML object in your application.
+2. 例外の型が "No Content" の場合、 Body 無しで返されます。
 
-Manual Access to Request and Response
--------------------------------------
+..
+   When a body is returned, traceback information will be included in a
+   comment in the output. As mentioned earlier, the environment variable
+   'Z_DEBUG_MODE' can be used to control how tracebacks are included. If
+   this variable is set then tracebacks are included in 'PRE' tags,
+   rather than in comments. This is very handy during debugging.
 
-You do not need to access the request and response directly most of
-the time. In fact, it is a major design goal of the publisher that
-most of the time your objects need not even be aware that they are
-being published on the web. However, you have the ability to exert
-more precise control over reading the request and returning the
-response.
+Body が返されると、トレースバック情報は出力のコメント内に含まれるように
+なります。先に述べたように、トレースバックがどう含まれてるかを制御するのに、
+環境変数 'Z_DEBUG_MODE' を使うことができます。もしこの変数が設定されていれば、
+トレースバック情報はコメント内ではなく 'PRE' タグの中に出力されます。
+これはデバッグ時にとても便利です。
 
-Normally published objects access the request and response by listing
-them in the signature of the published method. If this is not
-possible you can usually use acquisition to get a reference to the
-request. Once you have the request, you can always get the response
-from the request like so::
+..
+   Exceptions and Transactions
+   ---------------------------
+
+例外とトランザクション
+----------------------
+
+..
+   When Zope receives a request it begins a transaction. Then it begins
+   the process of traversal. Zope automatically commits the transaction
+   after the published object is found and called. So normally each web
+   request constitutes one transaction which Zope takes care of for
+   you. See Chapter 4. for more information on transactions.
+
+Zope はリクエストを受信するとその時点でトランザクションを開始し、
+探索処理を始めます。 Zope は探索で発行するべきオブジェクトを見つけ、
+発行が完了した後に、自動的にトランザクションをコミットします。
+ですので、通常は各リクエスト毎に Zope が1つずつトランザクションを
+用意してくれることになります。トランザクションについて詳しくは
+4章を参照してください。
+
+..
+   If an unhandled exception is raised during the publishing process,
+   Zope aborts the transaction. As detailed in Chapter
+   4. Zope handles 'ConflictErrors' by re-trying the request up to
+   three times.  This is done with the 'zpublisher_exception_hook'.
+
+もし処理されない例外が発行処理中に発生した場合、 Zope はトランザクション
+を中断 (abort) します。4章では Zope が 'ConflictErrors' 発生時にリクエスト
+を3回再処理する仕組みについて、詳しく説明します。例外処理は、
+'zpublisher_exception_hook' 呼び出しで終了します。
+
+..
+   In addition, the error hook is used to return an error message to the
+   user. In Zope the error hook creates error messages by calling the
+   'raise_standardErrorMessage' method. This method is implemented by
+   'SimpleItem.Item'. It acquires the 'standard_error_message' DTML
+   object, and calls it with information about the exception.
+
+最後に、そのエラーフックでエラーメッセージをユーザーに提供します。
+Zope はエラーフックでエラーメッセージを作成するために
+'raise_standardErrorMessage' メソッドを呼び出します。このメソッドは
+'SimpleItem.Item' で実装されています。ここで 'standard_error_message'
+DTML オブジェクトを獲得し、例外情報を渡して呼び出します。
+
+..
+   You will almost never need to override the
+   'raise_standardErrorMessage' method in your own classes, since it is
+   only needed to handle errors that are raised by other components. For
+   most errors, you can simply catch the exceptions normally in your
+   code and log error messages as needed. If you need to, you should be
+   able to customize application error reporting by overriding the
+   'standard_error_message' DTML object in your application.
+
+たいていの場合 'raise_standardErrorMessage' メソッドを独自のクラスで
+オーバーライドする必要はありません。ほかのコンポーネントによって起された
+例外は捕まえる必要はありません。たいていのエラーはあなたのコードで捕まえて
+必要であればエラーメッセージをログに出力してください。
+アプリケーションのエラー報告画面の表示をカスタマイズする必要があれば、
+'standard_error'message' DTML オブジェクトオーバーライドしてもよいでしょう。
+
+..
+   Manual Access to Request and Response
+   -------------------------------------
+
+リクエストとレスポンスへの手動アクセス
+--------------------------------------
+
+..
+   You do not need to access the request and response directly most of
+   the time. In fact, it is a major design goal of the publisher that
+   most of the time your objects need not even be aware that they are
+   being published on the web. However, you have the ability to exert
+   more precise control over reading the request and returning the
+   response.
+
+多くの場合、リクエストとレスポンスにアクセスする必要はありません。
+実際、パブリッシャーの設計目標は、オブジェクト自身は Web 上で発行
+されているということを意識しなくて済むようにすることです。しかし、
+必要に応じてリクエストから読み取ったり、返すレスポンスをより正確に
+コントロールすることが許されています。
+
+..
+   Normally published objects access the request and response by listing
+   them in the signature of the published method. If this is not
+   possible you can usually use acquisition to get a reference to the
+   request. Once you have the request, you can always get the response
+   from the request like so::
+
+     response=REQUEST.RESPONSE
+
+通常は、発行オブジェクトはメソッドの引数に渡されるリクエストオブジェクトを
+使ってリクエストとレスポンスにアクセスします。
+もしこれが出来ない場合、獲得によってリクエストオブジェクト
+にアクセスすることができます。陸エス尾tオブジェクトを取得できれば、
+そこからレスポンスオブジェクトを以下のように取得することができます::
 
   response=REQUEST.RESPONSE
 
-The APIs of the request and response are covered in the API
-documentation. Here we'll look at a few common uses of the request
-and response.
+..
+   The APIs of the request and response are covered in the API
+   documentation. Here we'll look at a few common uses of the request
+   and response.
 
-One reason to access the request is to get more precise information
-about form data. As we mentioned earlier, argument marshalling comes
-from a number of places including cookies, form data, and the CGI
-environment. For example, you can use the request to differentiate
-between form and cookie data::
+リクエストオブジェクトとレスポンスオブジェクトの API については、
+API ドキュメントを参照してください。ここではそのなかから一般的に
+よく使うものを紹介します。
 
-  cookies = REQUEST.cookies # a dictionary of cookie data
-  form = REQUEST.form # a dictionary of form data
+..
+   One reason to access the request is to get more precise information
+   about form data. As we mentioned earlier, argument marshalling comes
+   from a number of places including cookies, form data, and the CGI
+   environment. For example, you can use the request to differentiate
+   between form and cookie data::
 
-One common use of the response object is to set response headers.
-Normally the publisher in concert with the web server will take care
-of response headers for you. However, sometimes you may wish manually
-control headers::
+     cookies = REQUEST.cookies # a dictionary of cookie data
+     form = REQUEST.form # a dictionary of form data
+
+リクエストオブジェクトにアクセスする理由の１つは、フォームデータの正確な
+情報を取得することです。前に説明したように、引数マーシャリングでは
+クッキー、フォームデータ、そして CGI 環境変数、といった複数箇所から値が
+取得されます。たとえば、フォームとクッキーのデータを個別に使いたい場合には
+以下のように取得できます::
+
+  cookies = REQUEST.cookies # クッキーデータの辞書
+  form = REQUEST.form # フォームデータの辞書
+
+..
+   One common use of the response object is to set response headers.
+   Normally the publisher in concert with the web server will take care
+   of response headers for you. However, sometimes you may wish manually
+   control headers::
+
+レスポンスオブジェクトにアクセスする理由のひとつに、レスポンスヘッダー
+への設定があります。パブリッシャーと Web サーバーの協調動作のために、
+レスポンスヘッダーを調整することができます。手動でヘッダーを操作したい
+場合には以下のように設定できます::
 
   RESPONSE.setHeader('Pragma', 'No-Cache')
 
-Another reason to access the response is to stream response data. You
-can do this with the 'write' method::
+..
+   Another reason to access the response is to stream response data. You
+   can do this with the 'write' method::
+
+     while 1:
+         data=getMoreData() #this call may block for a while
+         if not data:
+             break
+         RESPONSE.write(data)
+
+レスポンスオブジェクトにアクセスする他の理由に、レスポンスデータの
+ストリーミング出力があります。以下のようにして 'write' メソッドを使います::
 
   while 1:
-      data=getMoreData() #this call may block for a while
+      data=getMoreData() #この呼び出しはおそらく多少時間がかかります
       if not data:
           break
       RESPONSE.write(data)
 
-Here's a final example that shows how to detect if your method is
-being called from the web. Consider this function::
+..
+   Here's a final example that shows how to detect if your method is
+   being called from the web. Consider this function::
+
+ここで、メソッドが Web から呼び出されているかどうかを確認するためのコードの
+例として以下の関数を見てみましょう::
 
   def feedParrot(parrot_id, REQUEST=None):
       ...
@@ -1937,12 +2069,20 @@ being called from the web. Consider this function::
       if REQUEST is not None:
           return "<html><p>Parrot %s fed</p></html>" % parrot_id
 
-The 'feedParrot' function can be called from Python, and also from
-the web. By including 'REQUEST=None' in the signature you can
-differentiate between being called from Python and being called form
-the web. When the function is called from Python nothing is returned,
-but when it is called from the web the function returns an HTML
-confirmation message.
+..
+   The 'feedParrot' function can be called from Python, and also from
+   the web. By including 'REQUEST=None' in the signature you can
+   differentiate between being called from Python and being called form
+   the web. When the function is called from Python nothing is returned,
+   but when it is called from the web the function returns an HTML
+   confirmation message.
+
+'feedParrot' 関数は Python からも Web からも呼び出し可能です。引数に
+'REQUEST=None' が含まれており、この値で Python から呼び出されたか Web
+から呼び出されたかを見分けることができます。関数が Python から呼び出された
+場合、この関数は None を返しますが、 Web から呼び出された場合には HTML
+の確認メッセージを返します。
+
 
 Other Network Protocols
 =======================
