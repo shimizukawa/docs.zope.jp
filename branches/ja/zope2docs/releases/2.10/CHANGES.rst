@@ -7,11 +7,29 @@ Zope 2.10 Changes
 を参照してください。
 
 
-Zope 2.10.10 (Unreleased)
+Zope 2.10.10 (2009/12/22)
 ---------------------------
+
+機能追加
++++++++++
+
+- Testing/custom_zodb.py: DemoStrage 以外のストレージを使用できるように
+  しました。 FileStorage は環境変数 $TEST_FILESTORAGE の値から任意の
+  Data.fs をマウントすることが出来ます。 ZEO サーバーについても、
+  $TEST_ZEO_HOST と $TEST_ZEO_PORT 環境変数で指定できます。
+  この新しい機能によって、標準の Zope テストランナーを使って既存の Zope
+  インストールをテスト出来ます。
+
 
 バグ修正
 +++++++++
+
+- LP #490514:  DTML が ZPT から呼び出された場合の脆弱性汚染から保護する
+  ようにしました。
+
+- LP #360761 (Acquisition trunk からのバックポート):
+  iteration proxy が `__iter__` と `__getitem__` にAcquisionでくるまれた
+  `self` を渡すようにしました。
 
 - LP #414757 (Zope trunk からのバックポート):
   複製したリクエストをクリアするときに IEndRequestEvent を出力しないようにした。
