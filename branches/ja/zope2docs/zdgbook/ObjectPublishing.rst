@@ -2083,27 +2083,52 @@ API ドキュメントを参照してください。ここではそのなかか�
 場合、この関数は None を返しますが、 Web から呼び出された場合には HTML
 の確認メッセージを返します。
 
+..
+   Other Network Protocols
+   =======================
 
-Other Network Protocols
-=======================
+HTTP以外のネットワークプロトコル
+================================
 
 FTP
 ---
+..
+   Zope comes with an FTP server which allows users to treat the Zope
+   object hierarchy like a file server. As covered in Chapter 3, Zope
+   comes with base classes ('SimpleItem' and 'ObjectManager') which
+   provide simple FTP support for all Zope objects. The FTP API is
+   covered in the API reference.
 
-Zope comes with an FTP server which allows users to treat the Zope
-object hierarchy like a file server. As covered in Chapter 3, Zope
-comes with base classes ('SimpleItem' and 'ObjectManager') which
-provide simple FTP support for all Zope objects. The FTP API is
-covered in the API reference.
+Zope は FTP サーバーとしても動作させることが出来ます。 FTP サーバーでは
+Zope のオブジェクト階層をファイルサーバーのように辿ることができます。
+3章では Zope が提供している基本クラス ('SimpleItem' と 'ObjectManager')
+によって簡単な FTP 機能が Zope の全オブジェクトに提供されている事
+についてまとめています。 FTP の API については API リファレンスで
+カバーしています。
 
-To support FTP in your objects you'll need to find a way to represent
-your object's state as a file. This is not possible or reasonable for
-all types of objects. You should also consider what users will do
-with your objects once they access them via FTP.  You should find out
-which tools users are likely to edit your object files.  For example,
-XML may provide a good way to represent your object's state, but it
-may not be easily editable by your users.  Here's an example class
-that represents itself as a file using RFC 822 format::
+..
+   To support FTP in your objects you'll need to find a way to represent
+   your object's state as a file. This is not possible or reasonable for
+   all types of objects. You should also consider what users will do
+   with your objects once they access them via FTP.  You should find out
+   which tools users are likely to edit your object files.  For example,
+   XML may provide a good way to represent your object's state, but it
+   may not be easily editable by your users.  Here's an example class
+   that represents itself as a file using RFC 822 format::
+
+..
+   original comment in source.
+          "Returns object state as a string"
+          "Sets object state given a string"
+
+あなたのオブジェクトを FTP 対応にするために、オブジェクトをファイル
+のように見せる必要があります。これは全てのオブジェクトが可能な事では無いし、
+簡単に出来ないこともあります。そのオブジェクトに FTP 経由でアクセスして
+何をしたいのかをよく考える必要があります。また、利用者がどのツールで
+オブジェクトを編集したいのかも調べておいたほうが良いでしょう。例えば、
+XML はオブジェクトを FTP で見せるのに適した方法かもしれませんが、
+利用者がそれを編集するのは簡単ではありません。 ここに例として
+RFC 822 フォーマットのファイルとして変換表現したクラスがあります::
 
   from rfc822 import Message
   from cStringIO import StringIO
@@ -2116,94 +2141,172 @@ that represents itself as a file using RFC 822 format::
           self.age=age
 
       def writeState(self):
-          "Returns object state as a string"
+          "オブジェクトのステートを文字列で返す"
           return "Name: %s\nEmail: %s\nAge: %s" % (self.name,
                                                    self.email, 
                                                    self.age)
       def readState(self, data):
-          "Sets object state given a string"
+          "オブジェクトのステートを文字列で受け取って設定する"
           m=Message(StringIO(data))
           self.name=m['name']
           self.email=m['email']
           self.age=int(m['age'])
 
-The 'writeState' and 'readState' methods serialize and unserialize
-the 'name', 'age', and 'email' attributes to and from a string. There
-are more efficient ways besides RFC 822 to store instance attributes
-in a file, however RFC 822 is a simple format for users to edit with
-text editors.
+..
+   The 'writeState' and 'readState' methods serialize and unserialize
+   the 'name', 'age', and 'email' attributes to and from a string. There
+   are more efficient ways besides RFC 822 to store instance attributes
+   in a file, however RFC 822 is a simple format for users to edit with
+   text editors.
 
-To support FTP all you need to do at this point is implement the
-'manage_FTPget' and 'PUT' methods. For example::
+'writeState' と 'readState' メソッドは、オブジェクトの 'name', 'age',
+'email' 属性を文字列にシリアライズ/復元します。 インスタンスの属性を
+RFC 822 形式のファイルにする効率的な方法は他にもありますが、 RFC 822
+は利用者にとってテキストエディタで編集しやすいシンプルなフォーマットです。
+
+..
+   To support FTP all you need to do at this point is implement the
+   'manage_FTPget' and 'PUT' methods. For example::
+
+.. original comment in source.
+      "Returns state for FTP"
+      "Sets state from FTP"
+
+FTP をサポートするために必要なことは 'manage_FTPget' と 'PUT' メソッド
+を実装することが全てです。例えば::
 
   def manage_FTPget(self):
-      "Returns state for FTP"
+      "FTP にステートを返します"
       return self.writeState()
 
   def PUT(self, REQUEST):
-      "Sets state from FTP"
+      "FTP からのステートを設定します"
        self.readState(REQUEST['BODY'])
 
-You may also choose to implement a 'get_size' method which returns
-the size of the string returned by 'manage_FTPget'. This is only
-necessary if calling 'manage_FTPget' is expensive, and there is a
-more efficient way to get the size of the file. In the case of this
-example, there is no reason to implement a 'get_size' method.
+..
+   You may also choose to implement a 'get_size' method which returns
+   the size of the string returned by 'manage_FTPget'. This is only
+   necessary if calling 'manage_FTPget' is expensive, and there is a
+   more efficient way to get the size of the file. In the case of this
+   example, there is no reason to implement a 'get_size' method.
 
-One side effect of implementing 'PUT' is that your object now
-supports HTTP PUT publishing. See the next section on WebDAV for more
-information on HTTP PUT.
+上記の他に、 'get_size' メソッドを実装して 'manage_FTPget' の返値の
+データサイズを返すようにすることもできます。これが必要になるのは、
+'manage_FTPget' の呼び出し処理に非常に時間がかかる場合くらいですが、
+ファイルサイズを知らせるためにはとても効果的な方法です。
+前述の例では 'get_size' メソッドを実装する意味はありません。
 
-That's all there is to making your object work with FTP. As you'll
-see next WebDAV support is similar.
+..
+   One side effect of implementing 'PUT' is that your object now
+   supports HTTP PUT publishing. See the next section on WebDAV for more
+   information on HTTP PUT.
+
+'PUT' メソッドを実装する副作用として、そのオブジェクトは HTTP PUT
+による発行をサポートするようになります。次の WebDAV のセクションで、
+HTTP PUT についてより詳しく説明します。
+
+..
+   That's all there is to making your object work with FTP. As you'll
+   see next WebDAV support is similar.
+
+以上で、あなたのオブジェクトは FTP で動作するようになりました。
+次の WebDAV サポートでやることはほとんど同じです。
 
 WebDAV
 ------
 
-WebDAV is a protocol for collaboratively edit and manage files on
-remote servers. It provides much the same functionality as FTP, but
-it works over HTTP.
+..
+   WebDAV is a protocol for collaboratively edit and manage files on
+   remote servers. It provides much the same functionality as FTP, but
+   it works over HTTP.
 
-It is not difficult to implement WebDAV support for your
-objects. Like FTP, the most difficult part is to figure out how to
-represent your objects as files.
+WebDAV はリモートサーバーからファイルを協調的に管理・編集するための
+プロトコルです。このプロトコルの多くの機能は FTP と同じですが、
+HTTP プロトコル上で動作します。
 
-Your class must inherit from 'webdav.Resource' to get basic DAV
-support. However, since 'SimpleItem' inherits from 'Resource', your
-class probably already inherits from 'Resource'. For container
-classes you must inherit from 'webdav.Collection'. However, since
-'ObjectManager' inherits from 'Collection' you are already set so
-long as you inherit from 'ObjectManager'.
+..
+   It is not difficult to implement WebDAV support for your
+   objects. Like FTP, the most difficult part is to figure out how to
+   represent your objects as files.
 
-In addition to inheriting from basic DAV classes, your classes must
-implement 'PUT' and 'manage_FTPget'. These two methods are also
-required for FTP support. So by implementing WebDAV support, you also
-implement FTP support.
+オブジェクトに WebDAV サポートを追加するのは難しくありません。
+実装で一番難しいのはオブジェクトをどんなフォーマットのファイルとして
+表現するかという部分です。
 
-The permissions that you assign to these two methods will control the
-ability to read and write to your class through WebDAV, but the
-ability to see your objects is controlled through the "WebDAV access"
-permission.
+..
+   Your class must inherit from 'webdav.Resource' to get basic DAV
+   support. However, since 'SimpleItem' inherits from 'Resource', your
+   class probably already inherits from 'Resource'. For container
+   classes you must inherit from 'webdav.Collection'. However, since
+   'ObjectManager' inherits from 'Collection' you are already set so
+   long as you inherit from 'ObjectManager'.
 
-Supporting Write Locking
+あなたの class を 'webdav.Resource' を継承するようにすれば、基本的な
+DAV 機能はサポートされます。ところで、前述の 'SimpleItem' クラスは
+'Resource' を継承しているので、あなたの class は既に 'Resource'
+を継承していることになります。同様に、コンテナを WebDAV 対応にするには
+'webdav.Collection' を継承する必要がありますが、 'ObjectManager' が
+'Collection' を継承しているため、あなたのコンテナが 'ObjectManager'
+を継承していれば対応済みということになります。
+
+..
+   In addition to inheriting from basic DAV classes, your classes must
+   implement 'PUT' and 'manage_FTPget'. These two methods are also
+   required for FTP support. So by implementing WebDAV support, you also
+   implement FTP support.
+
+DAV クラスからの継承の他に、 'PUT' と 'manage_FTPget' メソッドを実装
+する必要があります。この2つのメソッドは FTP サポートでも必要でした。
+つまり、 WebDAV サポートを実装すると、同時に FTP サポートが実装される
+ということになります。
+
+..
+   The permissions that you assign to these two methods will control the
+   ability to read and write to your class through WebDAV, but the
+   ability to see your objects is controlled through the "WebDAV access"
+   permission.
+
+前述の2つのメソッドにパーミッションを設定することで、 WebDAV 経由の読み書き
+それぞれのアクセス権をコントロールできますが、オブジェクトを WebDAV
+経由で見せるには "WebDAV access" パーミッションを設定します。
+
+..
+   Supporting Write Locking
+   ------------------------
+
+書き込みロックのサポート
 ------------------------
 
-Write locking is a feature of WebDAV that allows users to put lock on
-objects they are working on. Support write locking s easy. To
-implement write locking you must assert that your lass implements the
-'WriteLockInterface'. For example::
+..
+   Write locking is a feature of WebDAV that allows users to put lock on
+   objects they are working on. Support write locking s easy. To
+   implement write locking you must assert that your lass implements the
+   'WriteLockInterface'. For example::
+
+書き込みロックは WebDAV の機能で、利用者が作業中のオブジェクトにロックを
+設定する事ができます。書き込みロックをサポートするのは簡単で、
+以下の例のように 'WriteLockInterface' の実装を表明するだけです::
 
   from webdav.WriteLockInterface import WriteLockInterface
 
   class MyContentClass(OFS.SimpleItem.Item, Persistent):
       __implements__ = (WriteLockInterface,)
 
-It's sufficient to inherit from 'SimpleItem.Item', since it inherits
-from 'webdav.Resource', which provides write locking long with other
-DAV support.
+..
+   It's sufficient to inherit from 'SimpleItem.Item', since it inherits
+   from 'webdav.Resource', which provides write locking long with other
+   DAV support.
 
-In addition, your 'PUT' method should begin with calls to dav__init'
-and 'dav_simpleifhandler'. For example::
+'SimpleItem.Item' から継承すれば必要な要件を満たし、 'webdav.Resource'
+から継承するのと同義で、これで他の DAV サポートと同様に、
+書き込みロック機能が提供されます。
+
+..
+   In addition, your 'PUT' method should begin with calls to dav__init'
+   and 'dav_simpleifhandler'. For example::
+
+次に 'PUT' メソッドを実装してそのメソッド内で最初に 'dav__init' と
+'dav_simpleifhandler' を呼び出しておきましょう::
 
  def PUT(self, REQUEST, RESPONSE):
      """
@@ -2213,10 +2316,17 @@ and 'dav_simpleifhandler'. For example::
      self.dav__simpleifhandler(REQUEST, RESPONSE)
      ...
 
-Finally your class's edit methods should check to determine whether
-your object is locked using the 'ws_isLocked' method. If someone
-attempts to change your object when it is locked you should raise the
-'ResourceLockedError'. For example::
+..
+   Finally your class's edit methods should check to determine whether
+   your object is locked using the 'ws_isLocked' method. If someone
+   attempts to change your object when it is locked you should raise the
+   'ResourceLockedError'. For example::
+
+最後に、あなたのクラスの編集メソッド内で、 'ws_isLocked' メソッドを使って、
+オブジェクトがロックされているかどうか確認しましょう。もし誰かが
+オブジェクトを更新しようとしていれば、そのオブジェクトはロックされ、
+これを変更しようとした場合 'ReosurceLockedError' を raise する事に
+なっています。例えば::
 
   from webdav import ResourceLockedError
 
@@ -2228,10 +2338,16 @@ attempts to change your object when it is locked you should raise the
               raise ResourceLockedError
           ...
 
-WebDAV support is not difficult to implement, and as more WebDAV
-editors become available, it will become more valuable. If you choose
-to add FTP support to your class you should probably go ahead and
-support WebDAV too since it is so easy once you've added FTP support.
+..
+   WebDAV support is not difficult to implement, and as more WebDAV
+   editors become available, it will become more valuable. If you choose
+   to add FTP support to your class you should probably go ahead and
+   support WebDAV too since it is so easy once you've added FTP support.
+
+WebDAV サポートの実装は難しくなく、さらに多くの WebDAV 用エディタが
+増えてきている中、 WebDAV サポートの価値は増えてきています。
+もし FTP サポートを追加する予定があれば、 WebDAV サポートも行うべきです。
+WebDAV サポートの実装は FTP サポートが済んでいればすぐ簡単にできるでしょう。
 
 XML-RPC
 -------
