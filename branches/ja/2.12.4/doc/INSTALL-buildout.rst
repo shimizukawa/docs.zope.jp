@@ -6,13 +6,13 @@
 このドキュメントは ``zc.buildout`` を用いた Zope の始め方について
 説明しています。
 
-About ``zc.buildout``
+``zc.buildout`` とは
 ---------------------
 
-`zc.buildout <http://www.buildout.org/>`_ is a powerful tool for creating
-repeatable builds of a given software configuration and environment.  The
-Zope developers use ``zc.buildout`` to develop Zope itself, as well as
-the underlying packages it uses.
+`zc.buildout <http://www.buildout.org/>`_ は、与えられたソフトウェアの
+設定と環境について同じものを繰り返し構築することをサポートする
+強力なツールです。 Zope の開発者は Zope 開発に際して ``zc.buildout``
+と関連するパッケージを使っています。
 
 
 前提
@@ -40,17 +40,18 @@ Zope を使うためには、以下の前提条件をそろえる必要があり
   __ https://sourceforge.net/projects/pywin32/
 
 
-Installing standalone Zope using zc.buildout
---------------------------------------------
+zc.buildoutによるZopeのスタンドアロンインストール
+---------------------------------------------------
 
-In this configuration, we use ``zc.buildout`` to install the Zope software,
-but then generate server "instances" outside the buildout environment.
+ここでの設定方法では、 ``zc.buildout`` を使って Zope ソフトウェアを
+インストールしますが、サーバーの "インスタンス" は buildout
+環境の外に生成します。
 
-Installing the Zope software
-::::::::::::::::::::::::::::
+Zope ソフトウェアのインストール
+::::::::::::::::::::::::::::::::
 
-Installing the Zope software using ``zc.buildout`` involves the following
-steps:
+Zope ソフトウェアのインストールは、 ``zc.buildout`` を使って、
+以下の手順で行います:
 
 - Zope 2 ソースコードの `PyPI`__ からのダウンロード
 
@@ -100,15 +101,15 @@ Zope のインストールが終わったら、次は "インスタンスホー�
 buildout ベースの Zope インスタンス作成
 ========================================
 
-Rather than installing Zope separately from your instance, you may wish
-to use ``zc.buildout`` to create a self-contained environment, containing
-both the Zope software and the configuration and data for your server.
-This procedure involves the following steps:
+ここまでは、 Zope 本体とインスタンスを分けて用意する方法を説明してきましたが、
+もう一つの方法として、 ``zc.buildout`` を使って buildout 環境の中に
+Zope ソフトウェアと、設定と、インスタンスデータを一括で用意する事も出来ます。
+このためには以下の手順で環境を構築して下さい:
 
 - buildout用のディレクトリを作成します。このディレクトリには
   ``etc``, ``logs``, ``var`` の各サブディレクトリを作成します。
 
-- Fetch the buildout bootstrap script into the environment.
+- buildout の bootstrap スクリプトを buildout 環境内に取得して置きます。
 
 - 以下の内容で buildout 設定ファイルを作成します:
 
@@ -132,33 +133,33 @@ This procedure involves the following steps:
 
 これは最小の、しかし buildout の全ての有意な技術を使用している例です。
 
-- Bootstrap the buildout
+- buildout 環境の初期化 (bootstrap)
 
-- Run the buildout
+- buildout の実行
 
-* Zope の設定ファイル作成します。以下は最小版の例です:
+- Zope の設定ファイル作成します。以下は最小版の例です:
 
 .. topic:: etc/zope.cfg
  :class: file
 
  ::
 
-   %define INSTANCE <path to your instance directory>
+   %define INSTANCE <インスタンスディレクトリのパス>
 
-   python $INSTANCE/bin/py[.exe on Windows]
+   python $INSTANCE/bin/py[.exe Windowsで]
  
    instancehome $INSTANCE
 
 
-A fully-annotated sample can be found in the Zope2 egg::
+Zope2のeggの中には、完全なzope.cfgの設定が含まれています::
 
    $ cat eggs/Zope2--*/Zope2/utilities/skel/etc/zope.conf.in
 
-   <rest of the stuff that goes into a zope.conf, e.g. databases and log files.>
+   <zope.confの他の設定、例えば、データベースやログファイルなど>
 
 .. highlight:: bash
 
-An example session::
+環境を構築する例は以下のようになります::
 
    $ mkdir /path/to/instance
    $ cd /path/to/instance
@@ -171,23 +172,22 @@ An example session::
    $ vi etc/zope.conf  # replace <<INSTANCE_HOME>> with buildout directory
    $ bin/zopectl start
 
-In the ``bin`` subdirectory of your instance directory, you will
-find ``runzope`` and ``zopectl`` scripts that can be used as
-normal.
-
+インスタンスディレクトリ内の ``bin`` サブディレクトリに、
+これ以降使っていくことになる ``runzope`` と ``zopectl``
+スクリプトが作成されます。
 
 ``zopectl`` は引数無しで起動する事で対話モードで使用することができます。
 ``help`` や ``help <command>`` と入力すれば、各種コマンドを調べる
 ことができます。これらのコマンドはコマンドラインからも使用できます。
 
-Note that there are there are recipes such as `plone.recipe.zope2instance
-<http://pypi.python.org/pypi/plone.recipe.zope2instance>`_ which can be
-used to automate this whole process.
+なお、 `plone.recipe.zope2instance
+<http://pypi.python.org/pypi/plone.recipe.zope2instance>`_
+などのレシピを使うことで、前述の手順を自動化することが出来ます。
 
-After installation, refer to :doc:`operation` for documentation on
-configuring and running Zope.
+インストールが完了したら、 :doc:`operation` ドキュメントを参照して、
+Zope の設定を行い、実行しましょう。
 
 
-.. rubric:: (Translated by Shimizukawa, `r110302 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL-buildout.rst?rev=110302&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL-buildout.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r110522 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL-buildout.rst?rev=110522&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL-buildout.html>`_)
   :class: translator
 

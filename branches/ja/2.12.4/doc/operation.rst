@@ -1,34 +1,33 @@
-Configuring and Running Zope
-============================
+Zope の設定と実行
+==================
 
 .. highlight:: bash
 
 
-Whichever method you used to install Zope and create a server instance (see
-:doc:`INSTALL` and :doc:`INSTALL-buildout`), the end result is configured
-and operated the same way.
+Zope のインストールとサーバーのインスタンスの作成をどの方法で行っても、
+最後に設定する内容と手順は同じになります。インストール方法については、
+:doc:`INSTALL` や :doc:`INSTALL-buildout` を参照して下さい。
 
 
-Configuring Zope
-----------------
+Zope の設定
+------------
 
-Your instance's configuration is defined in its ``etc/zope.conf`` file.
-Unless you created the file manually, that file should contain fully-
-annotated examples of each directive.
+インスタンスの設定はインスタンス内の ``etc/zope.conf`` ファイルで行います。
+このファイルは手動で作成しなくても、各設定の例がすべて含まれています。
 
-You can also pass an explicit configuration file on the commandline::
+また、別に用意した設定ファイルをコマンドラインで明示的に指定することも
+出来ます::
 
   $ /path/to/zope/instance/bin/zopectl -c /tmp/other.conf show
   ...
   Config file:  /tmp/other.conf
 
-When starting Zope, if you see errors indicating that an address is in
-use, then you may have to change the ports Zope uses for HTTP or FTP. 
-The default HTTP and FTP ports used by Zope are
-8080 and 8021 respectively. You can change the ports used by
-editing ./etc/zope.conf appropriately.
+Zope を起動したときに、ポートが使用されているというエラーが表示された場合は、
+Zope が使用する HTTP や FTP のポート設定を変更する必要があります。
+Zope がデフォルトで使用する HTTP と FTP のポートは8080と8021です。
+このポート番号は ./etc/zope.conf を編集して変更する事が出来ます。
 
-The section in the configuration file looks like this::
+ポート番号を設定するセクションは以下の箇所です::
 
   <http-server>
     # valid keys are "address" and "force-connection-close"
@@ -36,11 +35,11 @@ The section in the configuration file looks like this::
     # force-connection-close on
   </http-server>
 
-The address can just be a port number as shown, or a  host:port
-pair to bind only to a specific interface.
+上記の address の部分にはポート番号のみを書くほかに、 host:port という
+形式で記載する事で特定のインターフェースとのみバインドすることが出来ます。
 
-After making any changes to the configuration file, you need to restart any
-running Zope server for the affected instance before changes are in effect.
+設定ファイルの記述を変更したら、変更した内容を反映するために Zope
+サーバーを再起動してください。
 
 
 Zope をフォアグラウンド起動する
@@ -62,11 +61,6 @@ Zope をデーモン起動する
 ことが出来ます::
 
   $ /path/to/zope/instance/bin/zopectl start
-
-During startup, Zope emits log messages into
-.  You can examine it with the usual
-tools (``cat``, ``more``, ``tail``, etc) and see if there are any errors
-preventing Zope from starting.
 
 Zope起動中に、 `/path/to/zope/instance/log/event.log` にログメッセージを
 出力します。もし、Zope起動中に何らかのエラーが発生した場合には、任意のツール
@@ -155,6 +149,6 @@ http://docs.zope.org/
 - このバージョンのZopeについての重要な情報が :doc:`CHANGES`
   にあります。参照してください。
 
-.. rubric:: (Translated by Shimizukawa, `r110302 <http://svn.zope.org/Zope/branches/2.12/doc/operation.rst?rev=110302&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/operation.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r110522 <http://svn.zope.org/Zope/branches/2.12/doc/operation.rst?rev=110522&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/operation.html>`_)
   :class: translator
 
