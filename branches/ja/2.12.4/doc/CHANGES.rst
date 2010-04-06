@@ -45,7 +45,7 @@ Changelog
 
 - Zope 3 スタイルのリソースディレクトリが Unauthorized エラーを出力していた
   問題を修正しました。この問題はリソースディレクトリのサブディレクトリに
- あるリソースに対して restrictedTraverse() を使用した場合に発生します。
+  あるリソースに対して restrictedTraverse() を使用した場合に発生します。
 
 - templateベースのブラウザビューで、 'macros' に対して探索が行える機能
   を元に戻しました。
