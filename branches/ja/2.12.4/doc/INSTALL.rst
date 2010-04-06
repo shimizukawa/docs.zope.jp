@@ -42,17 +42,17 @@ Zope のインストール
   $ bin/easy_install -i http://download.zope.org/Zope2/index/<Zope version> Zope2
 
 
-If you don't already have ``virtualenv`` installed on your system, download
-the latest release from the `virtualenv PyPI page
-<http://pypi.python.org/pypi/virtualenv>`_, unpack it, and install it, e.g.::
+もし、システムにまだ ``virtualenv`` がインストールされていないのであれば、
+最新版を `virtualenv PyPI page <http://pypi.python.org/pypi/virtualenv>`_
+から取得して以下のようにしてインストールしてください::
 
-  $ wget http://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.4.5.tar.gz
-  $ tar xzf virtualenv-1.4.5.tar.gz
-  $ cd virtuaenv-1.4.5
+  $ wget http://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.4.6.tar.gz
+  $ tar xzf virtualenv-1.4.6.tar.gz
+  $ cd virtuaenv-1.4.6
   $ /path/to/python2.6 setup.py install
 
-If you wish to manage your Zope instance using
-buildout, please see the :doc:`INSTALL-buildout`.
+virtualenv ではなく buildout を使って Zope のインスタンスを管理したいので
+あれば、 :doc:`INSTALL-buildout` を参照して下さい。
 
 
 Zope インスタンス作成
@@ -72,13 +72,14 @@ Zope のインストールが終わったら、次は "インスタンスホー�
   $ bin/mkzopeinstance --help
 
 .. note::
-  The traditional "inplace" build is no longer supported.  Always use
-  ``mkzopeinstance`` to create instances outside the virtualenv environment.
+   従来のような”同一ディレクトリ(inplace)”でのビルドはサポートされません。
+   virtualenv の環境外で ``mkzopeinstance`` を使用してインスタンスを作成
+   してください。
 
-After installation, refer to :doc:`operation` for documentation on
-configuring and running Zope.
+インストールが完了したら、設定を行ってから Zope を実行します。
+詳しくは :doc:`operation` を参照して下さい。
 
 
-.. rubric:: (Translated by Shimizukawa, `r110302 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL.rst?rev=110302&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r110522 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL.rst?rev=110522&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
   :class: translator
 
