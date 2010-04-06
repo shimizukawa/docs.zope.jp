@@ -2,20 +2,30 @@ Changelog
 =========
 
 This file contains change information for the current Zope release.
-Change information for previous versions of Zope can be found in the
-file HISTORY.txt.
+Change information for previous versions of Zope can be found at
+http://docs.zope.org/zope2/releases/.
 
-Zope 2.12.4 (Unreleased)
-------------------------
+2.12.4 (2010-04-05)
+-------------------
+
+Restructuring
++++++++++++++
+
+- Removed unmaintained build scripts for full Windows installers and
+  ``configure / make`` type builds.
+
+- Updated copyright and license information to conform with repository policy.
+
+- Factored out ZopeUndo package into a separate distribution.
 
 Features Added
 ++++++++++++++
 
 - Updated packages:
 
-  - Acquisition = 2.13.0
-  - ExtensionClass = 2.12.0
-  - Persistence = 2.12.0
+  - Acquisition = 2.13.2
+  - ExtensionClass = 2.13.0
+  - Persistence = 2.13.0
   - pytz = 2010b
 
 - There is now an event ZPublisher.interfaces.IPubBeforeStreaming which will
@@ -25,6 +35,12 @@ Features Added
 
 Bugs Fixed
 ++++++++++
+
+- LP #142430: Avoid using the contexts title_or_id method in the
+  standard_error_message.
+
+- LP #257675: request.form contained '-C':'' when no QUERY_STRING was in
+  the environment.
 
 - Zope 3-style resource directories would throw an Unauthorized error when
   trying to use restrictedTraverse() to reach a resource in a sub-directory
@@ -38,8 +54,8 @@ Bugs Fixed
 
 - MailHost should fall back to HELO when EHLO fails.
 
-Zope 2.12.3 (2010/01/12)
-------------------------
+2.12.3 (2010-01-12)
+-------------------
 
 Bugs Fixed
 ++++++++++
@@ -67,8 +83,8 @@ Features Added
 - Moved zope.formlib / zope.app.form integration into a separate package
   called five.formlib.
 
-Zope 2.12.2 (2009-12-22)
-------------------------
+2.12.2 (2009-12-22)
+-------------------
 
 Features Added
 ++++++++++++++
@@ -124,9 +140,8 @@ Bugs Fixed
 - Avoid possible errors on test tear-down in Products.Five.fiveconfigure's
   cleanUp() function if Products.meta_types has not been set
 
-
-Zope 2.12.1 (2009/11/02)
-------------------------
+2.12.1 (2009-11-02)
+-------------------
 
 Features Added
 ++++++++++++++
@@ -155,8 +170,8 @@ Bugs Fixed
 
 - LP #453723: zopectl start works again on non-Windows platforms.
 
-Zope 2.12.0 final  (2009/10/01)
--------------------------------
+2.12.0 (2009-10-01)
+-------------------
 
 Features Added
 ++++++++++++++
@@ -179,8 +194,8 @@ Bugs Fixed
 - LP #414757 (backported from Zope trunk): don't emit a IEndRequestEvent when
   clearing a cloned request.
 
-Zope 2.12.0 c1 (2009/09/04)
----------------------------
+2.12.0c1 (2009-09-04)
+---------------------
 
 Features Added
 ++++++++++++++
@@ -205,9 +220,8 @@ Bugs Fixed
 - Made the version information show up again, based on pkg_resources
   distribution information instead of the no longer existing version.txt.
 
-
-Zope 2.12.0 b4 (2008/08/06)
----------------------------------
+2.12.0b4 (2008-08-06)
+---------------------
 
 Features Added
 ++++++++++++++
@@ -241,9 +255,8 @@ Bugs Fixed
 - MailHost manage form no longer interprets the value None as a string
   in user and password fields.
 
-
-Zope 2.12.0 b3 (2009/07/15)
----------------------------
+2.12.0b3 (2009-07-15)
+---------------------
 
 Features Added
 ++++++++++++++
@@ -292,8 +305,8 @@ Bugs Fixed
 
 - Correctly handle exceptions in the ZPublisherExceptionHook.
 
-Zope 2.12.0 b2 (2009/05/27)
----------------------------
+2.12.0b2 (2009-05-27)
+---------------------
 
 Restructuring
 +++++++++++++
@@ -388,8 +401,8 @@ Bugs Fixed
   Fixes https://bugs.launchpad.net/zope2/+bug/372629 , which prevented
   viewing the "Try" tab of a script with no parameters.
 
-Zope 2.12.0b1 (2009/05/06)
---------------------------
+2.12.0b1 (2009-05-06)
+---------------------
 
 Restructuring
 +++++++++++++
