@@ -7,35 +7,38 @@ Changelog
 Zope 2.12.4 (Unreleased)
 ------------------------
 
-Features Added
-++++++++++++++
+機能追加
++++++++++
 
-- Updated packages:
+- パッケージ更新:
 
   - Acquisition = 2.13.0
   - ExtensionClass = 2.12.0
   - Persistence = 2.12.0
   - pytz = 2010b
 
-- There is now an event ZPublisher.interfaces.IPubBeforeStreaming which will
-  be fired just before the first chunk of data is written to the response
-  stream when using the write() method on the response. This is the last
-  possible point at which response headers may be set in this case.
+- イベント ZPublisher.interfaces.IPubBeforeStreaming がレスポンスのストリーム
+  に write() メソッドを用いて最初のチャンクの出力を開始する直前に発行される
+  ようになりました。これはレスポンスヘッダーを設定することが出来る最後の
+  ポイントです。
 
-Bugs Fixed
-++++++++++
 
-- Zope 3-style resource directories would throw an Unauthorized error when
-  trying to use restrictedTraverse() to reach a resource in a sub-directory
-  of the resource directory.
+バグ修正
++++++++++
 
-- Restore ability to traverse to 'macros' on template-based browser views.
+- Zope 3 スタイルのリソースディレクトリが Unauthorized エラーを出力していた
+  問題を修正しました。この問題はリソースディレクトリのサブディレクトリに
+ あるリソースに対して restrictedTraverse() を使用した場合に発生します。
 
-- Protect ZCTextIndex's clear method against storing Acquisition wrappers.
+- templateベースのブラウザビューで、 'macros' に対して探索が行える機能
+  を元に戻しました。
 
-- LP #195761: fixed ZMI XML export / import and restored it to the UI.
+- ZCTextIndex プロダクトのclearメソッドが獲得ラッパーを拒絶していました。
 
-- MailHost should fall back to HELO when EHLO fails.
+- LP #195761: ZMI XML export / import を修正しUIに復活させました。
+
+- MailHost が EHLO に失敗した際に HELO を使うようにしました。
+
 
 Zope 2.12.3 (2010/01/12)
 ------------------------
