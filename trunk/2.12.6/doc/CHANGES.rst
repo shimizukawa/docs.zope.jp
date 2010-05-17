@@ -5,7 +5,7 @@ This file contains change information for the current Zope release.
 Change information for previous versions of Zope can be found at
 http://docs.zope.org/zope2/releases/.
 
-2.12.6 (unreleased)
+2.12.6 (2010-05-17)
 -------------------
 
 Restructuring
@@ -20,6 +20,7 @@ Features Added
 - Updated packages:
 
   - DateTime = 2.12.2
+  - distribute = 0.6.12
   - ExtensionClass = 2.13.1
   - initgroups = 2.13.0
   - Missing = 2.13.0
