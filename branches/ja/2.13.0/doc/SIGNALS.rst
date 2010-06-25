@@ -4,6 +4,9 @@
 シグナルは POSIX のプロセス間通信の仕組みです。
 Windows を使っている場合、このドキュメントの内容は適用出来ません。
 
+..    SIGUSR1 - dump a stack trace of all threads to stdout. This can help
+..              diagnosing `stuck` Zope processes if all threads are stuck.
+
 Zope は '$INSTANCE_HOME/var/Z2.pid' に保存されているプロセスIDに送られたシグナルに応じて動作します::
 
     SIGHUP  - 開いているデータベース接続を閉じて、サーバーを再起動します。
@@ -18,8 +21,9 @@ Zope は '$INSTANCE_HOME/var/Z2.pid' に保存されているプロセスIDに�
 
     SIGINT  - SIGTERM と同じ意味です。
 
-    SIGUSR1 - dump a stack trace of all threads to stdout. This can help
-              diagnosing `stuck` Zope processes if all threads are stuck.
+    SIGUSR1 - 全てのスレッドのスタックトレースを標準出力にダンプします。
+              もしZopeのプロセスが全て帰ってこない状況になってしまっても
+              その原因を調査する助けになるでしょう。
 
     SIGUSR2 - 全ての Zope のログファイルを一度閉じて再度開きます
               (z2.log, event log, detailed log.)

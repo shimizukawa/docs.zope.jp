@@ -85,8 +85,8 @@ refactored to match this new reality. The goal is to finally remove the Five
 integration layer and make the Zope Toolkit a normal integral part of Zope 2.
 
 
-Refactoring
------------
+リファクタリング
+----------------
 
 There's an ongoing effort to refactor Zope 2 into more independent modularized
 distributions. Zope 2.12 has already seen a lot of this, with the use of zope.*
@@ -97,8 +97,8 @@ distributions. Among those are AccessControl, DocumentTemplate and
 Products.ZCTextIndex.
 
 
-Optional Formlib support
-------------------------
+Formlibサポートのオプション化
+------------------------------
 
 Zope 2 made a number of frameworks available through its integration layer
 Products.Five. Among these has been direct support for an automated form

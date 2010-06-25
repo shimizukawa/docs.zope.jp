@@ -8,11 +8,11 @@ Changelog
 2.13.0a1 (2010-06-25)
 ---------------------
 
-This release includes all bug fixes and features of the
-`Zope 2.12.8 <http://pypi.python.org/pypi/Zope2/2.12.8>`_ release.
+このリリースには `Zope 2.12.8 <http://pypi.python.org/pypi/Zope2/2.12.8>`_
+リリースに含まれるバグ修正と機能追加が全て含まれています。
 
-Distribution changes
-++++++++++++++++++++
+配布物の変更
+++++++++++++
 
 - Moved AccessControl, DocumentTemplate (incl. TreeDisplay) and
   Products.ZCTextIndex to their own distributions. This removes the last direct
@@ -29,14 +29,18 @@ Distribution changes
   now send a SIGUSR1 signal to a Zope process and get a stack trace of all
   threads printed out on the console. This works even if all threads are stuck.
 
-Instance skeleton
-+++++++++++++++++
+インスタンススケルトン
+++++++++++++++++++++++
 
 - Changed the default for ``enable-product-installation`` to off. This matches
   the default behavior of buildout installs via plone.recipe.zope2instance.
 
-- Removed Zope2's own mkzeoinstance script. If you want to set up ZEO instances
-  please install the zope.mkzeoinstance and use its script.
+.. - Removed Zope2's own mkzeoinstance script. If you want to set up ZEO instances
+..   please install the zope.mkzeoinstance and use its script.
+
+- Zope2 自身がもっていた mkzeoinstance スクリプトを削除しました。もし、
+  ZEOインスタンスを作成したい場合は zope.mkzeoinstance パッケージをインストール
+  してそのスクリプトを使って下さい。
 
 - Removed deprecated ``read-only-database`` option from zope.conf.
 
@@ -56,8 +60,8 @@ Instance skeleton
 - Removed the unmaintained and no longer functioning ZopeTutorialExamples from
   the instance skeleton.
 
-Deprecated and Removed
-++++++++++++++++++++++
+非推奨と削除
+++++++++++++
 
 - Finished the move of five.formlib to an extra package and removed it from Zope
   2 itself. Upgrade notes have been added to the news section of the release
@@ -89,8 +93,8 @@ Deprecated and Removed
 - Marked the ``<five:implements />`` as officially deprecated. The standard
   ``<class />`` directive allows the same.
 
-Refactoring
-+++++++++++
+リファクタリング
+++++++++++++++++
 
 - Completely refactored ``ZPublisher.WSGIResponse`` in order to provide
   non-broken support for running Zope under arbitrary WSGI servers. In this
@@ -137,8 +141,8 @@ Refactoring
 
 - Ported the lazy expression into zope.tales and require a new version of it.
 
-General
-+++++++
+その他全般
+++++++++++
 
 - Updated copyright and license information to conform with repository policy.
 
@@ -161,8 +165,8 @@ General
 - ZCTextIndex query parser treats fullwidth space characters defined in Unicode
   as valid white space.
 
-Updated packages
-++++++++++++++++
+パッケージ更新
+++++++++++++++
 
 - Jinja2 = 2.5.0
 - RestrictedPython = 3.6.0a1
@@ -199,8 +203,8 @@ Updated packages
 - zope.traversing = 3.12.1
 - zope.viewlet = 3.7.2
 
-Bugs Fixed
-++++++++++
+バグ修正
+++++++++
 
 - LP #143391: Protect against missing acl_users.hasUsers on quick start page.
 

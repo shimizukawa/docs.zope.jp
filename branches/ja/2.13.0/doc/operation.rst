@@ -51,8 +51,8 @@ Zope をコンソールから切り離さずに実行するには、 ``fg`` (``f
   $ /path/to/zope/instance/bin/zopectl fg
 
 このモードでは、 Zope のログメッセージがコンソールに出力され、ターミナル
-からは切り離されません。This also automatically enables debug-mode. Do
-not use this for production servers.
+からは切り離されません。そして自動的にデバッグモードになります。
+この実行方法を本番サーバーで使用しないで下さい。
 
 
 Zope をデーモン起動する
