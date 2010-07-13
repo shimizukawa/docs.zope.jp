@@ -8,6 +8,19 @@ You can have a look at the `detailed change log <CHANGES.html>`_ to learn
 about all minor new features and bugs being solved in this release.
 
 
+Python 2.7
+----------
+
+This release of Zope 2 adds support for
+`Python 2.7 <http://www.python.org/download/releases/2.7/>`_. Please refer to
+the `What's new in Python 2.7 <http://docs.python.org/dev/whatsnew/2.7.html>`_
+document, if you want to know more about the changes.
+
+Zope 2.13 is continuing to support Python 2.6.4 or any later maintenance release
+of it. There's currently no support for any Python 3.x version. Work has begun
+in the Zope Toolkit to port some of the lower level packages to Python 3.
+
+
 ZODB 3.10
 ---------
 
@@ -116,4 +129,4 @@ Products.Five.formlib to point to the new package instead.
 In order to ease the transition, five.formlib has been backported to the 2.12
 release series. Starting in 2.12.3 you can already use the new five.formlib
 package, but backwards compatibility imports are left in place in Products.Five.
-This allows you to easily adopt your packages to work with both 2.12 and 2.13.
+This allows you to easily adapt your packages to work with both 2.12 and 2.13.

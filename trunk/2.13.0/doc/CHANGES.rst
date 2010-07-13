@@ -5,6 +5,88 @@ This file contains change information for the current Zope release.
 Change information for previous versions of Zope can be found at
 http://docs.zope.org/zope2/releases/.
 
+2.13.0a2 (2010-07-13)
+---------------------
+
+Bugs Fixed
+++++++++++
+
+- Made ZPublisher tests compatible with Python 2.7.
+
+- LP #143531: Fix broken object so they give access to their state.
+
+- LP #578326: Issue a warning if someone specifies a non-public permission
+  attribute in the browser:view directive. This attribute has never been
+  supported in Zope 2.
+
+Restructuring
++++++++++++++
+
+- No longer use HelpSys pages from ``Products.OFSP`` in core Zope 2.
+
+- Register OFS as a package and give it an initialize function. Moved
+  registration of OFS classes there from Products.OFSP. ZopeTestCase will no
+  longer install the OFSP product automatically, so you might need to change
+  your test layer setup to load the OFS configure.zcml and call
+  installPackage('OFS').
+
+- No longer create an `Extensions` folder in the standard instance skeleton.
+  External methods will become entirely optional in Zope 2.14.
+
+- Avoid using the ``Products.PythonScripts.standard`` module inside the
+  database manager ZMI.
+
+- Factored out the `Products.BTreeFolder2`, `Products.ExternalMethod`,
+  `Products.MIMETools`, `Products.OFSP`, `Products.PythonScripts` and
+  `Products.StandardCacheManagers` packages into their own distributions. They
+  will no longer be included by default in Zope 2.14 but live on as independent
+  add-ons.
+
+- Factored out the `Products.ZSQLMethods` into its own distribution. The
+  distribution also includes the `Shared.DC.ZRDB` code. The Zope2 distribution
+  no longer includes the code automatically. Please depend on the new
+  distribution yourself, if you use the functionality. To make the transition
+  easier this change has been backported to Zope 2.12.9, so you can depend on
+  the new distribution already in packages requiring at least that version of
+  Zope 2.
+
+- Made both `Shared` and `Shared.DC` namespace packages.
+
+- Removed fallback code for old Python versions from
+  `ZServer.FTPServer.zope_ftp_channel.push`.
+
+- Removed fallback code for old `ZCatalog.catalog_object` function signatures
+  from `Products.ZCatalog.ZCatalog.reindexIndex`.
+
+Features Added
+++++++++++++++
+
+- Added official support for Python 2.7.
+
+- Added a new API ``get_packages_to_initialize`` to ``OFS.metaconfigure``.
+  This replaces any direct access to ``Products._packages_to_initialize``.
+  The OFS.Application.install_package function takes care of removing entries
+  from this list now.
+
+- Added notification of ``IDatabaseOpenedWithRoot``.
+
+- Added a new API's ``get_registered_packages, set_registered_packages`` to
+  ``OFS.metaconfigure`` which replace any direct access to
+  ``Products._registered_packages``.
+
+- Changed product install so it won't write persistent changes only to abort
+  them. Instead we don't make any database changes in the first place.
+
+- Disabled persistent product installation in the default test configuration.
+
+- Directly extend and use the Zope Toolkit KGS release 1.0a2 from
+  http://download.zope.org/zopetoolkit/index/.
+
+- Updated packages:
+
+  - DateTime = 2.12.4
+  - nt_svcutils = 2.13.0
+
 2.13.0a1 (2010-06-25)
 ---------------------
 
@@ -23,8 +105,6 @@ Distribution changes
 - Drop the dependency on the ThreadLock distribution, by using Python's thread
   module instead.
 
-- Integrated zLOG package back into this distribution.
-
 - Integrated the Products.signalstack / z3c.deadlockdebugger packages. You can
   now send a SIGUSR1 signal to a Zope process and get a stack trace of all
   threads printed out on the console. This works even if all threads are stuck.
@@ -34,6 +114,8 @@ Instance skeleton
 
 - Changed the default for ``enable-product-installation`` to off. This matches
   the default behavior of buildout installs via plone.recipe.zope2instance.
+  Disabling the persistent product installation also disabled the ZMI help
+  system.
 
 - Removed Zope2's own mkzeoinstance script. If you want to set up ZEO instances
   please install the zope.mkzeoinstance and use its script.
