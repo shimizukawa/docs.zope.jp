@@ -15,6 +15,7 @@ Zope を使うためには、以下の前提条件をそろえる必要があり
   は以下の通り:
 
   * 2.6.x
+  * 2.7.x
 
 - ZopeはPythonの ``zlib`` モジュールがインポート出来る必要があります。
   Pythonをソースからビルドするのであれば、先にシステムの ``zlib`` 
@@ -49,7 +50,7 @@ Zope のインストール
   $ wget http://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.4.6.tar.gz
   $ tar xzf virtualenv-1.4.6.tar.gz
   $ cd virtuaenv-1.4.6
-  $ /path/to/python2.6 setup.py install
+  $ /path/to/python2.7 setup.py install
 
 virtualenv ではなく buildout を使って Zope のインスタンスを管理したいので
 あれば、 :doc:`INSTALL-buildout` を参照して下さい。

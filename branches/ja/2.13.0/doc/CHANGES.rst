@@ -5,6 +5,87 @@ Changelog
 これ以前の変更については http://docs.zope.jp/zope2/releases/
 を参照してください。
 
+2.13.0a2 (2010-07-13)
+---------------------
+
+バグ修正
+++++++++
+
+- Made ZPublisher tests compatible with Python 2.7.
+
+- LP #143531: stateアクセスを許可しているbrokenオブジェクトに関する修正
+  を行いました。
+
+- LP #578326: browser:view ディレクティブに非公開のpermission属性を設定
+  した場合に警告します。この属性はZope2ではサポートされません。
+
+再構築
++++++++
+
+- No longer use HelpSys pages from ``Products.OFSP`` in core Zope 2.
+
+- Register OFS as a package and give it an initialize function. Moved
+  registration of OFS classes there from Products.OFSP. ZopeTestCase will no
+  longer install the OFSP product automatically, so you might need to change
+  your test layer setup to load the OFS configure.zcml and call
+  installPackage('OFS').
+
+- No longer create an `Extensions` folder in the standard instance skeleton.
+  External methods will become entirely optional in Zope 2.14.
+
+- Avoid using the ``Products.PythonScripts.standard`` module inside the
+  database manager ZMI.
+
+- Factored out the `Products.BTreeFolder2`, `Products.ExternalMethod`,
+  `Products.MIMETools`, `Products.OFSP`, `Products.PythonScripts` and
+  `Products.StandardCacheManagers` packages into their own distributions. They
+  will no longer be included by default in Zope 2.14 but live on as independent
+  add-ons.
+
+- `Products.ZSQLMethods` をZopeとは別の配布物に分離しました。この配布物
+  には `Shared.DC.ZRDB` コードも含まれています。このコードは Zope 2.13
+  からは同梱されず自動的に使えるようにはなりません。もしこれが必要であれば
+  `Products.ZSQLMethods` を明示的に利用するよう設定してください。
+  この移行措置としてZope 2.12.9にバックポートしているので、そのZope2を
+  使っていればこの配布物への依存設定は行われている状態になっています。
+
+- `Shared` と `Shared.DC` を名前空間パッケージにしました。
+
+- Removed fallback code for old Python versions from
+  `ZServer.FTPServer.zope_ftp_channel.push`.
+
+- Removed fallback code for old `ZCatalog.catalog_object` function signatures
+  from `Products.ZCatalog.ZCatalog.reindexIndex`.
+
+機能追加
++++++++++
+
+- Python 2.7 を公式サポートに追加しました。
+
+- Added a new API ``get_packages_to_initialize`` to ``OFS.metaconfigure``.
+  This replaces any direct access to ``Products._packages_to_initialize``.
+  The OFS.Application.install_package function takes care of removing entries
+  from this list now.
+
+- Added notification of ``IDatabaseOpenedWithRoot``.
+
+- Added a new API's ``get_registered_packages, set_registered_packages`` to
+  ``OFS.metaconfigure`` which replace any direct access to
+  ``Products._registered_packages``.
+
+- Changed product install so it won't write persistent changes only to abort
+  them. Instead we don't make any database changes in the first place.
+
+- Disabled persistent product installation in the default test configuration.
+
+- Directly extend and use the Zope Toolkit KGS release 1.0a2 from
+  http://download.zope.org/zopetoolkit/index/.
+
+- パッケージ更新:
+
+  - DateTime = 2.12.4
+  - nt_svcutils = 2.13.0
+
 2.13.0a1 (2010-06-25)
 ---------------------
 
@@ -23,8 +104,6 @@ Changelog
 - Drop the dependency on the ThreadLock distribution, by using Python's thread
   module instead.
 
-- Integrated zLOG package back into this distribution.
-
 - Integrated the Products.signalstack / z3c.deadlockdebugger packages. You can
   now send a SIGUSR1 signal to a Zope process and get a stack trace of all
   threads printed out on the console. This works even if all threads are stuck.
@@ -34,6 +113,8 @@ Changelog
 
 - Changed the default for ``enable-product-installation`` to off. This matches
   the default behavior of buildout installs via plone.recipe.zope2instance.
+  Disabling the persistent product installation also disabled the ZMI help
+  system.
 
 .. - Removed Zope2's own mkzeoinstance script. If you want to set up ZEO instances
 ..   please install the zope.mkzeoinstance and use its script.

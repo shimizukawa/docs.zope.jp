@@ -8,6 +8,29 @@ Zope 2.13 の新機能
 を参照してください。
 
 
+Python 2.7
+----------
+
+.. This release of Zope 2 adds support for
+.. `Python 2.7 <http://www.python.org/download/releases/2.7/>`_. Please refer to
+.. the `What's new in Python 2.7 <http://docs.python.org/dev/whatsnew/2.7.html>`_
+.. document, if you want to know more about the changes.
+
+このZope2リリースには `Python 2.7 <http://www.python.org/download/releases/2.7/>`_
+サポートが追加されています。Python 2.7 で何が変わったのかを詳しく知りたい場合は、
+`What's new in Python 2.7 <http://docs.python.org/dev/whatsnew/2.7.html>`_
+を参照してください。
+
+.. Zope 2.13 is continuing to support Python 2.6.4 or any later maintenance release
+.. of it. There's currently no support for any Python 3.x version. Work has begun
+.. in the Zope Toolkit to port some of the lower level packages to Python 3.
+
+Zope 2.13 はこれまでの Python 2.6.4 またはそれ以降のメンテナンスリリースバージョンを
+サポートしていきます。そして Python 3 以降のバージョンについては、現時点では
+サポートしません。Zope2の下層レイヤで使用している Zope Toolkit は Python 3
+への対応を開始しています。
+
+
 ZODB 3.10
 ---------
 
