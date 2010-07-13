@@ -189,6 +189,6 @@ Zope2のeggの中には、完全なzope.cfgの設定が含まれています::
 Zope の設定を行い、実行しましょう。
 
 
-.. rubric:: (Translated by Shimizukawa, `r110522 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL-buildout.rst?rev=110522&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL-buildout.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r114672 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL-buildout.rst?rev=114672&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL-buildout.html>`_)
   :class: translator
 

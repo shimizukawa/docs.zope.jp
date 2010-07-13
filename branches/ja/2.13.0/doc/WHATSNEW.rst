@@ -237,6 +237,6 @@ Zope2.12.3でfive.formlibパッケージを使うとProducts.Fiveが無効化さ
 このため、あなたのパッケージを2.12と2.13の両方に簡単に対応させることができる
 ようになります。
 
-.. rubric:: (Translated by Shimizukawa, `r113828 <http://svn.zope.org/Zope/branches/2.13/doc/WHATSNEW.rst?rev=113828&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.13/WHATSNEW.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r114672 <http://svn.zope.org/Zope/branches/2.13/doc/WHATSNEW.rst?rev=114672&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.13/WHATSNEW.html>`_)
   :class: translator
 

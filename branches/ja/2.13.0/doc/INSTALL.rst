@@ -78,6 +78,6 @@ Zope のインストールが終わったら、次は "インスタンスホー�
    してください。
 
 
-.. rubric:: (Translated by Shimizukawa, `r113828 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL.rst?rev=113828&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r114672 <http://svn.zope.org/Zope/branches/2.12/doc/INSTALL.rst?rev=114672&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.12/INSTALL.html>`_)
   :class: translator
 

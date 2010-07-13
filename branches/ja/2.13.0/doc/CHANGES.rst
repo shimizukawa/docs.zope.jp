@@ -289,6 +289,6 @@ Changelog
 
 - LP #143391: Protect against missing acl_users.hasUsers on quick start page.
 
-.. rubric:: (Translated by Shimizukawa, `r113828 <http://svn.zope.org/Zope/branches/2.13/doc/CHANGES.rst?rev=113828&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.13/CHANGES.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r114672 <http://svn.zope.org/Zope/branches/2.13/doc/CHANGES.rst?rev=114672&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.13/CHANGES.html>`_)
   :class: translator
 
