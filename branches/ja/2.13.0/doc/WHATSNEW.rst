@@ -60,10 +60,10 @@ ZEOサーバーのプロセスはマルチスレッドになりました。こ�
 
 ファイルストレージのインデックスについてフォーマットが新しくなりました。
 これにより、サイズが小さくなり読み込みが非常に速くなりました。repozoの
-バックアップスクリプトがデータだけでなくインデックスファイルもバックアップスクリプト
+バックアップスクリプトがデータだけでなくインデックスファイルもバックアップ
 するようになったため、復元した際にインデックスを再作成しなくてよくなりました。
 大きなデータベースではインデックスの復元にかかる時間を省略できるため、
-ダウンタイムを削減することができます。
+ダウンタイムの削減につながります。
 
 .. The ZODB has added support for wrapper storages that transform pickle data.
 .. Applications for this include compression and encryption. A storage using
@@ -78,7 +78,7 @@ ZEOサーバーのプロセスはマルチスレッドになりました。こ�
 
 ZODBにpickleデータを変換するためのラッパーストレージ機能が追加されました。
 これには圧縮と暗号化の機能が含まれています。このストレージにzlibでの圧縮機能を
-提供している `zc.zlibstorage <http://pypi.python.org/pypi/zc.zlibstorage>`_
+提供する `zc.zlibstorage <http://pypi.python.org/pypi/zc.zlibstorage>`_
 という新しいパッケージを使用できます。コンテンツ管理に使っている状況で、
 データの多くがblobではなく文字列なのであれば、Data.fsサイズを半分以下に削減
 させる効果を見込めます。圧縮や展開のオーバーヘッドコストは無視できる程度です。
@@ -120,7 +120,7 @@ mkzopeinst スクリプトは
 .. `change log <http://pypi.python.org/pypi/ZODB3/3.10.0b1.>`_.
 
 より詳細な情報を知りたい場合は
-.. `change log <http://pypi.python.org/pypi/ZODB3/3.10.0b1.>`_.
+`change log <http://pypi.python.org/pypi/ZODB3/3.10.0b1.>`_.
 を参照して下さい。
 
 
