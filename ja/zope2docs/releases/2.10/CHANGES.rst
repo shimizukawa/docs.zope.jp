@@ -6,6 +6,22 @@ Zope 2.10 Changes
 `HISTORY.txt <http://svn.zope.org/Zope/branches/2.10/doc/HISTORY.txt?view=markup>`_
 を参照してください。
 
+Zope 2.10.12 (2010/09/01)
+--------------------------
+
+バグ修正
++++++++++
+
+- 補足されない例外が発生するとZServerのワーカースレッドが停止していた問題を修正。
+  https://bugs.launchpad.net/zope2/+bug/627988
+
+- リポジトリで外部参照している 'pytz' を '2010b' バージョンに更新 (Zope3経由ではありません)。
+
+- ZCTextIndexのclearメソッドが獲得(Acquisition)ラッパーでラップされないようにした。
+
+- LP #195761: ZMIでXMLインポート/エクスポートの機能を修正しUIに表示を戻した。
+
+
 Zope 2.10.11 (2010/01/12)
 --------------------------
 
