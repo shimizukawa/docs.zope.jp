@@ -6,6 +6,41 @@ Zope 2.11 Changes
 `HISTORY.txt <http://svn.zope.org/Zope/branches/2.11/doc/HISTORY.txt?view=markup>`_
 を参照してください。
 
+Zope 2.11.7 (2010/09/01)
+-------------------------
+
+バグ修正
++++++++++
+
+- 補足されない例外が発生するとZServerのワーカースレッドが停止していた問題を修正。
+  https://bugs.launchpad.net/zope2/+bug/627988
+
+- mailhostが複数のスレッドで一つのメールキューディレクトリを共有するしている場合に、
+  メール配信処理を2重に実行しないようにした。
+  https://bugs.launchpad.net/zope2/+bug/574286
+
+- RFC2616/2965に違反しているダブルクォートを含むような "邪悪な" JSON cookie を
+  処理してしまっている問題を修正。 https://bugs.launchpad.net/zope2/+bug/563229
+
+- 獲得(Acquisition)ラッパークラスは必ず ``__getnewargs__`` メソッドを持つようにした。
+  たとえ ExtensionClass を継承していなくてもそうなります。
+
+- ImplicitAcquisitionWrapper と ExplicitAcquisitionWrapper の ``tp_name`` が Python
+  として見えている名前と一致するようにし、正しく ``__name__`` を持つようにした。
+
+- Acquisition拡張型の ``tp_name`` が正しいフルネーム(fully qualified name)を返す
+  ようにした。これは確実にクラスが ``__module__`` をセットするようにするためです。
+
+- リポジトリで外部参照している 'pytz' を '2010b' バージョンに更新
+  (Zope3経由ではありません)。
+
+- ZCTextIndexのclearメソッドが獲得(Acquisition)ラッパーでラップされないようにした。
+
+- LP #195761: ZMIでXMLインポート/エクスポートの機能を修正しUIに表示を戻した。
+
+- MailHost が EHLO に失敗した場合に HELO で通信し直します。
+
+
 Zope 2.11.6 (2010/01/12)
 -------------------------
 
@@ -37,7 +72,7 @@ Zope 2.11.5 (2009/12/22)
   ようにしました。
 
 - LP #360761 (Acquisition trunk からのバックポート):
-  iteration proxy が `__iter__` と `__getitem__` にAcquisionでくるまれた
+  iteration proxy が `__iter__` と `__getitem__` にAcquisitionでくるまれた
   `self` を渡すようにしました。
 
 - LP #414757 (Zope trunk からのバックポート):
