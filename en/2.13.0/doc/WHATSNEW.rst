@@ -64,7 +64,7 @@ ZEO servers or use the
 recipe if you use `buildout <http://www.buildout.org/>`_.
 
 More information can be found in the detailed
-`change log <http://pypi.python.org/pypi/ZODB3/3.10.0b1.>`_.
+`change log <http://pypi.python.org/pypi/ZODB3/3.10.0b8>`_.
 
 
 WSGI
@@ -80,7 +80,8 @@ deployment model will over time become the default and the old ZServer
 implementation will be deprecated. There's no concrete timeline for this yet.
 
 NOTE: There's no setup documentation nor streamlined instance creation logic
-for a WSGI setup yet. This will be provided in a later alpha release.
+for a WSGI setup yet. You are expected to know exactly what you are doing if
+you are trying to use this feature.
 
 
 Zope Toolkit
@@ -96,6 +97,31 @@ Toolkit now.
 Large parts of code inside Zope 2 and specifically Products.Five have been
 refactored to match this new reality. The goal is to finally remove the Five
 integration layer and make the Zope Toolkit a normal integral part of Zope 2.
+
+
+ZCatalog
+--------
+
+The ZCatalog and the default set of indexes as found in the PluginIndexes
+package have seen a large number of changes. Most of these have been pioneered
+in add-on packages in the Zope community over the last years and now have found
+their way back into the core. The largest change is added query plan support for
+the catalog. A standard feature in all relation databases, the job of a query
+plan is to monitor queries in a live system and based on execution metrics
+devise optimized plans for executing the low level instructions which lead to a
+query result. In sites with large number of indexed objects this can make a
+tremendous difference and significantly speed up all queries.
+
+The query plan support is completely transparent to all users, though ways exist
+for developers to predefine it and store it across server restarts. The plan
+itself can be introspected in a tab in the ZMI. There's also a new ZMI tab to
+report slow catalog queries which can help developers to tune the remaining slow
+queries in their applications.
+
+In addition to these larger changes there's been a high number of smaller
+changes to the search logic and the catalog implementations. All of these
+should result in better query execution and reduced number of conflict error
+potential.
 
 
 Refactoring

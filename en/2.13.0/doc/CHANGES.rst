@@ -5,6 +5,213 @@ This file contains change information for the current Zope release.
 Change information for previous versions of Zope can be found at
 http://docs.zope.org/zope2/releases/.
 
+2.13.0c1 (unreleased)
+---------------------
+
+Bugs Fixed
+++++++++++
+
+- LP #628448:  Fix ``zopectl start`` on non-Windows platforms.
+
+Features Added
+++++++++++++++
+
+- Updated to Zope Toolkit 1.0.
+
+- Updated distributions:
+
+  - DateTime = 2.12.6
+  - mechanize = 0.2.3
+  - zope.sendmail = 3.7.4
+  - zope.testbrowser = 3.10.3
+
+2.13.0b1 (2010-10-09)
+---------------------
+
+Bugs Fixed
+++++++++++
+
+- Avoid iterating over the list of packages to initialize while it is being
+  mutated, which was skipping some packages.
+
+- Fixed two unit tests that failed on fast Windows machines.
+
+- Fixed OverflowError in Products.ZCatalog.Lazy on 64bit Python on Windows.
+
+- Fixed ``testZODBCompat`` tests in ZopeTestCase to match modern ZODB
+  semantics.
+
+- LP #634942: Only require ``nt_svcutils`` on Windows.
+
+Features Added
+++++++++++++++
+
+- Avoid conflict error hotspot in PluginIndexes' Unindex class by using
+  IITreeSets instead of simple ints from the start. Idea taken from
+  ``enfold.fixes``.
+
+- Added date range index improvements from ``experimental.catalogqueryplan``.
+
+- Changed policy on handling exceptions during ZCML parsing in ``Products``.
+  We no longer catch any exceptions in non-debug mode.
+
+- Added a new BooleanIndex to the standard PluginIndexes.
+
+- Update to Zope Toolkit 1.0c3.
+
+- Add ability to define extra zopectl commands via setuptools entrypoints.
+
+- Updated distributions:
+
+  - Acquisition = 2.13.5
+  - Products.MailHost = 2.13.1
+  - Products.ZCTextIndex = 2.13.1
+  - repoze.retry = 1.0
+  - tempstorage = 2.12.1
+  - ZODB3 = 3.10.0
+  - zope.testbrowser = 3.10.1
+
+2.13.0a4 (2010-09-09)
+---------------------
+
+Restructuring
++++++++++++++
+
+- Removed deprecated
+  ``Products.Five.security.create_permission_from_permission_directive``
+  event handler. Its code was moved into the Zope 2 version of the permission
+  directive in ``AccessControl.security``.
+
+Features Added
+++++++++++++++
+
+- LP #193122: New method getVirtualRoot added to the Request class.
+
+- Updated test assertions to use unittest's ``assert*`` methods in favor of
+  their deprecated `fail*` aliases.
+
+- Update to Zope Toolkit 1.0a3.
+
+- Updated distributions:
+
+  - AccessControl = 2.13.3
+  - Acquisition = 2.13.4
+  - ZODB3 = 3.10.0b6
+
+2.13.0a3 (2010-08-04)
+---------------------
+
+Bugs Fixed
+++++++++++
+
+- Adjusted overflow logic in DateIndex and DateRangeIndex to work with latest
+  ZODB 3.10.0b4.
+
+- Made sure to exclude a number of meta ZCML handlers from ``zope.*`` packages
+  where Zope2 provides its own implementations.
+
+- LP #599378: Fixed accumulated_headers not appending to headers correctly.
+
+- Fix support for non-public permission attributes in the
+  browser:view directive so that attributes which are not included in
+  allowed_interface or allowed_attributes but which have declarations from a
+  base class's security info don't get their security overwritten to be
+  private.
+
+- LP #143755: Also catch TypeError when trying to determine an 
+  indexable value for an object in PluginIndexes.common.UnIndex
+
+- LP #143533: Instead of showing "0.0.0.0" as the SERVER_NAME 
+  request variable when no specific listening IP is configured for 
+  the HTTP server, do a socket lookup to show the current server's 
+  fully qualified name.
+
+- LP #143722: Added missing permission to ObjectManager.manage_hasId,
+  which prevented renaming files and folders via FTP.
+
+- LP #143564: Request.resolve_url did not correctly re-raise
+  exceptions encountered during path traversal.
+
+Restructuring
++++++++++++++
+
+- Removed catalog length migration code. You can no longer directly upgrade a
+  Zope 2.7 or earlier database to Zope 2.13. Please upgrade to an earlier
+  release first.
+
+- Deprecated the ``Products.ZCatalog.CatalogAwareness`` and
+  ``CatalogPathAwareness`` modules.
+
+- Removed deprecated ``catalog-getObject-raises`` zope.conf option.
+
+- Removed unmaintained HelpSys documents from ZCatalog and PluginIndexes.
+  Useful explanations are given inside the form templates.
+
+- Deprecate Products.ZCatalog's current behavior of returning the entire
+  catalog content if no query restriction applied. In Zope 2.14 this will
+  result in an empty LazyCat to be returned instead.
+
+- Deprecate acquiring the request inside Products.ZCatalog's searchResults
+  method if no explicit query argument is given.
+
+- Cleaned up the Products.ZCatalog search API's. The deprecated support for
+  using `<index id>_usage` arguments in the request has been removed. Support
+  for overriding operators via the `<index id>_operator` syntax has been
+  limited to the query value for each index and no longer works directly on
+  the request. The query is now brought into a canonical form before being
+  passed into the `_apply_index` method of each index.
+
+- Factored out the `Products.MailHost` package into its own distributions. It
+  will no longer be included by default in Zope 2.14 but live on as an
+  independent add-on.
+
+Features Added
+++++++++++++++
+
+- Merged the query plan support from both ``unimr.catalogqueryplan`` and
+  ``experimental.catalogqueryplan`` into ZCatalog. On sites with large number of
+  objects in a catalog (in the 100000+ range) this can significantly speed up
+  catalog queries. A query plan monitors catalog queries and keeps detailed
+  statistics about their execution. Currently the plan keeps track of execution
+  time, result set length and support for the ILimitedResultIndex per index for
+  each query. It uses this information to devise a better query execution plan
+  the next time the same query is run. Statistics and the resulting plan are
+  continuously updated. The plan is per running Zope process and not persisted.
+  You can inspect the plan using the ``Query Plan`` ZMI tab on each catalog
+  instance. The representation can be put into a Python module and the Zope
+  process be instructed to load this query plan on startup. The location of the
+  query plan is specified by providing the dotted name to the query plan
+  dictionary in an environment variable called ``ZCATALOGQUERYPLAN``.
+
+- Various optimizations to indexes _apply_index and the catalog's search
+  method inspired by experimental.catalogqueryplan.
+
+- Added a new ILimitedResultIndex to Products.PluginIndexes and made most
+  built-in indexes compatible with it. This allows indexes to consider the
+  already calculated result set inside their own calculations.
+
+- Changed the internals of the DateRangeIndex to always use IITreeSet and do
+  an inline migration from IISet. Some datum tend to have large number of
+  documents, for example when using default floor or ceiling dates.
+
+- Added a new reporting tab to `Products.ZCatalog` instances. You can use this
+  to get an overview of slow catalog queries, as specified by a configurable
+  threshold value.
+
+- Warn when App.ImageFile.ImageFile receives a relative path with no prefix,
+  and then has to assume the path to be relative to "software home". This
+  behaviour is deprecated as packages can be factored out to their own
+  distribution, making the "software home" relative path meaningless.
+
+- Updated distributions:
+
+  - AccessControl = 2.13.2
+  - DateTime = 2.12.5
+  - DocumentTemplate = 2.13.1
+  - Products.BTreeFolder2 = 2.13.1
+  - Products.OFSP = 2.13.2
+  - ZODB3 = 3.10.0b4
+
 2.13.0a2 (2010-07-13)
 ---------------------
 
@@ -15,20 +222,13 @@ Bugs Fixed
 
 - LP #143531: Fix broken object so they give access to their state.
 
-- LP #578326: Issue a warning if someone specifies a non-public permission
-  attribute in the browser:view directive. This attribute has never been
-  supported in Zope 2.
+- LP #578326: Add support for non-public permission attributes in the
+  browser:view directive.
 
 Restructuring
 +++++++++++++
 
 - No longer use HelpSys pages from ``Products.OFSP`` in core Zope 2.
-
-- Register OFS as a package and give it an initialize function. Moved
-  registration of OFS classes there from Products.OFSP. ZopeTestCase will no
-  longer install the OFSP product automatically, so you might need to change
-  your test layer setup to load the OFS configure.zcml and call
-  installPackage('OFS').
 
 - No longer create an `Extensions` folder in the standard instance skeleton.
   External methods will become entirely optional in Zope 2.14.
@@ -82,7 +282,7 @@ Features Added
 - Directly extend and use the Zope Toolkit KGS release 1.0a2 from
   http://download.zope.org/zopetoolkit/index/.
 
-- Updated packages:
+- Updated distributions:
 
   - DateTime = 2.12.4
   - nt_svcutils = 2.13.0
@@ -243,8 +443,8 @@ General
 - ZCTextIndex query parser treats fullwidth space characters defined in Unicode
   as valid white space.
 
-Updated packages
-++++++++++++++++
+Updated distributions
++++++++++++++++++++++
 
 - Jinja2 = 2.5.0
 - RestrictedPython = 3.6.0a1
