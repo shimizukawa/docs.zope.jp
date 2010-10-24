@@ -150,6 +150,45 @@ http://docs.zope.org/
 - このバージョンのZopeについての重要な情報が :doc:`CHANGES`
   にあります。参照してください。
 
+
+Zopeにコマンドを追加する
+-------------------------
+
+``setup.py`` に *エントリーポイント* を定義することで ``zopectl`` にコマンドを
+追加することができるようになりました。コマンドはは以下のように
+``zopectl.command`` グループに定義して下さい:
+
+.. code-block:: python
+
+   setup(name="MyPackage",
+         ....
+         entry_points="""
+         [zopectl.command]
+         init_app = mypackage.commands:init_application
+         """)
+
+.. note::
+
+   ``zopectl`` の実装においてマイナス記号(``-``)をコマンド名に使用する
+   ことは出来ません。
+
+これで ``init_app`` コマンドを以下のようにコマンドラインから使えるように
+なります::
+
+    bin\zopectl init_app
+
+コマンドはPythonの呼び出し可能オブジェクトを指定します。これによって、
+その呼び出し可能オブジェクトは2つのパラメータを引数として呼び出されます。
+1つはZope2アプリケーションオブジェクト、もう一つはコマンドライン引数
+のタプルです。基本的な例は以下のコードのようになります:
+
+.. code-block:: python
+
+   def init_application(app, args):
+       print 'Initialisating the application'
+
+
+
 .. rubric:: (Translated by Shimizukawa, `r113828 <http://svn.zope.org/Zope/branches/2.13/doc/operation.rst?rev=113828&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.13/operation.html>`_)
   :class: translator
 

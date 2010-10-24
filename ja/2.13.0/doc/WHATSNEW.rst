@@ -117,10 +117,10 @@ mkzopeinst スクリプトは
 レシピを使って下さい。
 
 .. More information can be found in the detailed
-.. `change log <http://pypi.python.org/pypi/ZODB3/3.10.0b1.>`_.
+.. `change log <http://pypi.python.org/pypi/ZODB3/3.10.0b8.>`_.
 
 より詳細な情報を知りたい場合は
-`change log <http://pypi.python.org/pypi/ZODB3/3.10.0b1.>`_.
+`change log <http://pypi.python.org/pypi/ZODB3/3.10.0b8.>`_.
 を参照して下さい。
 
 
@@ -147,11 +147,12 @@ ZServerの制約を受ける事がなくなりました。これはさらにZope
 はまだ決まっていません。
 
 .. NOTE: There's no setup documentation nor streamlined instance creation logic
-.. for a WSGI setup yet. This will be provided in a later alpha release.
+.. for a WSGI setup yet. You are expected to know exactly what you are doing if
+.. you are trying to use this feature.
 
 ノート: WSGI用のセットアップドキュメントや現代的なインスタンス作成手順はまだ
-ありません。これらは今後のαリリースで提供していく予定です。
-
+ありません。もしこの機能を試してみるのであればそこで何が起きるのかを正確に
+知っていることが期待されます。
 
 
 Zope Toolkit
@@ -177,6 +178,31 @@ BlueBreamと名付けられました。Zope2はZope Toolkitにのみを同梱し
 Zope2のコードの多くの部分を占めていたProducts.FiveはZope Toolkitの利用に
 向けてリファクタリングしていきます。最終的なゴールはFiveインテグレーション層
 を取り除き、Zope ToolkitをZope2から直接使うようにすることです。
+
+
+ZCatalog
+--------
+
+The ZCatalog and the default set of indexes as found in the PluginIndexes
+package have seen a large number of changes. Most of these have been pioneered
+in add-on packages in the Zope community over the last years and now have found
+their way back into the core. The largest change is added query plan support for
+the catalog. A standard feature in all relation databases, the job of a query
+plan is to monitor queries in a live system and based on execution metrics
+devise optimized plans for executing the low level instructions which lead to a
+query result. In sites with large number of indexed objects this can make a
+tremendous difference and significantly speed up all queries.
+
+The query plan support is completely transparent to all users, though ways exist
+for developers to predefine it and store it across server restarts. The plan
+itself can be introspected in a tab in the ZMI. There's also a new ZMI tab to
+report slow catalog queries which can help developers to tune the remaining slow
+queries in their applications.
+
+In addition to these larger changes there's been a high number of smaller
+changes to the search logic and the catalog implementations. All of these
+should result in better query execution and reduced number of conflict error
+potential.
 
 
 リファクタリング
