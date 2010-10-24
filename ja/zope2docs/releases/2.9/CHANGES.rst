@@ -6,6 +6,17 @@ Zope 2.9 Changes
 `HISTORY.txt <http://svn.zope.org/Zope/branches/2.9/doc/HISTORY.txt?view=markup>`_
 を参照してください。
 
+Zope 2.9.13 (unreleased)
+--------------------------
+
+バグ修正
++++++++++
+
+- リポジトリで外部参照している 'pytz' を '2010b' バージョンに更新
+  (Zope3経由ではありません)。
+
+- LP #195761: ZMIでXMLインポート/エクスポートの機能を修正しUIに表示を戻した。
+
 Zope 2.9.12 (2010/01/12)
 --------------------------
 
