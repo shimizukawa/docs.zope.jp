@@ -183,26 +183,45 @@ Zope2のコードの多くの部分を占めていたProducts.FiveはZope Toolki
 ZCatalog
 --------
 
-The ZCatalog and the default set of indexes as found in the PluginIndexes
-package have seen a large number of changes. Most of these have been pioneered
-in add-on packages in the Zope community over the last years and now have found
-their way back into the core. The largest change is added query plan support for
-the catalog. A standard feature in all relation databases, the job of a query
-plan is to monitor queries in a live system and based on execution metrics
-devise optimized plans for executing the low level instructions which lead to a
-query result. In sites with large number of indexed objects this can make a
-tremendous difference and significantly speed up all queries.
+.. The ZCatalog and the default set of indexes as found in the PluginIndexes
+.. package have seen a large number of changes. Most of these have been pioneered
+.. in add-on packages in the Zope community over the last years and now have found
+.. their way back into the core. The largest change is added query plan support for
+.. the catalog. A standard feature in all relation databases, the job of a query
+.. plan is to monitor queries in a live system and based on execution metrics
+.. devise optimized plans for executing the low level instructions which lead to a
+.. query result. In sites with large number of indexed objects this can make a
+.. tremendous difference and significantly speed up all queries.
 
-The query plan support is completely transparent to all users, though ways exist
-for developers to predefine it and store it across server restarts. The plan
-itself can be introspected in a tab in the ZMI. There's also a new ZMI tab to
-report slow catalog queries which can help developers to tune the remaining slow
-queries in their applications.
+ZCatalogと、そこで使われる標準のインデクサを実装しているPluginIndexes
+パッケージには大幅な変更が加えられました。その多くは昨年までにZope
+コミュニティーでアドオンパッケージとして開発されてきたもので、それらが
+正式にコアパッケージに取り込まれました。最も大きな変更は、カタログの
+クエリ実行計画のサポートが追加されたことです。全てのリレーショナル
+データベースの標準の機能におけるクエリ実行計画の仕事は、クエリを実際に
+システム上で実行する時の状態を監視して、測定基準となるデバイスで
+クエリ結果を導き出すための低レベルのコードの実行を最適化します。
 
-In addition to these larger changes there's been a high number of smaller
-changes to the search logic and the catalog implementations. All of these
-should result in better query execution and reduced number of conflict error
-potential.
+.. The query plan support is completely transparent to all users, though ways exist
+.. for developers to predefine it and store it across server restarts. The plan
+.. itself can be introspected in a tab in the ZMI. There's also a new ZMI tab to
+.. report slow catalog queries which can help developers to tune the remaining slow
+.. queries in their applications.
+
+クエリ実行計画サポートは完全に透過的に全てのユーザーに提供されます。
+しかし開発者がその動作を事前定義しておくこともでき、それはサーバー再起動時
+にも保持されます。実行計画はZMIのタブで確認することが出来ます。また、
+この新しいZMIタブでは、時間のかかっているカタログクエリが報告され、
+開発者がアプリケーションの速度改善に役立てられるようになりました。
+
+.. In addition to these larger changes there's been a high number of smaller
+.. changes to the search logic and the catalog implementations. All of these
+.. should result in better query execution and reduced number of conflict error
+.. potential.
+
+こういった大きな変更の他に、数多くの細かい変更が検索ロジックやカタログ実装
+などに対して行われています。これらの変更全ては、より良い検索結果を得る事と
+コンフリクトエラーが発生する可能性の軽減のために行われました。
 
 
 リファクタリング
