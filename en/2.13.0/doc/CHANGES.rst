@@ -5,7 +5,12 @@ This file contains change information for the current Zope release.
 Change information for previous versions of Zope can be found at
 http://docs.zope.org/zope2/releases/.
 
-2.13.0c1 (unreleased)
+2.13.0 (2010-11-05)
+-------------------
+
+- No changes.
+
+2.13.0c1 (2010-10-28)
 ---------------------
 
 Bugs Fixed
@@ -22,6 +27,7 @@ Features Added
 
   - DateTime = 2.12.6
   - mechanize = 0.2.3
+  - ZODB3 = 3.10.1
   - zope.sendmail = 3.7.4
   - zope.testbrowser = 3.10.3
 

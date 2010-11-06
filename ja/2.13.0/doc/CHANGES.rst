@@ -5,7 +5,12 @@ Changelog
 これ以前の変更については http://docs.zope.jp/zope2/releases/
 を参照してください。
 
-2.13.0c1 (unreleased)
+2.13.0 (2010-11-05)
+-------------------
+
+- 変更ありません。
+
+2.13.0c1 (2010-10-28)
 ---------------------
 
 バグ修正
@@ -22,6 +27,7 @@ Changelog
 
   - DateTime = 2.12.6
   - mechanize = 0.2.3
+  - ZODB3 = 3.10.1
   - zope.sendmail = 3.7.4
   - zope.testbrowser = 3.10.3
 
@@ -494,6 +500,6 @@ Changelog
 
 - LP #143391: Protect against missing acl_users.hasUsers on quick start page.
 
-.. rubric:: (Translated by Shimizukawa, `r114672 <http://svn.zope.org/Zope/branches/2.13/doc/CHANGES.rst?rev=114672&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.13/CHANGES.html>`_)
+.. rubric:: (Translated by Shimizukawa, `r118225 <http://svn.zope.org/Zope/branches/2.13/doc/CHANGES.rst?rev=118225&view=markup>`_, `original-site <http://docs.zope.org/zope2/releases/2.13/CHANGES.html>`_)
   :class: translator
 
